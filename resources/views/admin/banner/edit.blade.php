@@ -83,9 +83,9 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-3">{{'Nội dung :'}}</div>
+                        <div class="col-3">{{'Link :'}}</div>
                         <div class="col-8">
-                            <textarea class="form-control" name="content" type="text" rows="4">{{$banner->content}}</textarea>
+                            <input class="form-control" name="link" value="{{$banner->link}}" type="text" required>
                         </div>
                     </div>
                     <div class="row mt-3">

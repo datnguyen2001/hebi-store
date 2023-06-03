@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use \App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
-use \App\Http\Controllers\BannerController;
-use \App\Http\Controllers\BlogController;
-use \App\Http\Controllers\IntroduceController;
+use \App\Http\Controllers\Admin\BannerController;
+use \App\Http\Controllers\Admin\BlogController;
+use \App\Http\Controllers\Admin\IntroduceController;
+use \App\Http\Controllers\Admin\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +24,15 @@ Route::get('logout', [LoginController::class,'logout'])->name('logout');
 
 Route::middleware('check-admin-auth')->group(function (){
     Route::get('', [DashboardController::class, 'index'])->name('index');
+    Route::prefix('category')->name('category.')->group(function (){
+        Route::get('', [CategoryController::class,'index'])->name('index');
+        Route::get('create', [CategoryController::class,'create'])->name('create');
+        Route::post('store', [CategoryController::class,'store'])->name('store');
+        Route::get('delete/{id}', [CategoryController::class,'delete']);
+        Route::get('edit/{id}', [CategoryController::class,'edit'])->name('edit');
+        Route::post('update/{id}', [CategoryController::class, 'update'])->name('update');
+    });
+
     Route::prefix('products')->name('products.')->group(function (){
         Route::get('', [ProductController::class, 'index'])->name('index');
         Route::get('create', [ProductController::class, 'create'])->name('create');

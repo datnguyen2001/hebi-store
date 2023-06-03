@@ -1,8 +1,9 @@
 @extends('layout.admin.index')
 <style>
-    .category:nth-child(2n){
+    .category:nth-child(2n) {
         background: #33333330;
     }
+
     #cke_1_contents {
         height: 250px !important;
     }
@@ -112,17 +113,21 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
-    ul li{
+
+    ul li {
         list-style-type: none;
     }
-    .sku_variant{
+
+    .sku_variant {
         text-transform: uppercase;
         text-align: center;
     }
-    .sku_variant::placeholder{
+
+    .sku_variant::placeholder {
         text-transform: capitalize;
     }
-    .attribute_product .title-attribute:before{
+
+    .attribute_product .title-attribute:before {
         content: "";
         position: absolute;
         right: 0;
@@ -131,10 +136,12 @@
         width: 2px;
         background: #ffffff;
     }
-    .attribute_product .title-attribute{
+
+    .attribute_product .title-attribute {
         padding-right: 15px;
         margin-right: 15px;
     }
+
     .switch_2 {
         position: relative;
         display: inline-block;
@@ -195,13 +202,16 @@
     .slider_2.round_2:before {
         border-radius: 50%;
     }
-    .parent_category.active{
+
+    .parent_category.active {
         background: #EFEFEF;
     }
-    .parent_category.active img{
+
+    .parent_category.active img {
         display: block;
     }
-    .parent_category img{
+
+    .parent_category img {
         display: none;
     }
 </style>
@@ -218,12 +228,15 @@
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show"
+                             role="alert">
                             {{session('error')}}
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                         </div>
                     @endif
-                    <form method="post" action="{{route('admin.products.store')}}" enctype="multipart/form-data" class="card p-3">
+                    <form method="post" action="{{route('admin.products.store')}}" enctype="multipart/form-data"
+                          class="card p-3">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-3 d-flex align-items-center">
@@ -231,14 +244,6 @@
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="sku" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Mã vạch (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control" name="barcode" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -251,45 +256,54 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Ảnh bìa/video sản phẩm (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex align-items-center selector__image justify-content-center" style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
-                                    <img src="../assets/img/camera.png">
-                                </div>
-                                <input type="file" hidden name="file_product" accept="image/*,video/mp4,video/x-m4v,video/*">
-                                <input name="image_product" hidden value="">
-                            </div>
-                        </div>
-                        @if(count($category))
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
                                 <p class="m-0">Danh mục :</p>
                             </div>
                             <div class="col-9">
-                                <select name="category" class="form-select">
-                                    <option value="">Chọn danh mục sản phẩm</option>
-                                    @foreach($category as $value)
-                                        <option value="{{$value->id}}">{{$value->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @endif
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Thương hiệu (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input type="text" name="trademark" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Đơn vị (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input type="text" name="unit" class="form-control">
+                                <div class="row m-0 border">
+                                    <div class="col-lg-4 pt-2 pb-2"
+                                         style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="phone"
+                                                       value="1" name="category"></div>
+                                            <label for="phone" class="m-0">Điện thoại</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="tablet"
+                                                       value="2" name="category"></div>
+                                            <label for="tablet" class="m-0">Máy tính bảng</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
+                                                       value="3" name="category"></div>
+                                            <label for="watch" class="m-0">Đồng hồ thông minh</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="home"
+                                                       value="4" name="category"></div>
+                                            <label for="home" class="m-0">Nhà thông minh</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="accessory"
+                                                       value="5" name="category"></div>
+                                            <label for="accessory" class="m-0">Phụ kiện</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="sound"
+                                                       value="6" name="category"></div>
+                                            <label for="sound" class="m-0">Âm thanh</label>
+                                        </div>
+                                    </div>
+                                    <div list_category_children class="col-lg-4 pb-2 pt-2"
+                                         style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px"></div>
+                                    <div list_sub_category class="col-lg-4 pb-2 pt-2"
+                                         style="overflow: auto; max-height: 400px"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -317,61 +331,169 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-start">
-                                <p class="m-0">Mô tả ngắn :</p>
+                            <div class="col-3 d-flex align-items-center">
+                                <p class="m-0">Ảnh bìa/video sản phẩm (<span style="color: red"> * </span>) :</p>
                             </div>
                             <div class="col-9">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" name="short_description" maxlength="200" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
-                                    <label for="floatingTextarea">Tối đa 200 ký tự</label>
+                                <div class="d-flex align-items-center selector__image justify-content-center"
+                                     style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
+                                    <img src="../assets/img/camera.png">
                                 </div>
+                                <input type="file" hidden name="file_product"
+                                       accept="image/*,video/mp4,video/x-m4v,video/*">
+                                <input name="image_product" hidden value="">
                             </div>
                         </div>
-                        <div class="card mb-5">
-                            <div class="card-header bg-info text-white">
-                                Mô tả
-                            </div>
-                            <div class="card-body mt-2">
-                                <textarea name="content" class="ckeditor">{{ old('content') }}</textarea>
-                            </div>
-                        </div>
-                        <div class="card mb-5">
+                        <div class="card mb-3">
                             <div class="card-header bg-info text-white">
                                 Hình ảnh sản phẩm
                             </div>
                             <div class="card-body">
-                                <label class="mt-2 mb-2"><i class="fa fa-upload"></i> Chọn hoặc kéo ảnh vào khung bên dưới</label>
+                                <label class="mt-2 mb-2"><i class="fa fa-upload"></i> Chọn hoặc kéo ảnh vào khung bên
+                                    dưới</label>
                                 <div class="input-image-product">
                                 </div>
                             </div>
                         </div>
-                        <div class="card mb-5">
-                            <div class="card-header bg-info text-white">
-                                Thuộc tính sản phẩm <span style="font-size: 14px; color: #ef06b2">( Thêm ít nhất 1 màu sắc, 1 size số )</span>
+                        <div class="card mb-3">
+                            <a data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false"
+                               aria-controls="collapseExample1" class="btn bg-info text-white card-header">
+                                <p class="d-flex align-items-center justify-content-between mb-0"><strong
+                                        style="font-weight: unset">Thông tin sản phẩm</strong><i
+                                        class="fa fa-angle-down"></i></p>
+                            </a>
+                            <div id="collapseExample1" class="collapse shadow-sm">
+                                <div class="card">
+                                    <div class="card-body mt-2">
+                                        <textarea name="product_information"
+                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body p-0">
+                        </div>
+                        <div class="card mb-3">
+                            <a data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false"
+                               aria-controls="collapseExample2" class="btn bg-info text-white card-header">
+                                <p class="d-flex align-items-center justify-content-between mb-0"><strong
+                                        style="font-weight: unset">Ưu đãi đặc biệt</strong><i
+                                        class="fa fa-angle-down"></i></p>
+                            </a>
+                            <div id="collapseExample2" class="collapse shadow-sm">
+                                <div class="card">
+                                    <div class="card-body mt-2">
+                                        <textarea name="special_offer" class="ckeditor">{{ old('content2') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <a data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="false"
+                               aria-controls="collapseExample3" class="btn bg-info text-white card-header">
+                                <p class="d-flex align-items-center justify-content-between mb-0"><strong
+                                        style="font-weight: unset">Chính sách khuyến mãi</strong><i
+                                        class="fa fa-angle-down"></i></p>
+                            </a>
+                            <div id="collapseExample3" class="collapse shadow-sm">
+                                <div class="card">
+                                    <div class="card-body mt-2">
+                                        <textarea name="promotion_policy"
+                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
+                               aria-controls="collapseExample4" class="btn bg-info text-white card-header">
+                                <p class="d-flex align-items-center justify-content-between mb-0"><strong
+                                        style="font-weight: unset">Đặc điểm nổi bật</strong><i
+                                        class="fa fa-angle-down"></i></p>
+                            </a>
+                            <div id="collapseExample4" class="collapse shadow-sm">
+                                <div class="card">
+                                    <div class="card-body mt-2">
+                                        <textarea name="salient_features"
+                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary text-white">
+                                Thuộc tính sản phẩm <span style="font-size: 14px; color: white">( Thêm ít nhất 1 loại sản phẩm )</span>
+                            </div>
+                            <div class="card-body p-0 bg-white">
                                 <div class="mt-3 border-bottom data-variant pb-3">
                                     <div class="row m-0">
                                         <div class="col-lg-2 p-1">
-                                            <button type="button" class="btn btn-success btn-add-size form-control"><i class="bi bi-plus-lg"></i> Thêm Size Số</button>
+                                            <input type="text" name="variant[0][name_product_type]" class="form-control"
+                                                   placeholder="Tên loại sản phẩm" required>
+                                        </div>
+                                        <div class="col-lg-2 p-1">
+                                            <button type="button" class="btn btn-success btn-add-size form-control"><i
+                                                    class="bi bi-plus-lg"></i> Thêm Size Số
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-2 p-1">
+                                            <button type="button" class="btn btn-primary btn-add-color form-control"><i
+                                                    class="bi bi-plus-lg"></i> Thêm Màu
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="list-size">
+                                        <div class="row m-0 pb-1">
+                                            <div class="col-lg-2 p-1 d-flex align-items-center"
+                                                 style="padding-left: 15px!important;">
+                                                <p class="m-0">Thông số :</p>
+                                            </div>
+                                            <div class="col-lg-2 p-1">
+                                                <input type="text" name="variant[0][parameter_one]" class="form-control"
+                                                       placeholder="Ram" required>
+                                            </div>
+                                            <div class="col-lg-2 p-1">
+                                                <input name="variant[0][parameter_two]" type="text" class="form-control"
+                                                       placeholder="Bộ nhớ trong">
+                                            </div>
+                                            <div class="col-lg-2 p-1">
+                                                <input name="variant[0][parameter_three]" type="text"
+                                                       class="form-control" placeholder="Màn hình">
+                                            </div>
+                                            <div class="col-lg-2 p-1">
+                                                <input name="variant[0][parameter_four]" type="text"
+                                                       class="form-control" placeholder="Mục đích dùng" required>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header bg-info text-white">
+                                                Thông số kỹ thuật
+                                            </div>
+                                            <div class="card-body mt-2">
+                                                <textarea name="variant[0][specifications]"
+                                                          class="ckeditor">{{ old('content2') }}</textarea>
+                                            </div>
+                                        </div>
                                         <div class="row m-0">
                                             <div class="col-lg-2 p-1">
-                                                <input type="text" name="variant[0][size]" class="form-control" placeholder="Tên size sản phẩm" required>
+                                                <input type="text" name="variant[0][data][0][color]"
+                                                       class="form-control" placeholder="Tên màu sản phẩm" required>
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][price]" type="text" class="form-control price format-currency" placeholder="Gía bán">
+                                                <input name="variant[0][data][0][price]" type="text"
+                                                       class="form-control price format-currency" placeholder="Giá bán">
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][promotion_price]" type="text" class="form-control promotiom_price format-currency" placeholder="Gía KM">
+                                                <input name="variant[0][data][0][promotion_price]" type="text"
+                                                       class="form-control promotiom_price format-currency"
+                                                       placeholder="Giá gốc">
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][quantity]" type="text" class="form-control quantity format-currency" placeholder="Số lượng" required>
+                                                <input name="variant[0][data][0][quantity]" type="text"
+                                                       class="form-control quantity format-currency"
+                                                       placeholder="Số lượng" required>
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][sku]" type="text" class="form-control sku" placeholder="sku">
+                                                <input name="variant[0][data][0][sku]" type="text"
+                                                       class="form-control sku" placeholder="sku">
                                             </div>
                                         </div>
                                     </div>
@@ -383,8 +505,10 @@
                             <label class="col-sm-2 col-form-label">Chọn loại: </label>
                             <div class="col-sm-10">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" name="is_product_featured" type="checkbox" id="flexSwitchCheckChecked">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Sản phẩm nổi bật</label>
+                                    <input class="form-check-input" name="is_product_featured" type="checkbox"
+                                           id="flexSwitchCheckChecked">
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Sản phẩm nổi
+                                        bật</label>
                                 </div>
                             </div>
                         </div>
@@ -405,6 +529,12 @@
     <script src="//cdn.ckeditor.com/4.18.0/full/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('content', {
+            filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+    </script>
+    <script type="text/javascript">
+        CKEDITOR.replace('content_2', {
             filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });

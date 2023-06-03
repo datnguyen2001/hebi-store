@@ -74,10 +74,10 @@ $(document).ready(function () {
         $('input[name="category"]').prop("checked", false);
         $(this).prop("checked", true);
         $.ajax({
-            url: window.location.origin + '/api/get-children',
+            url: window.location.origin + '/api/get-children-c2',
             type: 'post',
             dataType: 'json',
-            data: {"category_id" : value, "name" : "category_children"},
+            data: {"type" : value, "name" : "category_children"},
             success: function (data) {
                 $("[list_category_children]").html(data.html);
                 $("[list_sub_category]").html("");
@@ -89,10 +89,10 @@ $(document).ready(function () {
         $('input[name="category_children"]').prop("checked", false);
         $(this).prop("checked", true);
         $.ajax({
-            url: window.location.origin + '/api/get-children',
+            url: window.location.origin + '/api/get-children-c3',
             type: 'post',
             dataType: 'json',
-            data: {"category_id" : value, "name" : "sub_category"},
+            data: {"category_child" : value, "name" : "sub_category"},
             success: function (data) {
                 $("[list_sub_category]").html(data.html);
             }
@@ -195,7 +195,12 @@ $(document).ready(function () {
           data: {"count" : parent.children().length},
            dataType: 'json',
            success: function (data) {
-               parent.append(data.html)
+               parent.append(data.html);
+               var editorContainer = document.getElementById(`card_ckeditor_${data.count}`);
+               var textarea = document.createElement("textarea");
+               textarea.setAttribute("name", `variant[${data.count}][specifications]`);
+               editorContainer.appendChild(textarea);
+               CKEDITOR.replace(`variant[${data.count}][specifications]`);
            }
        });
     });

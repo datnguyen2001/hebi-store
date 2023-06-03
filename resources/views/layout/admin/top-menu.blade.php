@@ -4,8 +4,8 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{'/admin'}}" class="logo d-flex align-items-center">
 {{--            <img src="assets/img/logo.png" alt="">--}}
-            <img src="{{asset('assets/img/logo/logo.svg')}}" alt="" style="width: 50px;height: 50px;max-height: 50px">
-            <h5>SachiChauAnh</h5>
+            <img src="{{asset('assets/images/logo.png')}}" alt="" style="width: 50px;height: 50px;max-height: 50px">
+            <h5>HebiMobile</h5>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

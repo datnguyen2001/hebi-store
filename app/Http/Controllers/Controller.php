@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageVariantModel;
+use App\Models\ProductAttributesModel;
 use App\Models\ProductValue;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -46,15 +47,39 @@ class Controller extends BaseController
     {
         if (count($data)){
             foreach ($data as $value){
-                $product_value = new ProductValue([
-                    'product_id' => $product->id,
-                    'name_value' => $value['size'],
-                    'price' => isset($value['price']) ? str_replace(",", "", $value['price']) : $product->price,
-                    'promotional_price' => isset($value['promotion_price']) ? str_replace(",", "", $value['promotion_price']) : $product->promotional_price,
-                    'quantity' => str_replace(",", "", $value['quantity']),
-                    'sku' => $value['sku']
-                ]);
-                $product_value->save();
+                if (isset($value['attribute_id'])){
+                    $product_attribute = ProductAttributesModel::find($value['attribute_id']);
+//                    $product_attribute->color_name = $color->name;
+//                    $product_attribute->color_code = $color->code;
+                    $product_attribute->save();
+                }else{
+                    $product_attribute = new ProductAttributesModel([
+                        'product_id' => $product->id,
+                        'name_product_type' => $value['name_product_type'],
+                        'parameter_one' => $value['parameter_one'],
+                        'parameter_two' => $value['parameter_two'],
+                        'parameter_three' => $value['parameter_three'],
+                        'parameter_four' => $value['parameter_four'],
+                        'specifications' => $value['specifications']
+                    ]);
+                    $product_attribute->save();
+                }
+
+                if (count($value['data'])) {
+                    foreach ($value['data'] as $item){
+                        $product_value = new ProductValue([
+                            'product_id' => $product->id,
+                            'attribute_id' => $product_attribute->id,
+                            'name_color' => $item['color'],
+                            'price' => isset($item['price']) ? str_replace(",", "", $item['price']) : $product->price,
+                            'promotional_price' => isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : $product->promotional_price,
+                            'quantity' => str_replace(",", "", $item['quantity']),
+                            'sku' => $item['sku']
+                        ]);
+                        $product_value->save();
+                    }
+
+                }
             }
         }
         return true;

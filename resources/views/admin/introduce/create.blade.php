@@ -59,6 +59,9 @@
     .slider.round:before {
         border-radius: 50%;
     }
+    #cke_1_contents{
+        height: 500px!important;
+    }
 </style>
 @section('main')
     <main id="main" class="main">
@@ -86,9 +89,9 @@
                         <label for="inputText" class="col-2 col-form-label">Loại bài viết: </label>
                         <div class="col-10">
                             <select class="form-select" name="type" aria-label="Default select example">
-                                <option class="bg-info" value="0">Giới thiệu</option>
-                                <option class="bg-info" value="1">Liên hệ</option>
-                                <option class="bg-info" value="2">Footer</option>
+                                <option class="bg-info" value="0">Thông tin liên hệ</option>
+                                <option class="bg-info" value="1">Chính sách</option>
+                                <option class="bg-info" value="2">Thông tin khác</option>
                             </select>
                         </div>
 

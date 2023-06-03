@@ -14,31 +14,38 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title">Danh sách danh mục</h5>
-                                <a class="btn btn-success" href="{{route('admin.blog.create')}}">Thêm danh mục</a>
+                                <h5 class="card-title">Danh sách danh mục menu</h5>
+                                <a class="btn btn-success" href="{{route('admin.product_tab.create')}}">Tạo mới Tab sp</a>
                             </div>
                             @if(count($listData) > 0)
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Tên danh mục blog</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Danh mục</th>
                                     <th scope="col">Trạng thái</th>
                                     <th scope="col">...</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($listData as $k => $value)
+                                    @foreach($listData as $value)
                                         <tr>
-                                            <th scope="row">{{$k +1}}</th>
+                                            <th scope="row">{{$value->id}}</th>
                                             <td>{{$value->name}}</td>
-                                            <td>@if($value->display == 1)Bật @else Tắt @endif</td>
+                                            <td>
+                                                @if($value->display == 1)
+                                                    Bật
+                                                    @else
+                                                    Tắt
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{url('admin/blog/edit/'.$value->id)}}" class="btn btn-icon btn-light btn-hover-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Cập nhật">
+                                                    <a href="{{url('admin/category_menu/edit/'.$value->id)}}" class="btn btn-icon btn-light btn-hover-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Cập nhật">
                                                         <i class="bi bi-pencil-square "></i>
                                                     </a>
-                                                    <a href="{{url('admin/blog/delete/'.$value->id)}}" class="btn btn-delete btn-icon btn-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Xóa">
+                                                    <a href="{{url('admin/category_menu/delete/'.$value->id)}}" class="btn btn-delete btn-icon btn-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Xóa">
                                                         <i class="bi bi-trash "></i>
                                                     </a>
                                                 </div>

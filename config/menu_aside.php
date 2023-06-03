@@ -35,6 +35,11 @@ return [
             'route' => null,
             'submenu' => [
                 [
+                    'title' => 'Danh mục sản phẩm',
+                    'route' => 'admin.category.index',
+                    'name' => 'category'
+                ],
+                [
                     'title' => 'Danh sách sản phẩm',
                     'route' => 'admin.products.index',
                     'name' => 'index'

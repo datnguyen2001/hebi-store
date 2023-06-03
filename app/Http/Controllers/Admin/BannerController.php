@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\BannerModel;
 use Illuminate\Http\Request;
@@ -39,9 +39,7 @@ class BannerController extends Controller
             $extension = $file->getClientOriginalExtension();
             if ($extension == 'mp4' || $extension == 'video'){
                 $part = 'upload/banner/video/';
-                $type = 2;
             }else{
-                $type = 1;
                 $part = 'upload/banner/img/';
             }
             if ($request->get('display') == 'on'){
@@ -53,11 +51,10 @@ class BannerController extends Controller
             $request->file('file')->move($part, $file_name);
             $banner = new BannerModel([
                 'title' => $request->get('title'),
-                'content' => $request->get('content'),
+                'link' => $request->get('link'),
                 'index' => $request->get('index'),
                 'display' => $display,
-                'src' => $file_name,
-                'type' => $type
+                'src' => $file_name
             ]);
             $banner->save();
             return redirect()->route('admin.banner.index')->with(['success' => 'Tạo banner thành công']);
@@ -126,7 +123,7 @@ class BannerController extends Controller
             }
             $banner->display = $display;
             $banner->title = $request->get('title');
-            $banner->content = $request->get('content');
+            $banner->link = $request->get('link');
             $banner->index = $request->get('index');
             $banner->save();
             return redirect()->route('admin.banner.index')->with(['success' => 'Cập nhật banner thành công']);

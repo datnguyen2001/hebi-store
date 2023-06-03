@@ -74,7 +74,6 @@
                     <th scope="col">STT</th>
                     <th scope="col">Hình ảnh/video</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Nội dung</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">...</th>
                 </tr>
@@ -83,28 +82,17 @@
                 @if(count($listData))
                     @foreach($listData as $key => $value)
                         <tr>
-                            <th scope="row">{{$key + 1}}</th>
+                            <th scope="row">{{$value->index}}</th>
                             <td>
-                                <div class="w-100 position-relative" style="padding-top: 50%;min-width: 200px">
-                                    @if($value->type == 1)
+                                <div class="w-100 position-relative" style="padding-top: 50%;min-width: 150px">
                                         <img src="{{$value->src}}" class="position-absolute w-100 h-100" style="top: 0;left: 0;object-fit: cover">
-                                        @else
-                                        <video class="position-absolute w-100 h-100" style="top: 0;left: 0;object-fit: cover" controls>
-                                            <source src="{{$value->src}}">
-                                        </video>
-                                    @endif
                                 </div>
                             </td>
                             <td>
                                 {{$value->title}}
                             </td>
-                            <td>{{$value->content}}</td>
                             <td>
                                 @if($value->display == 1)Bật @else Tắt @endif
-{{--                                <label class="switch">--}}
-{{--                                    <input type="checkbox" @if($value->display == 1)checked @endif name="display" value="{{$value->id}}">--}}
-{{--                                    <span class="slider round"></span>--}}
-{{--                                </label>--}}
                             </td>
                             <td>
                                 <div class="d-flex">

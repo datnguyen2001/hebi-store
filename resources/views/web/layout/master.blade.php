@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Sachi-Châu Anh</title>
+    <title>Hebi Mobile</title>
     {{--Font for web--}}
-    <link href="assets/img/logo/logo.svg" rel="icon">
-    <link href="assets/img/logo/logo.svg" rel="apple-touch-icon">
+    <link href="{{asset('assets/images/logo.png')}}" rel="icon">
+    <link href="{{asset('assets/images/logo.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -23,9 +23,14 @@
     <link href="assets/home/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="assets/home/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/home/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Template Main CSS File -->
     <link href="assets/css/home/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="dist/partials/style.css">
+    <link rel="stylesheet" href="{{asset('assets/web/slick/slick.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/style.css')}}">
+
 
     @yield('plugins_css')
 
@@ -51,8 +56,29 @@
 <script src="assets/home/vendor/purecounter/purecounter.js"></script>
 <script src="assets/home/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="assets/home/vendor/waypoints/noframework.waypoints.js"></script>
-
 <!-- Template Main JS File -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="assets/js/main.js"></script>
+
+<script src="{{asset('assets/web/slick/slick.min.js')}}"></script>
+<script src="{{asset('dist/home/home.js')}}"></script>
+<script src="{{asset('dist/product/product.js')}}"></script>
+<script src="{{asset('dist/news/news.js')}}"></script>
+<script>
+    for(let i=1;i<=3;i++){
+        $('.title-menu'+i).on('click',function () {
+            $( ".title-menu"+i ).toggleClass( "active" );
+            $( ".nav-bottom"+i ).toggleClass( "bottom-nav2" );
+        });
+    }
+
+    $('.tab-click').on('click',function () {
+        $( ".menu-click" ).toggleClass( "menu-click-active" );
+    });
+    $('#procat').on('click',function () {
+        $( ".danhmuc " ).toggleClass( "active" );
+    });
+
+</script>
 </body>
 </html>

@@ -59,6 +59,9 @@
     .slider.round:before {
         border-radius: 50%;
     }
+    #cke_1_contents{
+        height: 500px!important;
+    }
 </style>
 @section('main')
     <main id="main" class="main">
@@ -108,7 +111,7 @@
                                 <div class="row mb-3">
                                     <div class="col-2">{{'Link bài viết :'}}</div>
                                     <div class="col-10">
-                                        <input class="form-control" name="link" type="text" required>
+                                        <input class="form-control" name="link" type="text">
                                     </div>
                                 </div>
                                 <div class="row mb-3">

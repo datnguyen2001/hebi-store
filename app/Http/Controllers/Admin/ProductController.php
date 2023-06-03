@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Categories;
+use App\Http\Controllers\Controller;
+use App\Models\CategoryChildModel;
+use App\Models\CategoryModel;
 use App\Models\ProductsModel;
+use App\Models\ProductTabModel;
 use App\Models\ProductValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +36,7 @@ class ProductController extends Controller
 
     public function create ()
     {
-        $category = Categories::where('is_active', 1)->orderBy('created_at', 'desc')->get();
         $data['titlePage'] = 'Thêm sản phẩm';
-        $data['category'] = $category;
         $data['page_menu'] = 'products';
         $data['page_sub'] = 'create';
         return view('admin.products.create', $data);
@@ -52,13 +53,12 @@ class ProductController extends Controller
             $slug_product = Str::slug($request->get('name'));
             $product = ProductsModel::where('slug', $slug_product)->first();
             $sku_product = ProductsModel::where('sku', $request->get('sku'))->first();
-            $barcode_product = ProductsModel::where('barcode', $request->get('barcode'))->first();
-            $category = Categories::find($request->get('category'));
+            $category = CategoryModel::find($request->get('sub_category'));
             if (isset($sku_product)){
                 return back()->with(['error' => 'SKU sản phẩm đã tồn tại']);
             }
-            if (isset($barcode_product)){
-                return back()->with(['error' => 'Mã barcode sản phẩm đã tồn tại']);
+            if (empty($category)){
+                return back()->with(['error' => 'Vui lòng chọn danh mục để tiếp tục']);
             }
             if (isset($product)){
                 return back()->with(['error' => 'Sản phẩm đã tồn tại']);
@@ -68,7 +68,7 @@ class ProductController extends Controller
                 $is_product_featured = 1;
             }
             if (!$request->hasFile('file_product')){
-                return back()->with(['error' => 'Vui lòng thêm hình ảnh hoặc video sản phẩm']);
+                return back()->with(['error' => 'Vui lòng thêm hình ảnh sản phẩm']);
             }
             $file = $request->file('file_product');
             $extension = $file->getClientOriginalExtension();
@@ -88,20 +88,19 @@ class ProductController extends Controller
 //            }
             $product = new ProductsModel([
                 'sku' => $request->get('sku'),
-                'barcode' => $request->get('barcode'),
                 'name' => $request->get('name'),
                 'slug' => $slug_product,
                 'banner' => $banner,
                 'type_banner' => $type_banner,
-                'name_trademark' => isset($trademark) ? $trademark->name : null,
-                'category_id' => isset($category) ? $category->id : null,
-                'name_category' => isset($category) ? $category->name : null,
+                'category_child_id' => isset($category) ? $category->id : null,
+                'name_category_child' => isset($category) ? $category->name : null,
                 'price' => $price,
                 'promotional_price' => $promotional_price,
                 'quantity' => str_replace(",", "", $request->get('quantity')),
-                'name_unit' => $request->get('unit'),
-                'short_description' => $request->get('short_description'),
-                'description' => $request->get('content'),
+                'product_information' => $request->get('product_information'),
+                'special_offer' => $request->get('special_offer'),
+                'promotion_policy' => $request->get('promotion_policy'),
+                'salient_features' => $request->get('salient_features'),
                 'is_active' => 1,
                 'is_product_featured' => $is_product_featured,
             ]);
@@ -109,7 +108,7 @@ class ProductController extends Controller
             $this->add_img_product($request, $product->id);
             $attribute = $request->get('variant');
             $this->add_and_update_attribute_product($attribute, $product);
-            DB::commit();;
+            DB::commit();
             return \redirect()->route('admin.products.index')->with(['success' => 'Thêm sản phẩm thành công']);
         }catch (\Exception $exception){
             DB::rollBack();
@@ -128,4 +127,16 @@ class ProductController extends Controller
         $view = view('admin.products.variant-size', compact( 'count', 'index'))->render();
         return \response()->json(['html' => $view]);
     }
+
+    /**
+     * Product create
+     * add color product
+     **/
+    public function variantColor (Request $request)
+    {
+        $count = $request->get('count');
+        $view = view('admin.products.variant-color', compact( 'count'))->render();
+        return \response()->json(['html'=> $view,'count'=>$count]);
+    }
+
 }

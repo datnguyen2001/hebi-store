@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImageVariantModel extends Model
+class CategoryModel extends Model
 {
     use HasFactory;
-    protected $table = 'image_variant';
+    protected $table = 'category';
     protected $guarded = [];
 }
