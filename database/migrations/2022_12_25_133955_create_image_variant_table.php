@@ -15,9 +15,8 @@ class CreateImageVariantTable extends Migration
     {
         Schema::create('image_variant', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_id');
-            $table->string('src');
-            $table->string('extension');
+            $table->integer('product_infor_id');
+            $table->string('image');
             $table->timestamps();
         });
     }

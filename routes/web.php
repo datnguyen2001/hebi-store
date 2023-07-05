@@ -17,21 +17,17 @@ use \App\Http\Controllers\Web\ProductController;
 */
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('category',function (){
-   return view('web.category.index');
-});
-Route::get('product/{id}',[ProductController::class, 'detailProduct'])->name('detailProduct');
+Route::get('danh-muc/{status}',[ProductController::class, 'product']);
+Route::get('danh-muc/{status}/{name}',[ProductController::class, 'productCate']);
+Route::get('san-pham/{slug}',[ProductController::class, 'detailProduct'])->name('detailProduct');
 //Giới thiệu footer
 Route::get('introduce/{id}', [NewsController::class, 'introduce'])->name('introduce');
-Route::get('introduce',function (){
-    return view('web.introduce.index');
-});
 //Tin tức
-Route::get('news', [NewsController::class, 'news'])->name('news');
-
-Route::get('detail-news',function (){
-    return view('web.news.detail-news');
-});
+Route::get('tin-tuc/{status}', [NewsController::class, 'news']);
+Route::get('chi-tiet-tin-tuc/{slug}', [NewsController::class, 'detailNew']);
 Route::get('account',function (){
     return view('web.account.index');
+});
+Route::get('cart',function (){
+    return view('web.cart.index');
 });

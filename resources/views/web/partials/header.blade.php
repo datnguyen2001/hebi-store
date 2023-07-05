@@ -5,8 +5,8 @@
                 <div class="header_menu text-center">
                     <div class="logo">
                         <a href="{{url('/')}}" title="Hebi Mobile">
-                                <img src="{{asset('assets/images/logo.png')}}"
-                                     alt="Hebi Mobile" class="img-responsive"/>
+                            <img src="{{asset('assets/images/logo.png')}}"
+                                 alt="Hebi Mobile" class="img-responsive"/>
                         </a>
                     </div>
                     <div class="search-mobiles">
@@ -24,12 +24,14 @@
                     </div>
                     <div class="d-flex">
                         <a class="icon-phone-xb mobile-phone" href="tel::0978129116">
-                            <img src="https://onewaymobile.vn/images/phone-call.svg" alt="" class="img-responsive img-icon"
+                            <img src="https://onewaymobile.vn/images/phone-call.svg" alt=""
+                                 class="img-responsive img-icon"
                                  width="24px" height="24px">
                         </a>
                         <a class="icon-phone-xb"
                            href="https://onewaymobile.vn/index.php?module=products&view=cart&task=cart">
-                            <img src="https://onewaymobile.vn/images/shopping-bag.svg" alt="" class="img-responsive img-icon"
+                            <img src="https://onewaymobile.vn/images/shopping-bag.svg" alt=""
+                                 class="img-responsive img-icon"
                                  width="24px" height="24px">
                         </a>
                     </div>
@@ -37,15 +39,15 @@
             </div>
 
             <div class="row align-items-center bar_desktop">
-                <div class="col-md-7">
+                <div class="col-md-7 col-row-left">
                     <div class="row d-flex align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-row-left-one">
                             <div class="logo-menu">
                                 <div class="logo">
                                     <a href="{{url('/')}}" title="Hebi Mobile">
-                                            <img
-                                                src="{{asset('assets/images/logo.png')}}"
-                                                alt="Hebi Mobile" class="img-responsive" width="50px" height="48px"/>
+                                        <img
+                                            src="{{asset('assets/images/logo.png')}}"
+                                            alt="Hebi Mobile" class="img-responsive" width="50px" height="48px"/>
                                     </a>
                                 </div>
                                 <div class="menu_show align-items-center tab-click" style="cursor: pointer">
@@ -56,14 +58,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-row-left-two">
                             <div class="search_1">
 
                                 <div id="search" class="search ">
                                     <div id="collapseExample" class="collapse_search">
                                         <form action="" name="search_form" id="search_form" method="get">
                                             <input type="text" value=""
-                                                   placeholder="Bạn cần tìm gì? iPhone, iPad, Macbook...? "
+                                                   placeholder="Tìm kiếm sản phẩm"
                                                    name="keyword" class="keyword" id="autocomplete"/>
                                             <button type="submit" class="submit_form_search"><i class="fas fa-search"
                                                                                                 style="font-weight: 900"></i>
@@ -77,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-row-right">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="position-relative">
@@ -119,12 +121,13 @@
                                             <img src="https://onewaymobile.vn/images/shopping-bag.svg" alt=""
                                                  class="img-responsive" width="24px" height="24px">
                                         </span>
-                                    <a href="https://onewaymobile.vn/gio-hang" class="link-to-hotline">
+                                    <span class="link-to-hotline" data-bs-toggle="offcanvas"
+                                          data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                         <div class="hotline-head">
                                             <p class="title-hotline">Giỏ hàng</p>
                                             <b>Sản phẩm <span>0</span></b>
                                         </div>
-                                    </a>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +141,7 @@
                         <div id='cssmenu_content' class="position-relative menu ">
 
                             <ul class='menu-product list-unstyled '>
-                                <li class='  level_0 first-item  ' id='pr_168'>
+                                <li class='level_0 first-item' style="padding-top: 6px">
                                     <a href='https://onewaymobile.vn/dien-thoai-pc106.html' class='lv_0'>
                                         <span><img onerror='this.src="/images/NA-icon.svg"'
                                                    src=https://onewaymobile.vn/images/menus/dienthoai_1663642681.svg
@@ -203,58 +206,38 @@
                                             </ul>
                                     </ul>
                                 </li>
-                                <li class='  level_0  ' id='pr_186'><a href='https://onewaymobile.vn/may-cu-pc118.html'
-                                                                       class='lv_0'> <span><img
+                                <li class='  level_0  ' id='pr_7'><a
+                                        href='https://onewaymobile.vn/may-tinh-bang-pc73.html' class='lv_0'> <span><img
                                                 onerror='this.src="/images/NA-icon.svg"'
-                                                src=https://onewaymobile.vn/images/menus/dienthoai_quasudung_1665147017.svg
-                                                alt=Máy cũ width='20px' height='20px'>Máy cũ</span><i
+                                                src=https://onewaymobile.vn/images/menus/icon_ipad-mini_1574932835.png
+                                                alt=Máy tính bảng width='20px' height='20px'>Máy tính bảng</span><i
                                             class='fa fa-angle-right'></i></a>
-                                    <ul id='c_186' class='wrapper_children_level0'>
-                                        <li class='  level_1 child_186'><a
-                                                href='https://onewaymobile.vn/iphone-99-pc125.html'> iPhone</a>
-                                            <ul id='c_188' class='wrapper_children wrapper_children_level1'>
-                                                <li class='  level_2 child_188'><a
-                                                        href='https://onewaymobile.vn/iphone-14-series-cu-pc194.html'>
-                                                        iPhone 14 series</a>
-                                                <li class='  level_2 last-item child_188'><a
-                                                        href='https://onewaymobile.vn/iphone-13-series-cu-pc124.html'>
-                                                        iPhone 13 Series</a>
-                                                <li class='  level_2 child_188'><a
-                                                        href='https://onewaymobile.vn/iphone-12-series-cu-pc123.html'>
-                                                        iPhone 12 Series</a>
-                                                <li class='  level_2 child_188'><a
-                                                        href='https://onewaymobile.vn/iphone-11-series-cu-pc121.html'>
-                                                        iPhone 11 Series</a>
-                                                <li class='  level_2 child_188'><a
-                                                        href='https://onewaymobile.vn/iphone-xs-xs-max-cu-pc119.html'>
-                                                        iPhone Xs - Xs Max</a>
-                                            </ul>
-                                        </li>
-                                        <li class='  level_1 child_186'><a
-                                                href='https://onewaymobile.vn/ipad-99-pc126.html'> iPad</a>
-                                            <ul id='c_195' class='wrapper_children wrapper_children_level1'>
-                                                <li class='  level_2 child_195'><a
-                                                        href='https://onewaymobile.vn/ipad-pro-series-pc127.html'> iPad
-                                                        Pro Series</a>
-                                                <li class='  level_2 child_195'><a
-                                                        href='https://onewaymobile.vn/ipad-air-series-pc128.html'> iPad
-                                                        Air Series</a>
-                                                <li class='  level_2 child_195'><a
-                                                        href='https://onewaymobile.vn/ipad-gen-series-pc129.html'> iPad
-                                                        Gen Series</a>
-                                                <li class='  level_2 child_195'><a
-                                                        href='https://onewaymobile.vn/ipad-mini-series-pc130.html'> iPad
+                                    <ul id='c_7' class='wrapper_children_level0'>
+                                        <li class='  level_1 child_7'><a href='https://onewaymobile.vn/ipad-pc30.html'>
+                                                Apple iPad</a>
+                                            <ul id='c_143' class='wrapper_children wrapper_children_level1'>
+                                                <li class='  level_2 last-item child_143'><a
+                                                        href='https://onewaymobile.vn/ipad-pro-moi-pc82.html'> iPad Pro
+                                                        Series</a>
+                                                <li class='  level_2 child_143'><a
+                                                        href='https://onewaymobile.vn/ipad-air-moi-pc52.html'> iPad Air
+                                                        Series</a>
+                                                <li class='  level_2 child_143'><a
+                                                        href='https://onewaymobile.vn/ipad-gen-moi-pc53.html'> iPad Gen
+                                                        Series</a>
+                                                <li class='  level_2 child_143'><a
+                                                        href='https://onewaymobile.vn/ipad-mini-moi-pc54.html'> iPad
                                                         Mini Series</a>
                                             </ul>
                                         </li>
-                                        <li class='  level_1 child_186'><a
-                                                href='https://onewaymobile.vn/samsung-cu-pc201.html'> Samsung</a>
-                                            <ul id='c_272' class='wrapper_children wrapper_children_level1'>
-                                                <li class='  level_2 child_272'><a
-                                                        href='https://onewaymobile.vn/s22-series-cu-pc202.html'> S22
+                                        <li class='  level_1 child_7'><a
+                                                href='https://onewaymobile.vn/galaxy-tab-pc131.html'> Galaxy Tab</a>
+                                            <ul id='c_185' class='wrapper_children wrapper_children_level1'>
+                                                <li class='  level_2 child_185'><a
+                                                        href='https://onewaymobile.vn/tab-s-series-pc132.html'> Tab S
                                                         Series</a>
-                                                <li class='  level_2 child_272'><a
-                                                        href='https://onewaymobile.vn/z-series-cu-pc203.html'> Z
+                                                <li class='  level_2 child_185'><a
+                                                        href='https://onewaymobile.vn/tab-a-series-pc133.html'> Tab A
                                                         Series</a>
                                             </ul>
                                     </ul>
@@ -263,7 +246,7 @@
                                         href='https://onewaymobile.vn/may-tinh-bang-pc73.html' class='lv_0'> <span><img
                                                 onerror='this.src="/images/NA-icon.svg"'
                                                 src=https://onewaymobile.vn/images/menus/icon_ipad-mini_1574932835.png
-                                                alt=Máy tính bảng width='20px' height='20px'>Máy tính bảng</span><i
+                                                alt=Máy tính bảng width='20px' height='20px'>Laptop</span><i
                                             class='fa fa-angle-right'></i></a>
                                     <ul id='c_7' class='wrapper_children_level0'>
                                         <li class='  level_1 child_7'><a href='https://onewaymobile.vn/ipad-pc30.html'>
@@ -602,23 +585,18 @@
                                             </ul>
                                     </ul>
                                 </li>
-                                <li class='  level_0  ' id='pr_156'><a href='https://onewaymobile.vn/khuyen-mai.html'
-                                                                       class='lv_0'> <span><img
-                                                onerror='this.src="/images/NA-icon.svg"'
-                                                src=https://onewaymobile.vn/images/menus/khuyenmai_1663659727.svg
-                                                alt=Khuyến mại width='20px' height='20px'>Khuyến mại</span><i
-                                            class='fa fa-angle-right'></i></a>
                                 <li class='  level_0  ' id='pr_89'><a href='{{url('news')}}'
                                                                       class='lv_0'> <span><img
                                                 onerror='this.src="/images/NA-icon.svg"'
                                                 src=https://onewaymobile.vn/images/menus/tintuc_1663659902.svg alt=Tin
                                                 tức width='20px' height='20px'>Tin tức</span><i
                                             class='fa fa-angle-right'></i></a>
-                                <li class='  level_0  ' id='pr_60'><a href='https://onewaymobile.vn/tra-gop.html'
-                                                                      class='lv_0'> <span><img
+                                <li class='level_0' style="padding-bottom: 7px"><a
+                                        href='https://onewaymobile.vn/tra-gop.html'
+                                        class='lv_0'> <span><img
                                                 onerror='this.src="/images/NA-icon.svg"'
                                                 src=https://onewaymobile.vn/images/menus/tragop_1663659805.svg alt=Trả
-                                                góp width='20px' height='20px'>Trả góp</span><i
+                                                góp width='20px' height='20px'>Tra cứu đơn hàng</span><i
                                             class='fa fa-angle-right'></i></a>
                             </ul>
 
@@ -635,3 +613,49 @@
 </div>
 </div>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header" style="background-color: #0a58ca">
+        <h5 class="offcanvas-title text-center w-100 text-white" id="offcanvasRightLabel" style="padding-left: 20px">Giỏi hàng</h5>
+        <button type="button" class="btn-close-cart" data-bs-dismiss="offcanvas" aria-label="Close"><i
+                class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="d-flex justify-content-between line_cart_small">
+            <div class="d-flex flex-column align-items-center">
+                <img src="https://onewaymobile.vn/images/products/2022/09/08/resized/14-1-2_1662618313.png" alt=""
+                     class="img-cart-small">
+                <div style="cursor: pointer">
+                    <i class="fa-solid fa-circle-xmark mt-2" style="color: red;font-size: 15px;"></i>
+                    <span style="color: red">Xóa</span>
+                </div>
+            </div>
+            <div>
+                <p class="title_sp_cart_small">Điện thoại Apple iPhone 14 Plus 256GB VN/A</p>
+                <p class="type_cart_sp_small">Màu: Đỏ</p>
+                <p class="price_sp_cart_small">23.290.000₫</p>
+                <span class="number-input">
+                    <button type="button"
+                            onclick="down_quantity(2114)"
+                            class="down"><i class="fa-solid fa-minus"></i>
+                    </button>
+                    <input type="number"
+                           name="quantity_2114"
+                           id="quantity_2114"
+                           class="numbersOnly"
+                           maxlength="5"
+                           onblur="change_quantity(2114)"
+                           value="1"/>
+                    <button type="button"
+                            onclick="up_quantity(2114)"
+                            class="plus"><i class="fa-solid fa-plus"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="title_end_small">Tổng tiền</span>
+            <span class="total_end_small">23.290.000₫</span>
+        </div>
+        <button class="payment-btn-small">Thanh toán</button>
+    </div>
+</div>

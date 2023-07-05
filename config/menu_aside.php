@@ -61,19 +61,8 @@ return [
             'name' => 'blog',
             'title' => 'Quản lý bài viết',
             'icon' => 'bi bi-grid',
-            'route' => null,
-            'submenu' => [
-                [
-                    'title' => 'Danh mục bài viết',
-                    'route' => 'admin.blog.index',
-                    'name' => 'category_blog'
-                ],
-                [
-                    'title' => 'Danh sách bài viết',
-                    'route' => 'admin.blog.blog_posts.index',
-                    'name' => 'blog'
-                ]
-            ],
+            'route' => 'admin.blog.index',
+            'submenu' => [],
         ],
         [
             'name' => 'introduce',

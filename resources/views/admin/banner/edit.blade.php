@@ -1,65 +1,4 @@
 @extends('layout.admin.index')
-<style>
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-</style>
 @section('main')
     <main id="main" class="main">
 
@@ -77,25 +16,47 @@
                 <form action="{{url("admin/banner/update",$banner->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-3">{{'Title :'}}</div>
+                        <div class="col-3">Title :</div>
                         <div class="col-8">
                             <input class="form-control" name="title" value="{{$banner->title}}" type="text" required>
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-3">{{'Link :'}}</div>
+                        <div class="col-3">Link :</div>
                         <div class="col-8">
-                            <input class="form-control" name="link" value="{{$banner->link}}" type="text" required>
+                            <input class="form-control" name="link" value="{{$banner->link}}" type="text">
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-3">{{'Thứ tự :'}}</div>
+                        <div class="col-3">Hình ảnh :</div>
+                        <div class="col-8">
+                            <div class="form-control position-relative div-parent" style="padding-top: 50%">
+                                <div class="position-absolute w-100 h-100 div-file" style="top: 0; left: 0;z-index: 10">
+                                    <button type="button" class="position-absolute clear border-0 bg-danger p-0 d-flex justify-content-center align-items-center" style="top: -10px;right: -10px;width: 30px;height: 30px;border-radius: 50%"><i class="bi bi-x-lg text-white"></i></button>
+                                        <img src="{{$banner->image}}" class="w-100 h-100" style="object-fit: cover">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">Vị trí :</div>
+                        <div class="col-8">
+                            <select name="location" class="form-control">
+                                <option @if($banner->location ==1) selected @endif value="1">Vị trí đầu</option>
+                                <option @if($banner->location ==2) selected @endif value="2">Vị trí đầu bên phải</option>
+                                <option @if($banner->location ==3) selected @endif value="3">Vị trí thứ 2</option>
+                                <option @if($banner->location ==4) selected @endif value="4">Vị trí hot sale</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">Thứ tự :</div>
                         <div class="col-8">
                             <input class="form-control" name="index" value="{{$banner->index}}" type="number">
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-3">{{'Bật/tắt :'}}</div>
+                        <div class="col-3">Bật/tắt :</div>
                         <div class="col-8">
                             <label class="switch">
                                 <input type="checkbox" @if($banner->display == 1) checked @endif name="display">
@@ -103,29 +64,13 @@
                             </label>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <div class="col-3">{{'Hình ảnh hoặc video :'}}</div>
-                        <div class="col-8">
-                            <div class="form-control position-relative div-parent" style="padding-top: 50%">
-                                <div class="position-absolute w-100 h-100 div-file" style="top: 0; left: 0;z-index: 10">
-                                    <button type="button" class="position-absolute clear border-0 bg-danger p-0 d-flex justify-content-center align-items-center" style="top: -10px;right: -10px;width: 30px;height: 30px;border-radius: 50%"><i class="bi bi-x-lg text-white"></i></button>
-                                    @if($banner->type == 1)
-                                        <img src="{{$banner->src}}" class="w-100 h-100" style="object-fit: cover">
-                                        @else
-                                        <video class="w-100 h-100" style="object-fit: cover" controls>
-                                            <source src="{{$banner->src}}"></video>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row mt-5">
                         <div class="col-3"></div>
-                        <div class="col-8 d-flex justify-content-end">
-                            <a href="{{route('admin.banner.index')}}" class="btn btn-danger" style="margin-right: 20px">Hủy</a>
+                        <div class="col-8">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <a href="{{route('admin.banner.index')}}" class="btn btn-danger">Hủy</a>
                         </div>
-                        <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg,video/*" hidden>
+                        <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg" hidden>
                     </div>
                 </form>
             </div>

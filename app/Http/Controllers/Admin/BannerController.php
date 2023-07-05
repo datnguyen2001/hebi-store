@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\BannerModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,7 +14,7 @@ class BannerController extends Controller
         $titlePage = 'Admin';
         $page_menu = 'banner';
         $page_sub = 'index';
-        $listData = BannerModel::orderBy('index', 'asc')->get();
+        $listData = BannerModel::orderBy('location','asc')->get();
         return view('admin.banner.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
     }
 
@@ -33,15 +34,10 @@ class BannerController extends Controller
     {
         try{
             if (!$request->hasFile('file')){
-                return back()->with(['error' => 'Vui lòng thêm hình ảnh hoặc video']);
+                return back()->with(['error' => 'Vui lòng thêm hình ảnh']);
             }
             $file = $request->file('file');
-            $extension = $file->getClientOriginalExtension();
-            if ($extension == 'mp4' || $extension == 'video'){
-                $part = 'upload/banner/video/';
-            }else{
-                $part = 'upload/banner/img/';
-            }
+            $part = 'upload/banner/img/';
             if ($request->get('display') == 'on'){
                 $display = 1;
             }else{
@@ -52,9 +48,10 @@ class BannerController extends Controller
             $banner = new BannerModel([
                 'title' => $request->get('title'),
                 'link' => $request->get('link'),
+                'location' => $request->get('location'),
                 'index' => $request->get('index'),
                 'display' => $display,
-                'src' => $file_name
+                'image' => $file_name
             ]);
             $banner->save();
             return redirect()->route('admin.banner.index')->with(['success' => 'Tạo banner thành công']);
@@ -102,19 +99,11 @@ class BannerController extends Controller
             }
             if ($request->hasFile('file')){
                 $file = $request->file('file');
-                $extension = $file->getClientOriginalExtension();
-                if ($extension == 'mp4' || $extension == 'video'){
-                    $part = 'upload/banner/video/';
-                    $type = 2;
-                }else{
-                    $type = 1;
-                    $part = 'upload/banner/img/';
-                }
+                $part = 'upload/banner/img/';
                 $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
                 $request->file('file')->move($part, $file_name);
-                unlink($banner->src);
-                $banner->src = $file_name;
-                $banner->type = $type;
+                unlink($banner->image);
+                $banner->image = $file_name;
             }
             if ($request->get('display') == 'on'){
                 $display = 1;

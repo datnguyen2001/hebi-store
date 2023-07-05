@@ -63,7 +63,7 @@
         </div>
         <div class="copyright_">
             <div class="copyright_right" style="color: #999999">
-                <span>Copyright © 2023 - Bản quyền thuộc về Hebi Mobile.</span>
+                <span>Copyright © 2023 - Bản quyền thuộc về Hebi.</span>
             </div>
             <div class="bot_foot_right">
                 <ul>

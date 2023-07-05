@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImageVariantModel;
+use App\Models\ProductAttribute;
 use App\Models\ProductAttributesModel;
+use App\Models\ProductRelatedModel;
+use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -18,7 +21,7 @@ class Controller extends BaseController
     /**
      * ADD Images product
      **/
-    public function add_img_product ($request, $product_id)
+    public function add_img_product ($request, $product_infor_id)
     {
         try {
             if($request->hasFile('images')) {
@@ -30,9 +33,8 @@ class Controller extends BaseController
                     $path = 'upload/product/img';
                     $value->move($path,$image_full_name);
                     $image_invest = new ImageVariantModel([
-                        'product_id' => $product_id,
-                        'src' => $image_full_name,
-                        'extension' => $ext
+                        'product_infor_id' => $product_infor_id,
+                        'image' => $image_full_name,
                     ]);
                     $image_invest->save();
                 }
@@ -43,43 +45,68 @@ class Controller extends BaseController
         }
     }
 
-    public function add_and_update_attribute_product ($data, $product)
+    public function add_and_update_attribute_product ($data_attribute, $product_infor,$related)
     {
-        if (count($data)){
-            foreach ($data as $value){
-                if (isset($value['attribute_id'])){
-                    $product_attribute = ProductAttributesModel::find($value['attribute_id']);
-//                    $product_attribute->color_name = $color->name;
-//                    $product_attribute->color_code = $color->code;
-                    $product_attribute->save();
-                }else{
-                    $product_attribute = new ProductAttributesModel([
-                        'product_id' => $product->id,
-                        'name_product_type' => $value['name_product_type'],
-                        'parameter_one' => $value['parameter_one'],
-                        'parameter_two' => $value['parameter_two'],
-                        'parameter_three' => $value['parameter_three'],
-                        'parameter_four' => $value['parameter_four'],
-                        'specifications' => $value['specifications']
-                    ]);
-                    $product_attribute->save();
-                }
-
-                if (count($value['data'])) {
-                    foreach ($value['data'] as $item){
-                        $product_value = new ProductValue([
+        foreach ($data_attribute as $value){
+            $is_featured_products = 0;
+            if ($value['featured_products'] == 'on') {
+                $is_featured_products = 1;
+            }
+            $price = str_replace(",", "", $value['price'] ?? 0);
+            $promotional_price = str_replace(",", "", $value['promotional_price']??0);
+            if (isset($value['attribute_id'])){
+                $product = ProductsModel::find($value['attribute_id']);
+                $product->product_infor_id = $product_infor->id;
+                $product->name = $value['name'];
+                $product->slug = Str::slug($value['name']);
+                $product->price = $price;
+                $product->promotional_price = $promotional_price;
+//                $product_attribute->quantity = $color->code;
+                $product->own_parameter = $value['own_parameter'];
+                $product->specifications = $value['specifications'];
+                $product->is_featured_products = $is_featured_products;
+                $product->save();
+            }else{
+                $product = new ProductsModel([
+                    'product_infor_id' => $product_infor->id,
+                    'name' => $value['name'],
+                    'slug' => Str::slug($value['name']),
+                    'price' => $price,
+                    'promotional_price'=> $promotional_price,
+//                    'quantity' => $color->name,
+                    'own_parameter' => $value['own_parameter'],
+                    'specifications' => $value['specifications'],
+                    'is_featured_products' => $is_featured_products,
+                ]);
+                $product->save();
+            }
+            if (count($value['data'])){
+                foreach ($value['data'] as $item){
+                    if (isset($item['value_id'])){
+                        $product_attribute = ProductAttributesModel::find($item['value_id']);
+                        $product_attribute->name_color = $item['color'];
+                        $product_attribute->price = isset($item['price']) ? str_replace(",", "", $item['price']) : 0;
+                        $product_attribute->promotional_price = isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : 0;
+                        $product_attribute->save();
+                    }else{
+                        $product_attribute = new ProductAttributesModel([
                             'product_id' => $product->id,
-                            'attribute_id' => $product_attribute->id,
                             'name_color' => $item['color'],
-                            'price' => isset($item['price']) ? str_replace(",", "", $item['price']) : $product->price,
-                            'promotional_price' => isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : $product->promotional_price,
-                            'quantity' => str_replace(",", "", $item['quantity']),
-                            'sku' => $item['sku']
+                            'price' => isset($item['price']) ? str_replace(",", "", $item['price']) : 0,
+                            'promotional_price' => isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : 0,
                         ]);
-                        $product_value->save();
+                        $product_attribute->save();
                     }
-
                 }
+            }
+        }
+        if (isset($related)){
+            foreach ($related as $item){
+                $prouct_related = new ProductRelatedModel([
+                    'product_id' => $item['product_id'],
+                    'product_infor_id' => $product_infor->id,
+                ]);
+                $prouct_related->save();
             }
         }
         return true;

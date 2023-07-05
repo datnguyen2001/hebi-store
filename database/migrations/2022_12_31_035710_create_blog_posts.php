@@ -16,13 +16,13 @@ class CreateBlogPosts extends Migration
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('blog_category_id');
+            $table->string('slug');
             $table->longText('content');
-            $table->string('link');
-            $table->string('src');
-            $table->integer('is_video');
-            $table->integer('index');
-            $table->integer('display')->default('1');
+            $table->string('image');
+            $table->integer('type');
+            $table->integer('index')->nullable();
+            $table->integer('is_featured')->default('0');
+            $table->integer('display')->default('0');
             $table->timestamps();
         });
     }

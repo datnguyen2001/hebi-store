@@ -1,68 +1,4 @@
 @extends('layout.admin.index')
-<style>
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
-
-    input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-    #cke_1_contents{
-        height: 500px!important;
-    }
-</style>
 @section('main')
     <main id="main" class="main">
 
@@ -80,14 +16,14 @@
                 <form action="{{route('admin.introduce.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
-                        <div class="col-2">{{'Title :'}}</div>
-                        <div class="col-10">
+                        <div class="col-3">{{'Title :'}}</div>
+                        <div class="col-8">
                             <input class="form-control" name="title" type="text" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputText" class="col-2 col-form-label">Loại bài viết: </label>
-                        <div class="col-10">
+                        <label for="inputText" class="col-3 col-form-label">Loại bài viết: </label>
+                        <div class="col-8">
                             <select class="form-select" name="type" aria-label="Default select example">
                                 <option class="bg-info" value="0">Thông tin liên hệ</option>
                                 <option class="bg-info" value="1">Chính sách</option>
@@ -105,8 +41,8 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-2">{{'Bật/tắt :'}}</div>
-                        <div class="col-10">
+                        <div class="col-3">{{'Bật/tắt :'}}</div>
+                        <div class="col-8">
                             <label class="switch">
                                 <input type="checkbox" checked name="display">
                                 <span class="slider round"></span>
@@ -114,9 +50,10 @@
                         </div>
                     </div>
                     <div class="row mt-5">
-                        <div class="col-12 d-flex justify-content-center">
-                            <a href="{{route('admin.introduce.index')}}" class="btn btn-danger" style="margin-right: 20px">Hủy</a>
+                        <div class="col-3"></div>
+                        <div class="col-8">
                             <button type="submit" class="btn btn-primary">Tạo</button>
+                            <a href="{{route('admin.introduce.index')}}" class="btn btn-danger">Hủy</a>
                         </div>
                     </div>
                 </form>

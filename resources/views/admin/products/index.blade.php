@@ -38,67 +38,38 @@
                             </div>
                             <div class="card-body p-3">
                                 <div class="overflow-auto">
-                                    <div style="width: 1530px">
+                                    <div>
                                         <div class="d-flex w-100 align-items-center text-center text-white font-size-16" style="background: #4154f1;padding: 5px 0">
-                                            <div style="padding-left: 30px; width: 15%">Tên sản phẩm </div>
-                                            <div style="width: 10%">Barcode</div>
-{{--                                            <div style="width: 10%">Trạng thaí</div>--}}
-                                            <div style="width: 10%">SKU Phân loại </div>
-                                            <div style="width: 10%">Phân loại </div>
-                                            <div style="width: 10%">Giá gốc</div>
-                                            <div style="width: 10%">Giá bán ra </div>
-                                            <div style="width: 10%">Kho hàng</div>
-                                            <div style="width: 5%">Đơn vị </div>
+                                            <div style="width: 15%">Hình ảnh</div>
+                                            <div style="width: 20%">Danh mục </div>
+                                            <div style="width: 25%">Tên sản phẩm </div>
+                                            <div style="width: 15%">Giá gốc</div>
+                                            <div style="width: 15%">Giá bán ra </div>
                                             <div style="width: 10%">Thao tác </div>
                                         </div>
                                         <div class="w-100 bg-white mt-10">
                                             @foreach($listData as $item)
                                                 <div class="w-100 d-flex mb-5 pt-2 pb-2 content__product align-items-center">
-                                                    <div style="padding-left: 30px; width: 15%">
-                                                        <div class="media">
-                                                            <div class="media-body mb-2">
-                                                                <h6 class="font-weight-bolder font-size-14">{{ $item['name'] }}</h6>
-                                                                <p class="mb-0 font-size-12">Mã SP: {{ $item['sku'] }}</p>
-                                                                <p class="mb-0 font-size-12">{{ $item['trademark_name'] }}</p>
-                                                            </div>
-                                                            @if($item['type_banner'] == 2)
-                                                                <video class="w-75 mr-3" style="border-radius: 4px" controls>
-                                                                    <source src="{{$item['banner']}}" type="video/mp4">
-                                                                </video>
-                                                                @else
-                                                                <img src="{{ $item['banner'] }}" class="w-75 mr-3" style="border-radius: 4px" alt="">
-                                                            @endif
-                                                        </div>
+                                                    <div style="width: 15%" class="d-flex justify-content-center">
+                                                        <img src="{{$item->image}}" alt="" class="w-75 mr-3" style="border-radius: 4px">
                                                     </div>
-                                                    <div class="d-flex justify-content-center" style="width: 10%">
-                                                        <p class="mb-0 font-size-12">{{ $item['barcode'] }}</p>
+                                                    <div style="width: 20%" class="d-flex justify-content-center">
+                                                        <p>{{$item->name_category}}</p>
                                                     </div>
-{{--                                                    <div style="width: 10%">--}}
-{{--                                                        <p class="font-size-12 text-center">Sắp ra mắt</p>--}}
-{{--                                                    </div>--}}
-                                                    <div style="width: 50%">
-                                                        @foreach($item->product_value as $value)
+                                                    <div style="width: 55%">
+                                                        @foreach($item->product as $value)
                                                             <div class="w-100 d-flex">
-                                                                <div style="width: 20%">
-                                                                    <p class="text-center font-size-12">{{$value->sku}}</p>
+                                                                <div style="width: 47%">
+                                                                    <p class="text-center text-capitalize font-size-12">{{$value->name}}</p>
                                                                 </div>
-                                                                <div style="width: 20%">
-                                                                    <p class="text-center text-capitalize font-size-12">{{$value->name_value}}</p>
-                                                                </div>
-                                                                <div style="width: 20%">
+                                                                <div style="width: 27%">
                                                                     <p class="text-center font-size-12">{{number_format($value->price)}} vnđ</p>
                                                                 </div>
-                                                                <div style="width: 20%">
+                                                                <div style="width: 27%">
                                                                     <p class="text-center font-size-12">{{number_format($value->promotional_price)}} vnđ</p>
-                                                                </div>
-                                                                <div style="width: 20%">
-                                                                    <p class="text-center font-size-12">{{$value->quantity}}</p>
                                                                 </div>
                                                             </div>
                                                         @endforeach
-                                                    </div>
-                                                    <div style="width: 5%">
-                                                        <p class="text-center font-size-12">{{$item['name_unit']}}</p>
                                                     </div>
                                                     <div style="width: 10%" class="d-flex justify-content-center">
                                                         <div class="btn-group">

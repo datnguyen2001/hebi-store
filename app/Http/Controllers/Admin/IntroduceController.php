@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\IntroduceModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

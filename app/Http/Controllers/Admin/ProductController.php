@@ -3,28 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\CategoryChildModel;
 use App\Models\CategoryModel;
+use App\Models\ImageVariantModel;
+use App\Models\ProductAttributesModel;
+use App\Models\ProductInformationModel;
+use App\Models\ProductRelatedModel;
 use App\Models\ProductsModel;
-use App\Models\ProductTabModel;
-use App\Models\ProductValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class ProductController extends Controller
 {
-    public function index (Request $request)
+    public function index(Request $request)
     {
-        if (isset($request->key_search)){
-            $data_product = ProductsModel::where('is_active', 1)->where('name', 'like', '%'.$request->get('key_search').'%')
-                ->orWhere('sku', 'like', '%'.$request->get('key_search').'%')->orderBy('created_at', 'desc')->paginate(10);
-        }else {
-            $data_product = ProductsModel::orderBy('created_at', 'desc')->where('is_active', 1)->paginate(10);
+        if (isset($request->key_search)) {
+            $data_product = ProductInformationModel::where('display', 1)->where('name', 'like', '%' . $request->get('key_search') . '%')
+                ->orWhere('sku', 'like', '%' . $request->get('key_search') . '%')->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $data_product = ProductInformationModel::orderBy('created_at', 'desc')->where('display', 1)->paginate(10);
         }
-        if ($data_product){
-            foreach ($data_product as $value){
-                $value->product_value = ProductValue::where('product_id', $value->id)->get();
+        if ($data_product) {
+            foreach ($data_product as $value) {
+                $value->product = ProductsModel::where('product_infor_id', $value->id)->get();
+                foreach ($value->product as $item) {
+                    $item->product_attribute = ProductAttributesModel::where('product_id', $item->id)->get();
+                }
             }
         }
         $titlePage = 'Admin | Sản Phẩm';
@@ -34,7 +39,7 @@ class ProductController extends Controller
         return view('admin.products.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
     }
 
-    public function create ()
+    public function create()
     {
         $data['titlePage'] = 'Thêm sản phẩm';
         $data['page_menu'] = 'products';
@@ -44,74 +49,187 @@ class ProductController extends Controller
 
     /**
      * create product
-    **/
+     **/
 
-    public function store (Request $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
-        try{
-            $slug_product = Str::slug($request->get('name'));
-            $product = ProductsModel::where('slug', $slug_product)->first();
-            $sku_product = ProductsModel::where('sku', $request->get('sku'))->first();
+        try {
+//            dd($request->all());
             $category = CategoryModel::find($request->get('sub_category'));
-            if (isset($sku_product)){
-                return back()->with(['error' => 'SKU sản phẩm đã tồn tại']);
-            }
-            if (empty($category)){
+            if (empty($category)) {
                 return back()->with(['error' => 'Vui lòng chọn danh mục để tiếp tục']);
             }
-            if (isset($product)){
-                return back()->with(['error' => 'Sản phẩm đã tồn tại']);
-            }
-            $is_product_featured = 0;
-            if ($request->is_product_featured == 'on'){
-                $is_product_featured = 1;
-            }
-            if (!$request->hasFile('file_product')){
+            if (!$request->hasFile('file_product')) {
                 return back()->with(['error' => 'Vui lòng thêm hình ảnh sản phẩm']);
+            }
+            $display = 0;
+            if ($request->get('display') == 'on') {
+                $display = 1;
             }
             $file = $request->file('file_product');
             $extension = $file->getClientOriginalExtension();
-            if ($extension == 'mp4'){
-                $type_banner = 2;
-            }else{
-                $type_banner = 1;
-            }
-            $banner = 'upload/product/'.Str::random(40). '.'. $extension;
+            $banner = 'upload/product/' . Str::random(40) . '.' . $extension;
             $file->move('upload/product/', $banner);
-            // tinh % giam gia //
-            $price = str_replace(",", "", $request->get('price') ?? 0);
-            $promotional_price = str_replace(",", "", $request->get('promotion_price'));
-//            $promotional_percent = 0;
-//            if ($promotional_price > 0){
-//                $promotional_percent = 100 - round($price / $promotional_price * 100);
-//            }
-            $product = new ProductsModel([
-                'sku' => $request->get('sku'),
-                'name' => $request->get('name'),
-                'slug' => $slug_product,
-                'banner' => $banner,
-                'type_banner' => $type_banner,
-                'category_child_id' => isset($category) ? $category->id : null,
-                'name_category_child' => isset($category) ? $category->name : null,
-                'price' => $price,
-                'promotional_price' => $promotional_price,
-                'quantity' => str_replace(",", "", $request->get('quantity')),
+            $product_infor = new ProductInformationModel([
+                'image' => $banner,
+                'category_id' => isset($category) ? $category->id : null,
+                'name_category' => isset($category) ? $category->name : null,
+                'parameter_one' => $request->get('parameter_one'),
+                'parameter_two' => $request->get('parameter_two'),
+                'parameter_three' => $request->get('parameter_three'),
+                'parameter_four' => $request->get('parameter_four'),
                 'product_information' => $request->get('product_information'),
                 'special_offer' => $request->get('special_offer'),
                 'promotion_policy' => $request->get('promotion_policy'),
                 'salient_features' => $request->get('salient_features'),
-                'is_active' => 1,
-                'is_product_featured' => $is_product_featured,
+                'type_product' => $category->type,
+                'display' => $display,
             ]);
-            $product->save();
-            $this->add_img_product($request, $product->id);
+            $product_infor->save();
+            $this->add_img_product($request, $product_infor->id);
             $attribute = $request->get('variant');
-            $this->add_and_update_attribute_product($attribute, $product);
+            $related = $request->get('related');
+            $this->add_and_update_attribute_product($attribute, $product_infor, $related);
             DB::commit();
             return \redirect()->route('admin.products.index')->with(['success' => 'Thêm sản phẩm thành công']);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
+            return back()->with(['error' => $exception->getMessage()]);
+        }
+    }
+
+    public function delete($id)
+    {
+        $product_infor = ProductInformationModel::find($id);
+        unlink($product_infor->image);
+        $data_image = ImageVariantModel::where('product_infor_id', $id)->get();
+        if ($data_image) {
+            foreach ($data_image as $value) {
+                unlink($value->image);
+                $value->delete();
+            }
+        }
+        $product = ProductsModel::where('product_infor_id', $id)->get();
+        foreach ($product as $item) {
+            ProductAttributesModel::where('product_id', $item->id)->delete();
+            $item->delete();
+        }
+        $product_infor->delete();
+
+        return back()->with(['success' => 'Xóa sản phẩm thành công']);
+    }
+
+    public function edit($id)
+    {
+        $product_infor = ProductInformationModel::find($id);
+        $product = ProductsModel::where('product_infor_id', $product_infor->id)->get();
+        $category_2 = CategoryModel::find($product_infor->category_id);
+        $category_3 = CategoryModel::where('display', 1)->where('type', $product_infor->type_product)->where('parent_id', $category_2->parent_id)->orderBy('location', 'asc')->get();
+        $related = ProductRelatedModel::where('product_infor_id', $id)->get();
+        foreach ($related as $item) {
+            $item->product = ProductsModel::find($item->product_id);
+            $item->infor = ProductInformationModel::find($item->product->product_infor_id);
+            $item->price = ProductAttributesModel::where('product_id', $item->product_id)->first()->promotional_price;
+        }
+        $data['product_infor'] = $product_infor;
+        $data['product'] = $product;
+        $data['related'] = $related;
+        $data['image_variant'] = ImageVariantModel::where('product_infor_id', $id)->get();
+        $data['category_2'] = $category_2;
+        $data['category_3'] = $category_3;
+        $data['titlePage'] = 'Admin | Sản Phẩm';
+        $data['page_menu'] = 'products';
+        $data['page_sub'] = 'index';
+        return view('admin.products.edit', $data);
+    }
+
+    public function update($id, Request $request)
+    {
+        try {
+            $product_infor = ProductInformationModel::find($id);
+            $category = CategoryModel::find($request->get('sub_category'));
+            if (empty($product_infor)) {
+                return back()->with(['error' => 'Sản phẩm không tồn tại']);
+            }
+            $display = 0;
+            if ($request->display == 'on') {
+                $display = 1;
+            }
+            if (isset($request->image_product)) {
+                unlink($product_infor->image);
+                $product_infor->image = $request->get('image_product');
+            }
+            $product_infor->category_id = isset($category) ? $category->id : null;
+            $product_infor->name_category = isset($category) ? $category->name : null;
+            $product_infor->parameter_one = $request->get('parameter_one');
+            $product_infor->parameter_two = $request->get('parameter_two');
+            $product_infor->parameter_three = $request->get('parameter_three');
+            $product_infor->parameter_four = $request->get('parameter_four');
+            $product_infor->product_information = $request->get('product_information');
+            $product_infor->special_offer = $request->get('special_offer');
+            $product_infor->promotion_policy = $request->get('promotion_policy');
+            $product_infor->salient_features = $request->get('salient_features');
+            $product_infor->type_product = $category->type;
+            $product_infor->display = $display;
+
+            $product_infor->save();
+            $this->add_img_product($request, $product_infor->id);
+            $attribute = $request->get('variant');
+            $related = $request->get('related');
+            $this->add_and_update_attribute_product($attribute, $product_infor, $related);
+            return \redirect()->route('admin.products.index')->with(['success' => 'Sửa sản phẩm thành công']);
+        } catch (\Exception $exception) {
+            return back()->with(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * delete img variant
+     **/
+    public function deleteImg(Request $request)
+    {
+        try {
+            $img = ImageVariantModel::find($request->get('id'));
+            unlink($img->image);
+            $img->delete();
+            $data['status'] = true;
+            return $data;
+        } catch (\Exception $exception) {
+            $data['status'] = false;
+            $data['msg'] = $exception->getMessage();
+            return $data;
+        }
+    }
+
+    /**
+     * Delete Product Attribute
+     **/
+    public function deleteName($id)
+    {
+        try {
+            $product = ProductsModel::find($id);
+            ProductAttributesModel::where('product_id', $id)->delete();
+            if (isset($product->image)) {
+                unlink($product->image);
+            }
+            $product->delete();
+            return back()->with(['success' => 'Xóa tên sản phẩm thành công']);
+        } catch (\Exception $exception) {
+            return back()->with(['error' => $exception->getMessage()]);
+        }
+    }
+
+    /**
+     * Delete Product Value
+     **/
+    public function deleteColor($id)
+    {
+        try {
+            $product_attribute = ProductAttributesModel::find($id);
+            $product_attribute->delete();
+            return back()->with(['success' => 'Xóa màu số thành công']);
+        } catch (\Exception $exception) {
             return back()->with(['error' => $exception->getMessage()]);
         }
     }
@@ -120,11 +238,11 @@ class ProductController extends Controller
      * Product create
      * add size product
      **/
-    public function variantSize (Request $request)
+    public function variantSize(Request $request)
     {
         $count = $request->get('count');
         $index = $request->get('index');
-        $view = view('admin.products.variant-size', compact( 'count', 'index'))->render();
+        $view = view('admin.products.variant-size', compact('count', 'index'))->render();
         return \response()->json(['html' => $view]);
     }
 
@@ -132,11 +250,84 @@ class ProductController extends Controller
      * Product create
      * add color product
      **/
-    public function variantColor (Request $request)
+    public function variantColor(Request $request)
     {
         $count = $request->get('count');
-        $view = view('admin.products.variant-color', compact( 'count'))->render();
-        return \response()->json(['html'=> $view,'count'=>$count]);
+        $view = view('admin.products.variant-color', compact('count'))->render();
+        return \response()->json(['html' => $view, 'count' => $count]);
+    }
+
+    /**
+     * Tìm kiếm sản phẩm liên quan
+     */
+    public function productSearch(Request $request)
+    {
+        try {
+            $key_search = $request->get('query');
+            $products = ProductsModel::Where('name', 'LIKE', '%' . $key_search . '%')->paginate(10);
+            foreach ($products as $item) {
+                $item->infor = ProductInformationModel::find($item->product_infor_id);
+                $item->price = ProductAttributesModel::where('product_id', $item->id)->first()->promotional_price;
+            }
+            $view = view('admin.products.item-similar-product', compact('products'))->render();
+            return response()->json(['table_data' => $view]);
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+    }
+
+    /**
+     * Thêm sản phẩm liên quan
+     * */
+    public function itemSimilar(Request $request)
+    {
+        try {
+            $products = ProductsModel::whereIn('id', $request->data)->get();
+            foreach ($products as $item) {
+                $item->infor = ProductInformationModel::find($item->product_infor_id);
+                $item->price = ProductAttributesModel::where('product_id', $item->id)->first()->promotional_price;
+            }
+            $view = view('admin.products.similar-product', compact('products'))->render();
+            return response()->json(['table_data' => $view]);
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+    }
+
+    /**
+     * Xóa sản phẩm liên quan
+     * */
+    public function itemDeleteSimilar(Request $request)
+    {
+        try {
+            if (isset($request->data)) {
+                $products = ProductsModel::whereIn('id', $request->data)->get();
+                foreach ($products as $item) {
+                    $item->infor = ProductInformationModel::find($item->product_infor_id);
+                    $item->price = ProductAttributesModel::where('product_id', $item->id)->first()->promotional_price;
+                }
+                $view = view('admin.products.similar-product', compact('products'))->render();
+                return response()->json(['status' => true, 'table_data' => $view]);
+            } else {
+                return response()->json(['status' => false]);
+            }
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+    }
+
+    /**
+     * Xóa sản phẩm liên quan khi sửa
+     * */
+    public function itemDeleteRelated(Request $request)
+    {
+        try {
+            $product_related = ProductRelatedModel::find($request->id);
+            $product_related->delete();
+            return response()->json(['status' => true]);
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
     }
 
 }

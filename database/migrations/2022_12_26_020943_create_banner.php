@@ -16,11 +16,11 @@ class CreateBanner extends Migration
         Schema::create('banner', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('content')->nullable();
-            $table->string('src');
+            $table->string('link')->nullable();
+            $table->string('image');
+            $table->integer('location');
             $table->integer('index');
             $table->integer('display')->default('1');
-            $table->integer('type')->default(1)->comment('1:img, 2:video');
             $table->timestamps();
         });
     }

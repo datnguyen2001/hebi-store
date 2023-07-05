@@ -240,22 +240,6 @@
                         @csrf
                         <div class="row mb-3">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Mã sản phẩm (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control" name="sku" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Tên sản phẩm (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control" name="name" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
                                 <p class="m-0">Danh mục :</p>
                             </div>
                             <div class="col-9">
@@ -308,39 +292,14 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Gía gốc :</p>
-                            </div>
-                            <div class="col-9">
-                                <input name="price" type="text" class="form-control format-currency" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Gía bán ra (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input name="promotion_price" type="text" class="form-control format-currency">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Số lượng (<span style="color: red"> * </span>) :</p>
-                            </div>
-                            <div class="col-9">
-                                <input name="quantity" type="text" class="form-control format-currency" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Ảnh bìa/video sản phẩm (<span style="color: red"> * </span>) :</p>
+                                <p class="m-0">Ảnh bìa sản phẩm (<span style="color: red"> * </span>) :</p>
                             </div>
                             <div class="col-9">
                                 <div class="d-flex align-items-center selector__image justify-content-center"
                                      style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
                                     <img src="../assets/img/camera.png">
                                 </div>
-                                <input type="file" hidden name="file_product"
-                                       accept="image/*,video/mp4,video/x-m4v,video/*">
+                                <input type="file" hidden name="file_product" accept="image/*">
                                 <input name="image_product" hidden value="">
                             </div>
                         </div>
@@ -355,6 +314,38 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-3 d-flex align-items-center">
+                                <p class="m-0">Ram :</p>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" name="parameter_one" required value="">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3 d-flex align-items-center">
+                                <p class="m-0">Màn hình :</p>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" name="parameter_two" required value="">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3 d-flex align-items-center">
+                                <p class="m-0">Mục đích dùng :</p>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" name="parameter_three" required value="">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-3 d-flex align-items-center">
+                                <p class="m-0">Chíp xử lí :</p>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" name="parameter_four" required value="">
+                            </div>
+                        </div>
                         <div class="card mb-3">
                             <a data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false"
                                aria-controls="collapseExample1" class="btn bg-info text-white card-header">
@@ -365,8 +356,8 @@
                             <div id="collapseExample1" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="product_information"
-                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                        <textarea name="product_information" id="content1"
+                                                  class="ckeditor">{{ old('content1') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -381,7 +372,7 @@
                             <div id="collapseExample2" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="special_offer" class="ckeditor">{{ old('content2') }}</textarea>
+                                        <textarea name="special_offer" id="content2" class="ckeditor">{{ old('content2') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -396,8 +387,8 @@
                             <div id="collapseExample3" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="promotion_policy"
-                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                        <textarea name="promotion_policy" id="content3"
+                                                  class="ckeditor">{{ old('content3') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -412,8 +403,8 @@
                             <div id="collapseExample4" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="salient_features"
-                                                  class="ckeditor">{{ old('content2') }}</textarea>
+                                        <textarea name="salient_features" id="content4"
+                                                  class="ckeditor">{{ old('content4') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -425,18 +416,18 @@
                             <div class="card-body p-0 bg-white">
                                 <div class="mt-3 border-bottom data-variant pb-3">
                                     <div class="row m-0">
-                                        <div class="col-lg-2 p-1">
-                                            <input type="text" name="variant[0][name_product_type]" class="form-control"
+                                        <div class="col-lg-3 p-1">
+                                            <input type="text" name="variant[0][name]" class="form-control"
                                                    placeholder="Tên loại sản phẩm" required>
                                         </div>
                                         <div class="col-lg-2 p-1">
                                             <button type="button" class="btn btn-success btn-add-size form-control"><i
-                                                    class="bi bi-plus-lg"></i> Thêm Size Số
+                                                    class="bi bi-plus-lg"></i> Thêm Màu
                                             </button>
                                         </div>
-                                        <div class="col-lg-2 p-1">
+                                        <div class="col-lg-3 p-1">
                                             <button type="button" class="btn btn-primary btn-add-color form-control"><i
-                                                    class="bi bi-plus-lg"></i> Thêm Màu
+                                                    class="bi bi-plus-lg"></i> Thêm Loại Sản Phẩm
                                             </button>
                                         </div>
                                     </div>
@@ -444,23 +435,24 @@
                                         <div class="row m-0 pb-1">
                                             <div class="col-lg-2 p-1 d-flex align-items-center"
                                                  style="padding-left: 15px!important;">
-                                                <p class="m-0">Thông số :</p>
+                                                <p class="m-0">Thông tin :</p>
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input type="text" name="variant[0][parameter_one]" class="form-control"
-                                                       placeholder="Ram" required>
+                                                <input type="text" name="variant[0][price]" class="form-control format-currency"
+                                                       placeholder="Giá gốc" required>
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][parameter_two]" type="text" class="form-control"
-                                                       placeholder="Bộ nhớ trong">
+                                                <input name="variant[0][promotional_price]" type="text" class="form-control format-currency"
+                                                       placeholder="Giá bán">
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input name="variant[0][parameter_three]" type="text"
-                                                       class="form-control" placeholder="Màn hình">
+                                                <input name="variant[0][own_parameter]" type="text"
+                                                       class="form-control" placeholder="Bộ nhớ trong">
                                             </div>
-                                            <div class="col-lg-2 p-1">
-                                                <input name="variant[0][parameter_four]" type="text"
-                                                       class="form-control" placeholder="Mục đích dùng" required>
+                                            <div class="form-check form-switch col-lg-2 p-1">
+                                                <input class="form-check-input" name="variant[0][featured_products]" type="checkbox"
+                                                       id="flexSwitchCheckChecked" style="margin-left: 0px!important;margin-top: 13px">
+                                                <label class="form-check-label" for="flexSwitchCheckChecked" style="margin-top: 9px;margin-left: 8px">Sản phẩm nổi bật</label>
                                             </div>
                                         </div>
                                         <div class="card mb-3">
@@ -473,50 +465,105 @@
                                             </div>
                                         </div>
                                         <div class="row m-0">
-                                            <div class="col-lg-2 p-1">
+                                            <div class="col-lg-4 p-1">
                                                 <input type="text" name="variant[0][data][0][color]"
                                                        class="form-control" placeholder="Tên màu sản phẩm" required>
                                             </div>
-                                            <div class="col-lg-2 p-1">
+                                            <div class="col-lg-3 p-1">
                                                 <input name="variant[0][data][0][price]" type="text"
-                                                       class="form-control price format-currency" placeholder="Giá bán">
+                                                       class="form-control price format-currency" placeholder="Giá gốc">
                                             </div>
-                                            <div class="col-lg-2 p-1">
+                                            <div class="col-lg-3 p-1">
                                                 <input name="variant[0][data][0][promotion_price]" type="text"
                                                        class="form-control promotiom_price format-currency"
-                                                       placeholder="Giá gốc">
-                                            </div>
-                                            <div class="col-lg-2 p-1">
-                                                <input name="variant[0][data][0][quantity]" type="text"
-                                                       class="form-control quantity format-currency"
-                                                       placeholder="Số lượng" required>
-                                            </div>
-                                            <div class="col-lg-2 p-1">
-                                                <input name="variant[0][data][0][sku]" type="text"
-                                                       class="form-control sku" placeholder="sku">
+                                                       placeholder="Giá bán">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-5">
-                            <label class="col-sm-2 col-form-label">Chọn loại: </label>
-                            <div class="col-sm-10">
+                        <div class="row mb-4">
+                            <label class="col-sm-3 col-form-label">Chọn loại: </label>
+                            <div class="col-sm-8">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" name="is_product_featured" type="checkbox"
+                                    <input class="form-check-input" name="display" type="checkbox"
                                            id="flexSwitchCheckChecked">
-                                    <label class="form-check-label" for="flexSwitchCheckChecked">Sản phẩm nổi
-                                        bật</label>
+                                    <label class="form-check-label" for="flexSwitchCheckChecked">Hiện sản phẩm</label>
+                                </div>
+{{--                                <div class="form-check form-switch">--}}
+{{--                                    <input class="form-check-input" name="is_product_featured" type="checkbox"--}}
+{{--                                           id="flexSwitchCheckChecked">--}}
+{{--                                    <label class="form-check-label" for="flexSwitchCheckChecked">Sản phẩm sale</label>--}}
+{{--                                </div>--}}
+                            </div>
+                        </div>
+                        <h5>Sản phẩm liên quan(nếu có)</h5>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="table-responsive table-responsive-lg">
+                                    <table class="table data-list-view table-sm">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <td scope="col">Hình ảnh</td>
+                                            <td scope="col">Tên sản phẩm</td>
+                                            <td scope="col">Đơn giá</td>
+                                            <td> Thao tác</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="item_product">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+
                         <div class="d-flex justify-content-center mt-3">
                             <button type="submit" class="btn btn-success" style="margin-right: 15px">Tạo mới</button>
                             <button type="reset" class="btn btn-dark">Hủy</button>
                         </div>
                     </form>
+                    <div class="p-3"
+                         style="border-radius: 5px;box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);background-color: white">
+                        <div class="d-flex justify-content-between align-items-center mb-3 ">
+                            <h4>Danh sách sản phẩm liên quan</h4>
+                            <div class="col-sm-6">
+                                <div class="search">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-label-group position-relative has-icon-left mb-0"
+                                                 style="background: #FFFFFF">
+                                                <input type="text" id="search" class="form-control" name="search"
+                                                       placeholder="Nhập tên sản phẩm hoặc mã sản phẩm"
+                                                       style="color: black">
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-search"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="table-responsive table-responsive-lg">
+                                    <table class="table data-list-view table-sm">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <td scope="col">Hình ảnh</td>
+                                            <td scope="col">Tên sản phẩm</td>
+                                            <td scope="col">Đơn giá</td>
+                                            <td> Thao tác </td>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table_product">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -528,15 +575,58 @@
     <script src="{{url('assets/admin/create-product.js')}}"></script>
     <script src="//cdn.ckeditor.com/4.18.0/full/ckeditor.js"></script>
     <script type="text/javascript">
-        CKEDITOR.replace('content', {
+        CKEDITOR.replace('content1', {
+            filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+        CKEDITOR.replace('content2', {
+            filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+        CKEDITOR.replace('content3', {
+            filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
+            filebrowserUploadMethod: 'form'
+        });
+        CKEDITOR.replace('content4', {
             filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });
     </script>
-    <script type="text/javascript">
-        CKEDITOR.replace('content_2', {
-            filebrowserUploadUrl: "{{route('admin.ckeditor.image-upload', ['_token' => csrf_token() ])}}",
-            filebrowserUploadMethod: 'form'
-        });
+    <script>
+        let arr = [];
+        function idSP(id) {
+            arr.push(id);
+            $.ajax({
+                url: '{{url('admin/products/item_similar')}}',
+                method: 'GET',
+                data: {data: arr},
+                dataType: 'json',
+                success: function (data) {
+                    $('.item_product').html(data.table_data);
+                }
+            });
+        }
+
+        function deleteSP(id) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] === id) {
+                    arr.splice(i, 1);
+                }
+            }
+            $.ajax({
+                url: '{{url('admin/products/item_similar/delete')}}',
+                method: 'GET',
+                data: {data: arr},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == true) {
+                        $('.item_product').html(data.table_data);
+                    } else {
+                        location.reload();
+                    }
+                }
+            });
+
+        }
     </script>
 @endsection

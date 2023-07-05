@@ -35,9 +35,16 @@ class CategoryController extends Controller
             if (isset($category_slug)){
                 return \redirect()->back()->with(['error' => 'Tên danh mục đã tồn tại']);
             }
+            if ($request->hasFile('file')){
+                $file = $request->file('file');
+                $part = 'upload/banner/img/';
+                $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
+                $request->file('file')->move($part, $file_name);
+            }
             $category = new CategoryModel();
             $category['name'] = $request->get('name');
             $category['slug'] = $slug;
+            $category['image'] = $file_name;
             $category['parent_id'] = $request->get('parent_id');
             $category['type'] = $request->get('type');
             $category['location'] = $request->get('location');
@@ -74,6 +81,14 @@ class CategoryController extends Controller
             $_category = CategoryModel::where('slug', $slug)->first();
             if (isset($_category) && ($category->id != $_category->id)){
                 return \redirect()->back()->with(['error' => 'Tên danh mục đã tồn tại']);
+            }
+            if ($request->hasFile('file')){
+                $file = $request->file('file');
+                $part = 'upload/banner/img/';
+                $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
+                $request->file('file')->move($part, $file_name);
+                unlink($category->image);
+                $category->image = $file_name;
             }
             $category->name = $request->get('name');
             $category->slug = $slug;

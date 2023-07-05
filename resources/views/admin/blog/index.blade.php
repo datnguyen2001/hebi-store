@@ -16,18 +16,18 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$titlePage}}</h5>
                                 <a class="btn btn-success"
-                                   href="{{route('admin.blog.blog_posts.create')}}">Thêm {{$titlePage}}</a>
+                                   href="{{route('admin.blog.create')}}">Thêm {{$titlePage}}</a>
                             </div>
                             @if(count($listData) > 0)
                                 <table class="table">
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Tên title</th>
-                                        <th scope="col">ID danh mục bài viết</th>
-                                        <th scope="col">Hình ảnh/Video</th>
-                                        <th scope="col">Thứ tự</th>
-                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col" style="width: 300px">Tên title</th>
+                                        <th scope="col">Hình ảnh</th>
+                                        <th scope="col" class="text-center">Thể loại</th>
+                                        <th scope="col" class="text-center">Link bài viết</th>
+                                        <th scope="col" class="text-center">Trạng thái</th>
                                         <th scope="col">...</th>
                                     </tr>
                                     </thead>
@@ -36,28 +36,26 @@
                                         <tr>
                                             <th scope="row">{{$key+1}}</th>
                                             <td>{{$value->title}}</td>
-                                            <td>{{$value->blog_category_id}}</td>
                                             <td>
-                                                @if($value->is_video == 0)
-                                                    <img src="{{$value->src}}" width="200px"
-                                                         style="object-fit: contain">
-                                                @else
-                                                    <video width="200" height="110" controls>
-                                                        <source src="{{$value->src}}" type="video/mp4">
-                                                    </video>
-                                                @endif
+                                                <img src="{{$value->image}}" width="200px"
+                                                     style="object-fit: contain">
                                             </td>
-                                            <td>{{$value->index}}</td>
-                                            <td>@if($value->display == 1)Bật @else Tắt @endif</td>
+                                            <td class="text-center">@if($value->type == 1) Tin
+                                                mới @elseif($value->type == 2) Khuyến mãi @elseif($value->type == 3) Mẹo
+                                                hay @elseif($value->type == 4) Tin tuyển dụng @endif</td>
+                                            <td class="text-center">
+                                                <?= URL::to('chi-tiet-tin-tuc/'.$value->slug) ?>
+                                            </td>
+                                            <td class="text-center">@if($value->display == 1)Bật @else Tắt @endif</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{url('admin/blog/blog_posts/edit/'.$value->id)}}"
+                                                    <a href="{{url('admin/blog/edit/'.$value->id)}}"
                                                        class="btn btn-icon btn-light btn-hover-success btn-sm"
                                                        data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                        data-bs-original-title="Cập nhật">
                                                         <i class="bi bi-pencil-square "></i>
                                                     </a>
-                                                    <a href="{{url('admin/blog/blog_posts/delete/'.$value->id)}}"
+                                                    <a href="{{url('admin/blog/delete/'.$value->id)}}"
                                                        class="btn btn-delete btn-icon btn-light btn-sm"
                                                        data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                        data-bs-original-title="Xóa">

@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
         }
     });
-    $('a.btn-delete-color').confirm({
+    $('a.btn-delete-name').confirm({
         title: 'Xác nhận!',
         content: 'Bạn có chắc chắn muốn xóa bản ghi này?',
         buttons: {
@@ -45,7 +45,7 @@ $(document).ready(function () {
             }
         }
     });
-    $('a.btn-delete-size').confirm({
+    $('a.btn-delete-color').confirm({
         title: 'Xác nhận!',
         content: 'Bạn có chắc chắn muốn xóa bản ghi này?',
         buttons: {

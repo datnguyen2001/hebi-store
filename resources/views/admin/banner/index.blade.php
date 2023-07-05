@@ -72,8 +72,9 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">STT</th>
-                    <th scope="col">Hình ảnh/video</th>
+                    <th scope="col">Hình ảnh</th>
                     <th scope="col">Title</th>
+                    <th scope="col">Vị trí</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">...</th>
                 </tr>
@@ -82,14 +83,25 @@
                 @if(count($listData))
                     @foreach($listData as $key => $value)
                         <tr>
-                            <th scope="row">{{$value->index}}</th>
+                            <th scope="row">{{$key+1}}</th>
                             <td>
                                 <div class="w-100 position-relative" style="padding-top: 50%;min-width: 150px">
-                                        <img src="{{$value->src}}" class="position-absolute w-100 h-100" style="top: 0;left: 0;object-fit: cover">
+                                        <img src="{{$value->image}}" class="position-absolute w-100 h-100" style="top: 0;left: 0;object-fit: cover">
                                 </div>
                             </td>
                             <td>
                                 {{$value->title}}
+                            </td>
+                            <td>
+                                @if($value->location == 1)
+                                    Vị trí đầu
+                                    @elseif($value->location == 2)
+                                    Vị trí đầu bên phải
+                                @elseif($value->location == 3)
+                                    Vị trí thứ 2
+                                    @else
+                                    Vị trí hot sale
+                                    @endif
                             </td>
                             <td>
                                 @if($value->display == 1)Bật @else Tắt @endif
