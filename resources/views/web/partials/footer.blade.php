@@ -1,8 +1,32 @@
 @php
     $contact_infor = \App\Models\IntroduceModel::where('display',1)->where('type',0)->get();
     $policy = \App\Models\IntroduceModel::where('display',1)->where('type',1)->get();
-    $other_infor = \App\Models\IntroduceModel::where('display',1)->where('type',0)->get();
+    $other_infor = \App\Models\IntroduceModel::where('display',1)->where('type',2)->get();
+    $category_product = \App\Models\CategoryModel::where('display',1)->where('parent_id',0)->orderBy('location','asc')->get();
+    $category = \App\Models\CategoryModel::where('display',1)->orderBy('location','asc')->get();
 @endphp
+<div class="fab-wrapper">
+    <input id="fabCheckbox" type="checkbox" class="fab-checkbox"/>
+    <label class="fap" for="fabCheckbox">
+        <span class="fab-dots fab-dots-1"></span>
+        <span class="fab-dots fab-dots-2"></span>
+        <span class="fab-dots fab-dots-3"></span>
+    </label>
+    <div class="fab-wheel">
+        <a class="fab-action fab-action-1" style="background: red">
+            <i class="fa-brands fa-youtube" style="font-size: 25px"></i>
+        </a>
+        <a class="fab-action fab-action-2">
+            <i class="fa-brands fa-tiktok" style="font-size: 25px"></i>
+        </a>
+        <a class="fab-action fab-action-3" style="background: #ffa000">
+            <img src="{{asset('assets/images/icon-zalo.png')}}" alt="" style="width: 35px;">
+        </a>
+        <a class="fab-action fab-action-4" style="background: #0058ff">
+            <i class="fa-brands fa-facebook" style="font-size: 29px"></i>
+        </a>
+    </div>
+</div>
 <footer class="footer">
     <div class="container footer-end">
         <div class="top_ft">
@@ -12,9 +36,9 @@
                 <div class="bottom-nav nav-bottom1">
                     <ul>
                         @foreach($contact_infor as $item)
-                        <li class="first-item">
-                            <a href="{{url('introduce/'.$item->id)}}">{{$item->title}}</a>
-                        </li>
+                            <li class="first-item">
+                                <a href="{{url('gioi-thieu/'.$item->slug)}}">{{$item->title}}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -25,9 +49,9 @@
                 <div class="bottom-nav nav-bottom2">
                     <ul>
                         @foreach($policy as $item)
-                        <li class="first-item">
-                            <a href="{{url('introduce/'.$item->id)}}">{{$item->title}}</a>
-                        </li>
+                            <li class="first-item">
+                                <a href="{{url('gioi-thieu/'.$item->slug)}}">{{$item->title}}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -38,9 +62,9 @@
                 <div class="bottom-nav nav-bottom3">
                     <ul>
                         @foreach($other_infor as $item)
-                        <li class="first-item">
-                            <a href=""> Giải đáp mua hàng Online </a>
-                        </li>
+                            <li class="first-item">
+                                <a href="{{url('gioi-thieu/'.$item->slug)}}">{{$item->title}}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -48,9 +72,11 @@
             <div class="fanpage item-menu">
                 <span class="title_item">Hỗ trợ thanh toán</span>
                 <div class="bank-ft">
-                    <img src="https://onewaymobile.vn/images/icon/bank1.png" alt="" class="img-responsive img-footer-pay" width="241px"
+                    <img src="https://onewaymobile.vn/images/icon/bank1.png" alt=""
+                         class="img-responsive img-footer-pay" width="241px"
                          height="33px">
-                    <img src="https://onewaymobile.vn/images/icon/bank2.png" alt="" class="img-responsive img-footer-pay" width="117px"
+                    <img src="https://onewaymobile.vn/images/icon/bank2.png" alt=""
+                         class="img-responsive img-footer-pay" width="117px"
                          height="33px">
                 </div>
                 <div class="dmca-protec">
@@ -88,208 +114,338 @@
         <div class="category">
             <nav>
                 <ul class="sub-menu">
-                    <li class="menubottom " data-id="168">
-                        <div class="show_par" href="" class="icon_hover" title="Điện thoại">
+                    <li class="menubottom " onclick="activeFooter(1)">
+                        <div class="show_par icon_hover" title="Điện thoại">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/dienthoai_1663642681.svg"/
-                                class="img-responsive icon-img-footer"> Điện thoại
+                                     src="{{asset('assets/images/dienthoai.svg')}}"
+                                     class="img-responsive icon-img-footer"> Điện thoại
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="186">
-                        <div class="show_par" href="" class="icon_hover" title="Máy cũ">
+                    <li class="menubottom " onclick="activeFooter(2)">
+                        <div class="show_par icon_hover" title="Laptop">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/dienthoai_quasudung_1665147017.svg"/
-                                class="img-responsive icon-img-footer"> Máy cũ
+                                     src="{{asset('assets/images/icon_ipad.png')}}"
+                                     class="img-responsive icon-img-footer"> Máy tính bảng
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="7">
-                        <div class="show_par" href="" class="icon_hover" title="Máy tính bảng">
+                    <li class="menubottom " onclick="activeFooter(3)">
+                        <div class="show_par icon_hover" title="Laptop">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/icon_ipad-mini_1574932835.png"/
-                                class="img-responsive icon-img-footer"> Máy tính bảng
+                                     src="{{asset('assets/images/laptop.svg')}}"
+                                     class="img-responsive icon-img-footer"> Laptop
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="9">
-                        <div class="show_par" href="" title="Macbook">
-                            <div class="icon_plus">
-                                <a href="https://onewaymacbook.vn/"> <img width="30" height="30"
-                                                                          src="https://onewaymobile.vn/images/menus/macbook_1663659654.svg"/
-                                    class="img-responsive icon-img-footer"> Macbook </a></div>
-                        </div>
-                    </li>
-                    <li class="menubottom " data-id="169">
-                        <div class="show_par" href="" class="icon_hover" title="Đồng hồ thông minh">
+                    <li class="menubottom " onclick="activeFooter(4)">
+                        <div class="show_par icon_hover" title="Đồng hồ thông minh">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/dong-ho-thong-minh_1665660274.svg"/
-                                class="img-responsive icon-img-footer"> Đồng hồ thông minh
+                                     src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
+                                     class="img-responsive icon-img-footer"> Đồng hồ thông minh
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="150">
-                        <div class="show_par" href="" class="icon_hover" title="Nhà thông minh">
+                    <li class="menubottom " onclick="activeFooter(5)">
+                        <div class="show_par icon_hover" title="Nhà thông minh">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/nhathongminh_1663659296.svg"/
-                                class="img-responsive icon-img-footer"> Nhà thông minh
+                                     src="{{asset('assets/images/nhathongminh.svg')}}"
+                                     class="img-responsive icon-img-footer"> Nhà thông minh
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="11">
-                        <div class="show_par" href="" class="icon_hover" title="Phụ kiện">
+                    <li class="menubottom " onclick="activeFooter(6)">
+                        <div class="show_par icon_hover" title="Phụ kiện">
                             <div class="icon_plus">
-                                <img width="30" height="30" src="https://onewaymobile.vn/images/menus/accessory-onewaymobile_1671698209.svg" class="img-responsive icon-img-footer"> Phụ kiện
+                                <img width="30" height="30" src="{{asset('assets/images/accessory.svg')}}"
+                                     class="img-responsive icon-img-footer"> Phụ kiện
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="258">
-                        <div class="show_par" href="" class="icon_hover" title="Âm thanh">
+                    <li class="menubottom " onclick="activeFooter(7)">
+                        <div class="show_par" title="Âm thanh">
                             <div class="icon_plus">
-                                <img width="30" height="30"
-                                     src="https://onewaymobile.vn/images/menus/am-thanh_1670425919.svg" class="img-responsive icon-img-footer"> Âm thanh
+                                <img width="30" height="30" src="{{asset('assets/images/am-thanh.svg')}}"
+                                     class="img-responsive icon-img-footer"> Âm thanh
                             </div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="156">
-                        <div class="show_par" href="" title="Khuyến mại">
+                    <li class="menubottom " onclick="activeFooter(8)">
+                        <div class="show_par" title="Tin tức">
                             <div class="icon_plus">
-                                <a href="https://onewaymobile.vn/khuyen-mai.html"> <img width="30" height="30"
-                                                                                        src="https://onewaymobile.vn/images/menus/khuyenmai_1663659727.svg"/
-                                    class="img-responsive icon-img-footer"> Khuyến mại </a></div>
+                                <a href="{{url('tin-tuc/trang-chu')}}"> <img width="30" height="30"
+                                                                             src="{{asset('assets/images/tintuc.svg')}}"
+                                                                             class="img-responsive icon-img-footer"> Tin
+                                    tức </a></div>
                         </div>
                     </li>
-                    <li class="menubottom " data-id="89">
-                        <div class="show_par" href="" title="Tin tức">
-                            <div class="icon_plus">
-                                <a href="{{url('news')}}"> <img width="30" height="30"
-                                                                                     src="https://onewaymobile.vn/images/menus/tintuc_1663659902.svg"/
-                                    class="img-responsive icon-img-footer"> Tin tức </a></div>
-                        </div>
-                    </li>
-                    <li class="menubottom " data-id="60">
-                        <div class="show_par" href="" title="Trả góp">
-                            <div class="icon_plus">
-                                <a href="https://onewaymobile.vn/tra-gop.html"> <img width="30" height="30"
-                                                                                     src="https://onewaymobile.vn/images/menus/tragop_1663659805.svg"/
-                                    class="img-responsive icon-img-footer"> Trả góp </a></div>
-                        </div>
-                    </li>
+
                 </ul>
-                <div class="side-right">
-                    <div class="show_cat show_cat168">
+                <div class="side-right ">
+                    <div class="show_cat show_cat1 active_side">
                         <ul class="me-float">
                             <li>
-                                <div href="https://onewaymobile.vn/dien-thoai-pc106.html" title="Điện thoại">
-                                    <a href="https://onewaymobile.vn/dien-thoai-pc106.html"
+                                <div>
+                                    <a href="{{url('danh-muc/dien-thoai')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="https://onewaymobile.vn/images/menus/dienthoai_1663642681.svg"
+                                             src="{{asset('assets/images/dienthoai.svg')}}"
                                              class="img-responsive"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Điện thoại</span>
                                     </a>
                                 </div>
                             </li>
-                            <li>
-                                <div href="https://onewaymobile.vn/iphone-pc29.html" title="iPhone">
-                                    <a href="https://onewaymobile.vn/iphone-pc29.html">
-                                        <span> iPhone</span>
-                                    </a>
-                                </div>
-                                <ul class="me-float ul-child">
+                            @foreach($category_product as $value)
+                                @if($value->type == 1)
                                     <li>
-                                        <a href="https://onewaymobile.vn/iphone-14-series-pc105.html"
-                                           title="iPhone 14 Series">
-                                            iPhone 14 Series </a>
+                                        <div>
+                                            <a href="{{url('danh-muc/dien-thoai/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/dien-thoai/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
                                     </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/iphone-13-series-pc86.html"
-                                           title="iPhone 13 Series">
-                                            iPhone 13 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/iphone-12-series-pc79.html"
-                                           title="iPhone 12 Series">
-                                            iPhone 12 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/iphone-11-series-pc50.html"
-                                           title="iPhone 11 Series">
-                                            iPhone 11 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/iphone-se-pc77.html" title="iPhone SE">
-                                            iPhone SE </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <div href="https://onewaymobile.vn/samsung-pc51.html" title="Samsung">
-                                    <a href="https://onewaymobile.vn/samsung-pc51.html">
-                                        <span> Samsung</span>
-                                    </a>
-                                </div>
-                                <ul class="me-float ul-child">
-                                    <li>
-                                        <a href="https://onewaymobile.vn/z-series-pc81.html" title="Z Series">
-                                            Z Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/s23-series-pc199.html" title="S23 Series">
-                                            S23 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/s22-series-pc94.html" title="S22 Series">
-                                            S22 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/s21-series-pc80.html" title="S21 Series">
-                                            S21 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/s20-series-pc76.html" title="S20 Series">
-                                            S20 Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/a-series-pc83.html" title="A Series">
-                                            A Series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/m-series-pc84.html" title="M Series">
-                                            M Series </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <div href="https://onewaymobile.vn/xiaomi-pc88.html" title="Xiaomi">
-                                    <a href="https://onewaymobile.vn/xiaomi-pc88.html">
-                                        <span> Xiaomi</span>
-                                    </a>
-                                </div>
-                                <ul class="me-float ul-child">
-                                    <li>
-                                        <a href="https://onewaymobile.vn/mi-series-pc102.html" title="Mi series">
-                                            Mi series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/redmi-series-pc103.html" title="Redmi series">
-                                            Redmi series </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://onewaymobile.vn/poco-series-pc104.html" title="POCO series">
-                                            POCO series </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                @endif
+                            @endforeach
                         </ul>
                     </div>
-
+                    <div class="show_cat show_cat2 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/may-tinh-bang')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/icon_ipad.png')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Máy tính bảng</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 2)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/may-tinh-bang/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/may-tinh-bang/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="show_cat show_cat3 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/laptop')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/laptop.svg')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Laptop</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 3)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/laptop/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/laptop/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="show_cat show_cat4 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/dong-ho-thong-minh')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Đồng hồ thông minh</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 4)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="show_cat show_cat5 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/nha-thong-minh')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/nhathongminh.svg')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Nhà thông minh</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 5)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/nha-thong-minh/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/nha-thong-minh/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="show_cat show_cat6 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/phu-kien')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/accessory.svg')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Phụ kiện</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 6)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/phu-kien/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/phu-kien/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="show_cat show_cat7 ">
+                        <ul class="me-float">
+                            <li>
+                                <div>
+                                    <a href="{{url('danh-muc/am-thanh')}}"
+                                       style="display:flex; line-height:20px;">
+                                        <img width="20" height="20"
+                                             src="{{asset('assets/images/am-thanh.svg')}}"
+                                             class="img-responsive"
+                                             style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
+                                        <span>Âm thanh</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @foreach($category_product as $value)
+                                @if($value->type == 7)
+                                    <li>
+                                        <div>
+                                            <a href="{{url('danh-muc/am-thanh/'.$value->name)}}">
+                                                <span>{{$value->name}}</span>
+                                            </a>
+                                        </div>
+                                        <ul class="me-float ul-child">
+                                            @foreach($category as $item)
+                                                @if($item->parent_id == $value->id)
+                                                    <li>
+                                                        <a href="{{url('danh-muc/am-thanh/'.$value->name.'/'.$item->slug)}}"
+                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -298,7 +454,7 @@
     <div class="hidden-lg hidden-md bottom">
         <ul>
             <li>
-                <a href="/">
+                <a href="{{url('/')}}">
                     <i class="fa fa-home"></i>
                     <span>Trang chủ</span>
                 </a>
@@ -331,5 +487,10 @@
         </ul>
     </div>
 </footer>
-
+<script>
+    function activeFooter(id) {
+        $('.show_cat').removeClass('active_side');
+        $('.show_cat' + id).addClass('active_side')
+    }
+</script>
 

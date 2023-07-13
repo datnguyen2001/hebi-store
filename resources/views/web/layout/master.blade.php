@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Hebi Mobile</title>
+    <title>Hebi Store</title>
     {{--Font for web--}}
     <link href="{{asset('assets/images/logo.png')}}" rel="icon">
     <link href="{{asset('assets/images/logo.png')}}" rel="apple-touch-icon">
@@ -45,9 +45,9 @@
     @yield('content')
 </main>
 {{--Footer--}}
-
+<button class="btn" id="button"><i class="fas fa-arrow-up text-white"></i></button>
 @include('web.partials.footer')
-
+<div class="moby-overlay"></div>
 <script src="assets/home/vendor/aos/aos.js"></script>
 <script src="assets/home/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/home/vendor/glightbox/js/glightbox.min.js"></script>
@@ -59,26 +59,12 @@
 <!-- Template Main JS File -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="assets/js/main.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="{{asset('assets/web/slick/slick.min.js')}}"></script>
 <script src="{{asset('dist/home/home.js')}}"></script>
-<script src="{{asset('dist/product/product.js')}}"></script>
-<script src="{{asset('dist/news/news.js')}}"></script>
-<script>
-    for(let i=1;i<=3;i++){
-        $('.title-menu'+i).on('click',function () {
-            $( ".title-menu"+i ).toggleClass( "active" );
-            $( ".nav-bottom"+i ).toggleClass( "bottom-nav2" );
-        });
-    }
-
-    $('.tab-click').on('click',function () {
-        $( ".menu-click" ).toggleClass( "menu-click-active" );
-    });
-    $('#procat').on('click',function () {
-        $( ".danhmuc " ).toggleClass( "active" );
-    });
-
-</script>
+{{--<script src="{{asset('dist/product/product.js')}}"></script>--}}
+{{--<script src="{{asset('dist/news/news.js')}}"></script>--}}
+{{--<script src="{{asset('dist/category/category.js')}}"></script>--}}
+@yield('script_page')
 </body>
 </html>

@@ -8,6 +8,7 @@ use \App\Http\Controllers\Admin\BannerController;
 use \App\Http\Controllers\Admin\BlogController;
 use \App\Http\Controllers\Admin\IntroduceController;
 use \App\Http\Controllers\Admin\CategoryController;
+use \App\Http\Controllers\Admin\FlashSaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,18 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('item_similar/delete', [ProductController::class, 'itemDeleteSimilar']);
         Route::get('item_similar/delete_related', [ProductController::class, 'itemDeleteRelated']);
     });
+
+    Route::prefix('product-flash-sale')->name('flash-sale.')->group(function () {
+        Route::get('', [FlashSaleController::class, 'index'])->name('index');
+        Route::get('create', [FlashSaleController::class, 'create'])->name('create');
+        Route::post('store', [FlashSaleController::class, 'store'])->name('store');
+        Route::get('delete/{id}', [FlashSaleController::class, 'delete']);
+        Route::get('edit/{id}', [FlashSaleController::class, 'edit']);
+        Route::post('update/{id}', [FlashSaleController::class, 'update']);
+        Route::get('item_product', [FlashSaleController::class, 'itemProduct']);
+        Route::get('item_product/delete', [FlashSaleController::class, 'itemDeleteProduct']);
+    });
+
     Route::prefix('banner')->name('banner.')->group(function () {
         Route::get('/', [BannerController::class, 'index'])->name('index');
         Route::get('create', [BannerController::class, 'create'])->name('create');

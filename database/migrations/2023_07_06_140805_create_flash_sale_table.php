@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIntroduce extends Migration
+class CreateFlashSaleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateIntroduce extends Migration
      */
     public function up()
     {
-        Schema::create('introduce', function (Blueprint $table) {
+        Schema::create('flash_sale', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug');
-            $table->longText('content');
-            $table->integer('type');
-            $table->integer('display');
+            $table->integer('product_id');
+            $table->integer('price_sale');
+            $table->timestamp('time_start');
+            $table->timestamp('time_end');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateIntroduce extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('introduce');
+        Schema::dropIfExists('flash_sale');
     }
 }

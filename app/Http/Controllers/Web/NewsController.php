@@ -60,9 +60,9 @@ class NewsController extends Controller
         return view('web.news.detail-news', compact( 'data','data_more'));
     }
 
-    public function introduce($id)
+    public function introduce($slug)
     {
-        $data = IntroduceModel::where('display',1)->where('id',$id)->first();
+        $data = IntroduceModel::where('display',1)->where('slug',$slug)->first();
         return view('web.introduce.index', compact( 'data'));
     }
 }

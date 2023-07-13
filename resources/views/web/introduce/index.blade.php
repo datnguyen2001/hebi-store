@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Mobile')
+@section('title','Hebi Store')
 {{--meta--}}
 @section('meta')
     <meta name="description" content=""/>
@@ -17,9 +17,6 @@
         {!! $data->content !!}
     </div>
 @stop
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @section('script_page')
 
 @stop

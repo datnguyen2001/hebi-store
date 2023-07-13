@@ -55,7 +55,6 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-//            dd($request->all());
             $category = CategoryModel::find($request->get('sub_category'));
             if (empty($category)) {
                 return back()->with(['error' => 'Vui lòng chọn danh mục để tiếp tục']);

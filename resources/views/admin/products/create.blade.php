@@ -438,14 +438,6 @@
                                                 <p class="m-0">Thông tin :</p>
                                             </div>
                                             <div class="col-lg-2 p-1">
-                                                <input type="text" name="variant[0][price]" class="form-control format-currency"
-                                                       placeholder="Giá gốc" required>
-                                            </div>
-                                            <div class="col-lg-2 p-1">
-                                                <input name="variant[0][promotional_price]" type="text" class="form-control format-currency"
-                                                       placeholder="Giá bán">
-                                            </div>
-                                            <div class="col-lg-2 p-1">
                                                 <input name="variant[0][own_parameter]" type="text"
                                                        class="form-control" placeholder="Bộ nhớ trong">
                                             </div>
@@ -491,11 +483,6 @@
                                            id="flexSwitchCheckChecked">
                                     <label class="form-check-label" for="flexSwitchCheckChecked">Hiện sản phẩm</label>
                                 </div>
-{{--                                <div class="form-check form-switch">--}}
-{{--                                    <input class="form-check-input" name="is_product_featured" type="checkbox"--}}
-{{--                                           id="flexSwitchCheckChecked">--}}
-{{--                                    <label class="form-check-label" for="flexSwitchCheckChecked">Sản phẩm sale</label>--}}
-{{--                                </div>--}}
                             </div>
                         </div>
                         <h5>Sản phẩm liên quan(nếu có)</h5>

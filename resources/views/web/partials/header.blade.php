@@ -60,7 +60,6 @@
                         </div>
                         <div class="col-md-8 col-row-left-two">
                             <div class="search_1">
-
                                 <div id="search" class="search ">
                                     <div id="collapseExample" class="collapse_search">
                                         <form action="" name="search_form" id="search_form" method="get">

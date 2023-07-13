@@ -497,14 +497,6 @@
                                                     <p class="m-0">Thông tin :</p>
                                                 </div>
                                                 <div class="col-lg-2 p-1">
-                                                    <input type="text" name="variant[{{$key}}][price]" class="form-control format-currency" value="{{number_format($item->price)}}"
-                                                           placeholder="Giá gốc">
-                                                </div>
-                                                <div class="col-lg-2 p-1">
-                                                    <input name="variant[{{$key}}][promotional_price]" type="text" class="form-control format-currency"
-                                                           placeholder="Giá bán" value="{{number_format($item->promotional_price)}}">
-                                                </div>
-                                                <div class="col-lg-2 p-1">
                                                     <input name="variant[{{$key}}][own_parameter]" type="text" value="{{$item->own_parameter}}"
                                                            class="form-control" placeholder="Bộ nhớ trong">
                                                 </div>

@@ -312,7 +312,7 @@
 }
 
 .level_0:hover .lv_0 {
-    color: #305def!important;
+    color: #305def !important;
 }
 
 @media (max-width: 1024px) {
@@ -419,9 +419,11 @@ position-absolute .menu .menu-product .level_0 .wrapper_children_level0 .level_1
     line-height: 25px;
     color: #999;
 }
-.position-absolute .menu .menu-product .level_0 .wrapper_children_level0 .level_1 .wrapper_children_level1 a:hover{
+
+.position-absolute .menu .menu-product .level_0 .wrapper_children_level0 .level_1 .wrapper_children_level1 a:hover {
     color: #0a58ca;
 }
+
 .position-absolute .menu .menu-product .level_0 .wrapper_children_level0 .level_1 {
     z-index: 100;
     line-height: 47px;
@@ -475,6 +477,7 @@ position-absolute .menu .menu-product .level_0 .wrapper_children_level0 .level_1
     background: #FFFFFF;
     box-shadow: 0px -4px 12px rgb(0 0 0 / 4%);
     position: relative;
+    margin-top: 30px;
 }
 
 .top_ft {
@@ -672,6 +675,10 @@ body {
     display: block;
 }
 
+.bottom ul li a:hover {
+    color: unset;
+}
+
 .fa, .fas {
     font-weight: 900;
 }
@@ -781,7 +788,7 @@ img-responsive {
 }
 
 .me-float li span {
-    color: #d53b3b;
+    color: #0a58ca;
     text-align: left;
     display: block;
     font-weight: 600;
@@ -798,6 +805,11 @@ img-responsive {
 
 .show_cat {
     margin-bottom: 20px;
+    display: none;
+}
+
+.active_side {
+    display: block;
 }
 
 .icon-img-footer {
@@ -854,9 +866,11 @@ img-responsive {
     outline: none;
     text-align: center;
 }
+
 .numbersOnly::-webkit-outer-spin-button, .numbersOnly::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
 .title_sp_cart_small {
     color: rgba(0, 0, 0, 0.87);
     font-weight: 600;
@@ -866,26 +880,30 @@ img-responsive {
 .type_cart_sp_small {
     color: #20863D;
     font-weight: 400;
-    margin-bottom: 5px  ;
+    margin-bottom: 5px;
 }
-.price_sp_cart_small{
+
+.price_sp_cart_small {
     color: red;
     font-weight: 500;
     margin-bottom: 5px;
 }
-.line_cart_small{
+
+.line_cart_small {
     padding-bottom: 12px;
     border-bottom: 1px solid #cccccc;
     margin-bottom: 12px;
 }
-.title_end_small{
+
+.title_end_small {
     font-size: 15px;
     line-height: 19px;
     font-weight: bold;
     padding: 25px 0;
     margin: 0;
 }
-.total_end_small{
+
+.total_end_small {
     font-size: 15px;
     line-height: 19px;
     font-weight: bold;
@@ -893,6 +911,7 @@ img-responsive {
     margin: 0;
     color: red;
 }
+
 .payment-btn-small {
     width: 100%;
     display: flex;

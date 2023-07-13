@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Mobile')
+@section('title','Hebi Store')
 {{--meta--}}
 @section('meta')
     <meta name="description" content=""/>

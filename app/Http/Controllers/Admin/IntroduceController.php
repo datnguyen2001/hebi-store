@@ -50,6 +50,7 @@ class IntroduceController extends Controller
             }
             $introduce = new IntroduceModel([
                 'title' => $request->get('title'),
+                'slug' => Str::slug($request->get('title')),
                 'content' => $request->get('content'),
                 'display' => $display,
                 'type' => $request->get('type')
@@ -97,6 +98,7 @@ class IntroduceController extends Controller
             }
             $introduce->display = $display;
             $introduce->title = $request->get('title');
+            $introduce->slug = Str::slug($request->get('title'));
             $introduce->content = $request->get('content');
             $introduce->type = $request->get('type');
             $introduce->save();

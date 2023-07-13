@@ -44,16 +44,16 @@ return [
                     'route' => 'admin.products.index',
                     'name' => 'index'
                 ],
-                [
-                    'title' => 'Thêm mới sản phẩm',
-                    'route' => 'admin.products.create',
-                    'name' => 'create',
-                ],
 //                [
-//                    'title' => 'Sản phẩm nổi bật',
-//                    'route' => 'admin.products.indexFeatured',
-//                    'name' => 'indexFeatured'
-//                ]
+//                    'title' => 'Thêm mới sản phẩm',
+//                    'route' => 'admin.products.create',
+//                    'name' => 'create',
+//                ],
+                [
+                    'title' => 'Danh sách flash sale',
+                    'route' => 'admin.flash-sale.index',
+                    'name' => 'flash_sale'
+                ],
             ],
             'number' => 9
         ],

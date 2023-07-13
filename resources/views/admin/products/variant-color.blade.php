@@ -20,12 +20,6 @@
                 <p class="m-0">Thông tin  :</p>
             </div>
             <div class="col-lg-2 p-1">
-                <input type="text" name="variant[{{$count}}][price]" class="form-control format-currency" placeholder="Giá gốc" required>
-            </div>
-            <div class="col-lg-2 p-1">
-                <input name="variant[{{$count}}][promotional_price]" type="text" class="form-control format-currency" placeholder="Giá bán">
-            </div>
-            <div class="col-lg-2 p-1">
                 <input name="variant[{{$count}}][own_parameter]" type="text" class="form-control" placeholder="Bộ nhớ trong">
             </div>
             <div class="form-check form-switch col-lg-2 p-1">
