@@ -9,6 +9,7 @@ use App\Models\FlashSaleModel;
 use App\Models\IntroduceModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
+use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Carbon\Carbon;
@@ -37,6 +38,12 @@ class HomeController extends Controller
             $item->infor = ProductInformationModel::find($item->product->product_infor_id);
             $item->type_product = ProductsModel::where('product_infor_id',$item->infor->id)->get();
             $item->price = ProductAttributesModel::where('product_id',$item->product_id)->first()->price;
+            $star = ProductReviewsModel::where('product_id', $item->product_id)->get();
+            if (!$star->isEmpty()) {
+                $total_score =  ProductReviewsModel::where('product_id', $item->product_id)->sum('star');
+                $total_votes = count($star);
+                $item->star = round($total_score/$total_votes, 1);
+            }
         }
         return view('web.home.index', compact( 'banner_top','banner_top_right', 'banner_two','banner_hot_sale','product_phone',
             'category_product','category','flash_sale','product_tablet','product_laptop','product_watch','product_home','product_accessory',

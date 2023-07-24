@@ -27,8 +27,7 @@
                     </ul>
                 </li>
 
-                <li class='level_0'><a
-                        href='{{url('danh-muc/may-tinh-bang')}}' class='lv_0'> <span><img
+                <li class='level_0'><a href='{{url('danh-muc/may-tinh-bang')}}' class='lv_0'> <span><img
                                 src="{{asset('assets/images/icon_ipad.png')}}"
                                 width='20px' height='20px'>Máy tính bảng</span><i
                             class='fa fa-angle-right'></i></a>

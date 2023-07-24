@@ -50,9 +50,11 @@
                 </div>
                 <div class="product-status">
                     <span>Mới 100%</span>
-                    <div class="product-rate">
-                        <div class="star-rating" style="--rating:4.6"></div>
-                    </div>
+                    @if($value->star)
+                        <div class="product-rate">
+                            <div class="star-rating" style="--rating:{{$value->star}}"></div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -251,9 +251,11 @@
                             </div>
                             <div class="product-status">
                                 <span>Mới 100%</span>
-                                <div class="product-rate">
-                                    <div class="star-rating" style="--rating:4.6"></div>
-                                </div>
+                                @if($value->star)
+                                    <div class="product-rate">
+                                        <div class="star-rating" style="--rating:{{$value->star}}"></div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -263,7 +265,7 @@
                 {{ $product->appends(request()->all())->links('web.partials.paginate') }}
             </div>
             @else
-            <p style="color: red;text-align: center;font-size: 18px;height: 160px">Không tìm thấy kết quả bạn cần tìm</p>
+            <p class="text_search">Không tìm thấy kết quả bạn cần tìm</p>
                 @endif
         </div>
     </div>

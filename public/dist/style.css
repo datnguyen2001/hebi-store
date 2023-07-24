@@ -167,7 +167,7 @@
 }
 
 .star-rating {
-    --percent: calc(4.7 / 5 * 100%);
+    --percent: calc(var(--rating) / 5 * 100%);
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     position: relative;
@@ -664,7 +664,6 @@
     }
     .fab-wrapper {
         right: 22px;
-        bottom: 1rem;
     }
 
     .fab-dots {

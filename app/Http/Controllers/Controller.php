@@ -9,6 +9,7 @@ use App\Models\ProductAttribute;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductRelatedModel;
+use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -128,6 +129,7 @@ class Controller extends BaseController
                     $value->promotional_price = ProductAttributesModel::where('product_id', $value->id)->first()->promotional_price;
                     $value->type_sale = 0;
                 }
+                $this->starReview($value);
             }
             return $product;
         } catch (\Exception $exception) {
@@ -174,13 +176,11 @@ class Controller extends BaseController
             if ($request->slug_cate){
                 $category = CategoryModel::where('slug',$request->slug_cate)->first();
                 $data = $data->where('category_id', $category->id);
-
             }
             if ($request->name_cate){
                 $category = CategoryModel::where('name',$request->name_cate)->first();
                 $parent_id = CategoryModel::where('parent_id', $category->id)->pluck('id');
                 $data = $data->whereIn('category_id', $parent_id);
-
             }
             if (isset($request->parameter_one)){
                 $data = $data->where('parameter_one', $request->parameter_one);
@@ -198,5 +198,72 @@ class Controller extends BaseController
         }catch (\Exception $exception){
             return $exception->getMessage();
         }
+    }
+
+    /**
+     * list data sản phẩm
+     **/
+    public function dataProduct($product)
+    {
+        foreach ($product as $item) {
+            $flash_sale = FlashSaleModel::where('product_id', $item->id)->first();
+            $item->infor = ProductInformationModel::find($item->product_infor_id);
+            $item->type_product = ProductsModel::where('product_infor_id', $item->product_infor_id)->get();
+            $item->price = ProductAttributesModel::where('product_id', $item->id)->first()->price;
+            if ($flash_sale) {
+                $item->promotional_price = $flash_sale->price_sale;
+                $item->time_end = $flash_sale->time_end;
+                $item->type_sale = 1;
+            } else {
+                $item->promotional_price = ProductAttributesModel::where('product_id', $item->id)->first()->promotional_price;
+                $item->type_sale = 0;
+            }
+            $this->starReview($item);
+        }
+        return $product;
+    }
+
+    /**
+     * danh sách tiêu chí
+     **/
+    public function criteria($checkCate,$product_infor)
+    {
+        $ram = ProductInformationModel::select('parameter_one')->where('type_product', $checkCate['type'])->distinct()->get();
+        $rom = ProductsModel::select('own_parameter')->whereIn('product_infor_id', $product_infor)->distinct()->get();
+        $screen = ProductInformationModel::select('parameter_two')->where('type_product', $checkCate['type'])->distinct()->get();
+        $intended_use = ProductInformationModel::select('parameter_three')->where('type_product', $checkCate['type'])->distinct()->get();
+        $chip = ProductInformationModel::select('parameter_four')->where('type_product', $checkCate['type'])->distinct()->get();
+        return compact('ram', 'rom', 'screen', 'intended_use', 'chip');
+    }
+
+    /**
+     * sản phẩm plash sale
+     **/
+    public function flashSale($item)
+    {
+        $flash_sale = FlashSaleModel::where('product_id', $item->product_id)->first();
+        if ($flash_sale) {
+            $item->promotional_price = $flash_sale->price_sale;
+            $item->time_end = $flash_sale->time_end;
+            $item->type_sale = 1;
+        } else {
+            $item->promotional_price = ProductAttributesModel::where('product_id', $item->id)->first()->promotional_price;
+            $item->type_sale = 0;
+        }
+        return true;
+    }
+
+    /**
+     * số sao đánh giá theo sản phẩm
+     **/
+    public function starReview($product)
+    {
+        $star = ProductReviewsModel::where('product_id', $product->id)->get();
+        if (!$star->isEmpty()) {
+            $total_score =  ProductReviewsModel::where('product_id', $product->id)->sum('star');
+            $total_votes = count($star);
+            $product->star = round($total_score/$total_votes, 1);
+        }
+        return $star;
     }
 }

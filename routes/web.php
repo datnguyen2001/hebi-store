@@ -22,6 +22,8 @@ Route::get('danh-muc/{status}/{name}',[ProductController::class, 'productCate'])
 Route::get('danh-muc/{status}/{name}/{slug}',[ProductController::class, 'productCateDetail']);
 Route::get('san-pham/{slug}',[ProductController::class, 'detailProduct'])->name('detailProduct');
 Route::post('bo-loc-dien-thoai', [ProductController::class,'filterPhone'])->name('filter');
+Route::post('danh-gia', [ProductController::class,'storeReview'])->name('review');
+Route::get('tim-kiem', [ProductController::class,'search'])->name('search');
 //Giới thiệu footer
 Route::get('gioi-thieu/{slug}', [NewsController::class, 'introduce'])->name('introduce');
 //Tin tức

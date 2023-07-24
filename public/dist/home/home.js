@@ -1,7 +1,7 @@
 function ProductSale() {
     $('.product_sale').slick({
-        infinite: true,
-        autoplay: true,
+        infinite: false,
+        autoplay: false,
         dots: false,
         speed: 1000,
         slidesToShow: 5,

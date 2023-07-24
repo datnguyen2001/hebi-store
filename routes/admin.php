@@ -9,6 +9,7 @@ use \App\Http\Controllers\Admin\BlogController;
 use \App\Http\Controllers\Admin\IntroduceController;
 use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\FlashSaleController;
+use \App\Http\Controllers\Admin\ProductReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,13 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::post('update/{id}', [FlashSaleController::class, 'update']);
         Route::get('item_product', [FlashSaleController::class, 'itemProduct']);
         Route::get('item_product/delete', [FlashSaleController::class, 'itemDeleteProduct']);
+    });
+
+    Route::prefix('product-review')->name('product-review.')->group(function () {
+        Route::get('/', [ProductReviewController::class, 'index'])->name('index');
+        Route::get('show/{id}', [ProductReviewController::class, 'show'])->name('show');
+        Route::get('browser/{id}', [ProductReviewController::class, 'browser'])->name('show');
+        Route::get('cancel/{id}', [ProductReviewController::class, 'cancel'])->name('show');
     });
 
     Route::prefix('banner')->name('banner.')->group(function () {
