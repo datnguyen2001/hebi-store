@@ -15,8 +15,6 @@ use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
-use function GuzzleHttp\Promise\all;
 
 class ProductController extends Controller
 {

@@ -1,3 +1,5 @@
+setUserNameCookie();
+getCart();
 function ProductSale() {
     $('.product_sale').slick({
         infinite: false,
@@ -134,4 +136,160 @@ $('#procat').on('click', function () {
     $(".danhmuc ").toggleClass("active");
 });
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
+function getCart() {
+    let data = {};
+    data['token'] = localStorage.getItem('user_token');
+    $.ajax({
+        url: window.location.origin + '/api/cart/get_cart',
+        data: data,
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+            if (data.status) {
+                let count_cart = data.data.length;
+                $(".number_cart").text(count_cart);
+                let html = '';
+                let total_money = 0;
+                if (count_cart > 0){
+                    for (let i=0;i<count_cart;i++){
+                        html += `
+                            <div class="d-flex line_cart_small">
+                                <div class="d-flex flex-column align-items-center">
+                                    <img src="${data.data[i].product_infor.image}" alt=""
+                                         class="img-cart-small">
+                                    <div style="cursor: pointer" onclick="deleteProduct(${data.data[i].id})">
+                                        <i class="fa-solid fa-circle-xmark mt-2" style="color: red;font-size: 15px;"></i>
+                                        <span style="color: red">Xóa</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="title_sp_cart_small">${data.data[i].product.name}</p>
+                                    <p class="type_cart_sp_small">Màu: ${data.data[i].product_attribute.name_color}</p>
+                                    <p class="price_sp_cart_small price_sp_${i}">${formatPrice(data.data[i].total_money)}₫</p>
+                                    <input type="hidden" class="cart_id_${i}" name="cart_id" value="${data.data[i].id}">
+                                    <span class="number-input">
+                                    <button type="button"
+                                            onclick="change_quantity(${i},2)"
+                                            class="down down_quantity"><i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="number"
+                                           name="quantity_${i}"
+                                           id="quantity_${i}"
+                                           class="numbersOnly"
+                                           maxlength="5"
+                                           disabled
+                                           value="${data.data[i].quantity}"/>
+                                    <button type="button"
+                                            onclick="change_quantity(${i},1)"
+                                            class="plus"><i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </span>
+                             </div>
+                        </div>
+                    `;
+                        total_money += data.data[i].total_money;
+                    }
+                    $('.list_carts').append(html);
+                    $('.total_end_small').text(formatPrice(total_money)+'đ')
+                }else {
+                    html = `<p class="text_empty"><i class="fa-solid fa-face-frown face_frown"></i> </br>Không có sản phẩm nào trong giỏ hàng </br>Vui lòng thêm sản phẩm.</p>`;
+                    $('.offcanvas-body').html(html);
+                }
+            }
+        }
+    });
+};
+
+function change_quantity(index,type) {
+    let data = {};
+    data['type'] = type;
+    data['cart_id'] = $('.cart_id_'+index).val();
+    data['token'] = localStorage.getItem('user_token');
+    $.ajax({
+        url: window.location.origin + '/api/cart/change-quantity',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            if (data.status) {
+                $('#quantity_'+index).val(data.quantity);
+                $('.price_sp_'+index).text(formatPrice(data.total_money)+'đ');
+                $('.total_end_small').text(formatPrice(data.sum_price)+'đ')
+            } else {
+                $("#modalCheckout").modal("show");
+                $("#offcanvasRight").offcanvas("hide");
+            }
+        }
+    });
+}
+
+function deleteProduct(id) {
+    let data = {};
+    data['cart_id'] = id;
+    data['token'] = localStorage.getItem('user_token');
+    $.ajax({
+        url: window.location.origin + '/api/cart/delete',
+        data: data,
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            if (data.status) {
+                $('.list_carts').html('');
+                getCart();
+            } else {
+
+            }
+        }
+    });
+}
+
+function formatPrice(number) {
+    return new Intl.NumberFormat("en-US", { minimumFractionDigits: 0 }).format(number);
+}
+
+function generateRandomName() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomName = '';
+    for (let i = 0; i < 50; i++) {
+        randomName += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return randomName;
+}
+
+function setUserNameCookie() {
+    let userName = getCookie("user_token");
+    if (!userName) {
+        userName = generateRandomName();
+        setCookie("user_token", userName, 365);
+    }
+    localStorage.setItem('user_token',userName);
+}
+
+function getCookie(cookieName) {
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i];
+        while (cookie.charAt(0) === ' ') {
+            cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(name) === 0) {
+            return cookie.substring(name.length, cookie.length);
+        }
+    }
+    return "";
+}
+
+function setCookie(cookieName, cookieValue, expirationDays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+}

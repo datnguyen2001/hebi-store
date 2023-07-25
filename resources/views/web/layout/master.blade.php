@@ -30,12 +30,8 @@
     <link rel="stylesheet" href="dist/partials/style.css">
     <link rel="stylesheet" href="{{asset('assets/web/slick/slick.css')}}">
     <link rel="stylesheet" href="{{asset('dist/style.css')}}">
-
-
     @yield('plugins_css')
-
     @yield('style_page')
-
 </head>
 <body>
 {{--Header--}}
@@ -44,6 +40,23 @@
 <main class="main">
     @yield('content')
 </main>
+<!-- Modal -->
+<div class="modal fade" id="modalCheckout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px!important;">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background: #0a58ca">
+                <p class="modal-title mb-0 title_error" id="exampleModalLongTitle">THÔNG BÁO</p>
+                <i class="fa-solid fa-xmark p-2" style="font-size: 22px;cursor: pointer;color: white" data-bs-dismiss="modal" aria-label="Close"></i>
+            </div>
+            <div class="modal-body">
+                <p>Quý khách có nhu cầu mua số lượng nhiều vui lòng liên hệ phòng bán hàng doanh nghiệp B2B:</p>
+                <p>Ms.Linh: <a href="tel:0788888162" style="color: #0a58ca">0788.888.162</a></p>
+                <p>Email: <a href="mailto:ecom@cellphones.com.vn" style="color: #0a58ca">ecom@cellphones.com.vn</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 {{--Footer--}}
 <button class="btn" id="button"><i class="fas fa-arrow-up text-white"></i></button>
 @include('web.partials.footer')

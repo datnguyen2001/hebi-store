@@ -125,7 +125,7 @@
                                           data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                         <div class="hotline-head">
                                             <p class="title-hotline">Giỏ hàng</p>
-                                            <b>Sản phẩm <span>0</span></b>
+                                            <b>Sản phẩm <span class="number_cart">0</span></b>
                                         </div>
                                     </span>
                                 </div>
@@ -314,7 +314,6 @@
                                                 góp width='20px' height='20px'>Tra cứu đơn hàng</span><i
                                             class='fa fa-angle-right'></i></a>
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -329,47 +328,18 @@
 </div>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header" style="background-color: #0a58ca">
+    <div class="offcanvas-header" style="background-color: #0a58ca;padding: 18px 0">
         <h5 class="offcanvas-title text-center w-100 text-white" id="offcanvasRightLabel" style="padding-left: 20px">Giỏi hàng</h5>
         <button type="button" class="btn-close-cart" data-bs-dismiss="offcanvas" aria-label="Close"><i
                 class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="offcanvas-body">
-        <div class="d-flex justify-content-between line_cart_small">
-            <div class="d-flex flex-column align-items-center">
-                <img src="https://onewaymobile.vn/images/products/2022/09/08/resized/14-1-2_1662618313.png" alt=""
-                     class="img-cart-small">
-                <div style="cursor: pointer">
-                    <i class="fa-solid fa-circle-xmark mt-2" style="color: red;font-size: 15px;"></i>
-                    <span style="color: red">Xóa</span>
-                </div>
-            </div>
-            <div>
-                <p class="title_sp_cart_small">Điện thoại Apple iPhone 14 Plus 256GB VN/A</p>
-                <p class="type_cart_sp_small">Màu: Đỏ</p>
-                <p class="price_sp_cart_small">23.290.000₫</p>
-                <span class="number-input">
-                    <button type="button"
-                            onclick="down_quantity(2114)"
-                            class="down"><i class="fa-solid fa-minus"></i>
-                    </button>
-                    <input type="number"
-                           name="quantity_2114"
-                           id="quantity_2114"
-                           class="numbersOnly"
-                           maxlength="5"
-                           onblur="change_quantity(2114)"
-                           value="1"/>
-                    <button type="button"
-                            onclick="up_quantity(2114)"
-                            class="plus"><i class="fa-solid fa-plus"></i>
-                    </button>
-                </span>
-            </div>
+        <div class="list_carts">
+
         </div>
         <div class="d-flex justify-content-between align-items-center">
             <span class="title_end_small">Tổng tiền</span>
-            <span class="total_end_small">23.290.000₫</span>
+            <span class="total_end_small">0₫</span>
         </div>
         <button class="payment-btn-small">Thanh toán</button>
     </div>

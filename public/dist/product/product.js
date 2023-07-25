@@ -184,4 +184,60 @@ $(document).ready(function () {
         localStorage.setItem('success','false');
     }
 
+    $(".btn-add-cart").click(function () {
+        let data = {};
+        data['product_attributes_id'] = $('.products_type_click.active').attr('data_product_id');
+        data['token'] = localStorage.getItem('user_token');
+        $.ajax({
+            url: window.location.origin + '/api/cart/add-product',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    $(".number_cart").text(data.count_cart);
+                    const cartSuccess = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    cartSuccess.fire({
+                        icon: 'success',
+                        title: data.msg
+                    });
+                    $('.list_carts').html('');
+                    getCart();
+                } else {
+                    $("#modalCheckout").modal("show");
+                }
+            }
+        });
+    });
+
+    $(".btn-buy").click(function () {
+        let data = {};
+        data['product_attributes_id'] = $('.products_type_click.active').attr('data_product_id');
+        data['token'] = localStorage.getItem('user_token');
+        $.ajax({
+            url: window.location.origin + '/api/cart/add-product',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    $(".number_cart").text(data.count_cart);
+                    location.replace('/thanh-toan')
+                } else {
+                    $("#modalCheckout").modal("show");
+                }
+            }
+        });
+    });
+
 });

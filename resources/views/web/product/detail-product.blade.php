@@ -122,6 +122,7 @@
                                     @foreach($product_attribute as $index => $item)
                                         <div data_price="{{number_format($item->price)}}"
                                              data_promotional_price="{{number_format($item->price_sale)}}"
+                                             data_product_id="{{$item->id}}"
                                              class="item_price products_type_item products_type_click  @if($index == 0) active @endif  ">
                                             <p class="w-100" style="margin-left: 0px!important;">
                                                 <span class="text-center w-100"

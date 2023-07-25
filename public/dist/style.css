@@ -209,7 +209,28 @@
     height: 68px;
     background: url(../assets/images/next.png) center no-repeat;
 }
-
+.title_error{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+.text_empty{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: red;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    line-height: normal;
+}
+.face_frown{
+    font-size: 50px;
+    color: #1C2D4B;
+    margin-bottom: 16px;
+}
 @media (max-width: 1400px) {
     .col-row-left {
         width: 57%;
