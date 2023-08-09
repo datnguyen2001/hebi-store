@@ -8,6 +8,7 @@ use App\Models\ImageVariantModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductRelatedModel;
+use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -327,6 +328,50 @@ class ProductController extends Controller
         } catch (\Exception $exception) {
             dd($exception);
         }
+    }
+
+    /**
+     * Danh sách đánh giá sản phẩm
+     */
+    public function reviewProduct($type)
+    {
+        try {
+            $titlePage = 'Danh sách đánh giá sản phẩm';
+            $page_menu = 'review';
+            $page_sub = '';
+            $listData = ProductReviewsModel::query();
+            $listData = $listData->where('type', $type);
+            $listData = $listData->orderBy('status', 'asc')->paginate(15);
+            foreach ($listData as $item){
+                $item->name_product = ProductsModel::find($item->product_id)->name;
+            }
+
+            return view('admin.products.review', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'type'));
+        } catch (\Exception $exception) {
+            dd($exception);
+        }
+    }
+
+    /**
+     * Duyệt đánh giá sản phẩm
+     */
+    public function browserReview($id)
+    {
+        $review = ProductReviewsModel::find($id);
+        $review->status = 1;
+        $review->save();
+
+        return back()->with(['success' => 'Duyệt review sản phẩm thành công']);
+    }
+
+    /**
+     * Xóa đánh giá sản phẩm
+     */
+    public function deleteReview($id)
+    {
+       ProductReviewsModel::where('id',$id)->delete();
+
+        return back()->with(['success' => 'Xóa review sản phẩm thành công']);
     }
 
 }

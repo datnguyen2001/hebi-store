@@ -6,165 +6,81 @@
     <meta name="keywords" content="Hebi Mobile">
 @stop
 @section('style_page')
-    <link rel="stylesheet" href="dist/cart/cart.css">
+    <link rel="stylesheet" href="dist/pay/pay.css">
 @stop
 {{--content of page--}}
 @section('content')
     <div class="container">
         <div class="container-cart">
             <div class="nav-cart">
-                <a href="https://onewaymobile.vn/" class="buy-more">
+                <a href="{{url('/')}}" class="buy-more">
                     <i class="fa fa-angle-left"></i>
-                    Mua thêm sản phẩm khác                </a>
-                <a href="javascript:void(0)">Giỏ hàng của bạn</a>
+                    Mua thêm sản phẩm khác </a>
+                {{--                <a href="javascript:void(0)">Giỏ hàng của bạn</a>--}}
             </div>
             <div class="content-cart">
                 <div class="list-products">
-                    <div class="product-cart1">
-                        <div class="product-cart">
-                            <div class="product-image text-center p-0">
-                                <a href="https://onewaymobile.vn/dien-thoai-apple-iphone-14-128gb-new100-vna/-dp.html" title="Điện thoại Apple iPhone 14 128GB VN/A">
-                                    <img src="https://onewaymobile.vn/images/products/2022/09/08/resized/14-1-5_1662617918.png" alt="dien-thoai-apple-iphone-14-128gb-new100-vna"
-                                         class="img-responsive"
-                                         onerror="javascript:this.src='https://onewaymobile.vn/images/not_picture.png'"/>
-                                </a>
-                                <a class="del-pro-link" data-id="2114"
-                                   title="Xóa">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-                                         viewBox="0 0 15 15">
-                                        <path d="M12.8,2.2A7.5,7.5,0,0,0,2.2,12.8,7.5,7.5,0,0,0,12.8,2.2Zm-.621,9.985A6.621,6.621,0,0,1,2.818,2.818a6.621,6.621,0,1,1,9.364,9.364Z"
-                                              transform="translate(0)"/>
-                                        <path d="M145.494,144.873l-2.685-2.685,2.685-2.685a.439.439,0,0,0-.622-.621l-2.685,2.685-2.685-2.685a.439.439,0,0,0-.621.621l2.685,2.685-2.685,2.685a.439.439,0,1,0,.621.621l2.685-2.685,2.685,2.685a.439.439,0,1,0,.621-.621Z"
-                                              transform="translate(-134.668 -134.668)"/>
-                                    </svg>
-                                    Xóa                                    </a>
-                            </div>
-                            <div class="product-detail">
-                                <div class="top_detail">
-                                    <a class="product-name-cart" href="https://onewaymobile.vn/dien-thoai-apple-iphone-14-128gb-new100-vna/-dp.html"
-                                       title="Điện thoại Apple iPhone 14 128GB VN/A">
-                                        Điện thoại Apple iPhone 14 128GB VN/A                                        </a>
-                                    <div class="fee visibleCart-xs">
-                                        <p class="price-item">
-                                            18.190.000đ                                            </p>
-                                        <del class="old-price">19.390.000đ</del>
-                                    </div>
-                                </div>
-                                <div class="price_detail">
-                                    <div class="box_color">
-                                        <span class="select_color"
-                                              data-id="1">Màu: Đỏ                                            <i class="fa fa-caret-down"></i></span>
-                                        <ul class="list_sub_item list_sub_item_1">
-                                            <li class=" " onclick="change_color(2114,2113)">
-                                                <img src="https://onewaymobile.vn/images/products/2022/09/08/resized/14-1-3_1662617918.png" alt="Trắng" class="img-responsive">
-                                                <span>Trắng</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="quan visibleCart-xs">
-                                            <span class="number-input">
-                                                <button type="button"
-                                                        onclick="down_quantity(2114)"
-                                                        class="down">
-                                                </button>
-                                                <input type="number"
-                                                       name="quantity_2114"
-                                                       id="quantity_2114"
-                                                       class="numbersOnly1"
-                                                       maxlength="5"
-                                                       onblur="change_quantity(2114)"
-                                                       value="1"/>
-                                                <button type="button"
-                                                        onclick="up_quantity(2114)"
-                                                        class="plus">
-                                                </button>
-                                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-price-cart hiddenCart-xs">
-                                <div class="fee">
-                                    <p class="price-item">
-                                        18.190.000đ                                        </p>
-                                    <del class="old-price">19.390.000đ</del>
-                                </div>
-                                <div class="quan">
-                                        <span class="number-input">
-                                            <button type="button"
-                                                    onclick="down_quantity(2114)"
-                                                    class="down"></button>
-                                            <input type="number"
-                                                   name="quantity_2114"
-                                                   id="quantity_2114"
-                                                   class="numbersOnly1"
-                                                   maxlength="5"
-                                                   onblur="change_quantity(2114)"
-                                                   value="1"/>
-                                            <button type="button"
-                                                    onclick="up_quantity(2114)"
-                                                    class="plus"></button>
-                                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="payment">
-                    <form action="" method="post" class="formPayment" id="formPayment">
-                        <h3 class="h3_title">Thông tin mua hàng</h3>
+                    <form action="{{route('create-order')}}" method="post" class="formPayment" id="formPayment">
+                        @csrf
+                        <input type="hidden" name="user_token" class="user_token" >
+                        <h3 class="h3_title mt-0">Thông tin mua hàng</h3>
                         <div class="mb-2">
                             <label for="gender1">
-                                <input type="radio" name="gender" id="gender1" value="1" checked>
+                                <input type="radio" name="vocative" id="gender1" value="Anh" checked>
                                 <span>Anh</span>
                             </label>
                             <label for="gender0">
-                                <input type="radio" name="gender" id="gender0" value="0">
+                                <input type="radio" name="vocative" id="gender0" value="Chị">
                                 <span>Chị</span>
                             </label>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-xs-12">
-                                <input class="form-control" type="text" name="name" id="name" placeholder="Họ tên">
+                                <input class="form-control" type="text" name="name" id="name" placeholder="Họ tên" required>
                             </div>
                             <div class="col-md-6 col-xs-12">
-                                <input class="form-control" type="text" name="telephone" id="telephone" placeholder="Số điện thoại">
+                                <input class="form-control" type="text" name="phone" id="phone"
+                                       placeholder="Số điện thoại" required>
                             </div>
                             <div class="col-md-12 col-xs-12">
-                                <input class="form-control" type="text" name="email" id="email"  placeholder="Email (Vui lòng điền email để nhận hóa đơn VAT)">
+                                <input class="form-control" type="text" name="email" id="email"
+                                       placeholder="Email (Vui lòng điền email để nhận hóa đơn VAT)">
                             </div>
                         </div>
                         <h3 class="h3_title">Chọn cách thức nhận hàng</h3>
-                        <input class="input-header" type="radio" name="type" value="1" id="one" checked="checked"/>
+                        <input class="input-header" type="radio" name="delivery_address" value="Giao tận nơi" id="one" checked="checked"/>
                         <label for="one">Giao tận nơi</label>
 
-                        <input class="input-header" type="radio" value="2" name="type" id="two"/>
+                        <input class="input-header" type="radio" value="Nhận tại cửa hàng" name="delivery_address" id="two"/>
                         <label for="two">Nhận tại cửa hàng</label>
                         <article class="content one tabReceive">
                             <div class="" id="tab0">
                                 <p class="tab-title">
-                                    Chọn địa chỉ để biết thời gian và phí vận chuyển (nếu có)                                </p>
+                                    Chọn địa chỉ để biết thời gian và phí vận chuyển (nếu có) </p>
                                 <div class="row row_1">
                                     <div class="col-md-6 col-xs-6 pd1">
-                                        <select class="form-select" name="city" id="city">
+                                        <select class="form-select" name="province_id" id="city">
                                             <option value="" selected hidden
-                                                    disabled>Tỉnh/ Thành phố</option>
-                                            <option value="89">
-                                                An Giang</option>
+                                                    disabled>Tỉnh/ Thành phố
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xs-6 pd1">
-                                        <select class="form-select" name="district" id="district">
+                                        <select class="form-select" name="district_id" id="district" onchange="changeAddress()">
                                             <option value="" selected hidden disabled>Quận/ Huyện</option>
                                         </select>
                                     </div>
                                     <div class="clearfix"></div>
                                     <div class="col-md-6 col-xs-12 pd1">
-                                        <select class="form-select" name="ward" id="ward">
+                                        <select class="form-select" name="ward_id" id="ward" onchange="changeAddress()">
                                             <option value="" selected hidden disabled>Phường/ Xã</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xs-12 pd1">
-                                        <input class="form-control" type="text" name="address" id="address" placeholder="Số nhà, tên đường">
+                                        <input class="form-control" type="text" name="address_detail" id="address" onkeyup="changeAddress()"
+                                               placeholder="Số nhà, tên đường">
                                     </div>
                                 </div>
                             </div>
@@ -173,45 +89,63 @@
                             <div class="" id="tab1">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
-                                        <select class="form-select" name="store" id="store">
-                                            <option value="" selected hidden disabled>Vui lòng chọn cửa hàng</option>
-                                            <option value="19"  title="">
-                                                416 Cầu Giấy - P.Dịch Vọng - Q.Cầu Giấy - TP.Hà Nội</option>
-                                        </select>
+                                        <input class="form-control bg-white" type="text" name="store" id="store"
+                                               value="Hà Nội" disabled="disabled">
                                     </div>
                                 </div>
                             </div>
                         </article>
 
                         <div class="request_orther" style="padding-top: 30px">
-                            <input class="form-control" type="text" name="note" id="note" placeholder="Yêu cầu khác (không bắt buộc)">
+                            <input class="form-control" type="text" name="note" id="note"
+                                   placeholder="Yêu cầu khác (không bắt buộc)">
                         </div>
 
-                        <label for="company" class="company" data-bs-toggle="collapse" data-bs-target="#collapseExampleCTY" aria-expanded="false" aria-controls="collapseExample">
-                            <input type="checkbox" name="company" id="company" value="1">
+                        <label for="company" class="company" data-bs-toggle="collapse"
+                               data-bs-target="#collapseExampleCTY" aria-expanded="false"
+                               aria-controls="collapseExample">
+                            <input type="checkbox" name="issue_invoice" id="company" value="1">
                             <span>Xuất hóa đơn công ty</span>
                         </label>
                         <div class="collapse" id="collapseExampleCTY">
                             <div class="row bill_company">
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_name" id="com_name" placeholder="Tên công ty">
+                                    <input class="form-control" type="text" name="com_name" id="com_name"
+                                           placeholder="Tên công ty">
                                 </div>
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_add" id="com_add" placeholder="Địa chỉ">
+                                    <input class="form-control" type="text" name="com_add" id="com_add"
+                                           placeholder="Địa chỉ">
                                 </div>
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_tax" id="com_tax" placeholder="Mã số thuế">
+                                    <input class="form-control" type="text" name="com_tax" id="com_tax"
+                                           placeholder="Mã số thuế">
                                 </div>
                             </div>
                         </div>
-
-                        <p class="total_end">Tổng tiền:
-                            <span id="total_money">18.190.000đ</span>
+                        <div class="pt-3 d-flex flex-column">
+                            <label for="payment0" style="padding-bottom: 6px">
+                                <input type="radio" name="type_payment" id="payment0" value="1" checked>
+                                <span>Thanh toán khi nhận hàng</span>
+                            </label>
+                            <label for="payment1">
+                                <input type="radio" name="type_payment" id="payment1" value="2">
+                                <span>Thanh toán bằng VNPAY</span>
+                            </label>
+                        </div>
+                        <p class="total_end pb-0">Phí vận chuyển:
+                            <span id="total_money" class="total_free_ship" style="color: black!important;">0đ</span>
+                        </p>
+                        <input type="hidden" class="total_product" >
+                        <input type="hidden" class="fee_ship" name="fee_ship" value="0">
+                        <p class="total_end pb-0 pt-2">Tổng tiền sản phẩm:
+                            <span id="total_money" class="total_money_product" style="color: black!important;">0đ</span>
+                        </p>
+                        <p class="total_end pt-2">Tổng thanh toán:
+                            <span id="total_money" class="total_money_all">0đ</span>
                         </p>
                         <div class="btn-area">
-                            <a href="javascript:void(0)" id="cod-btn" class="payment-btn"
-                               title="Đặt hàng">
-                                Đặt hàng                            </a>
+                            <button type="submit" id="cod-btn" class="payment-btn">Đặt hàng</button>
                         </div>
                     </form>
                 </div>
@@ -219,9 +153,35 @@
         </div>
     </div>
 @stop
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-        integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3G5DUAOaV9CFr3Pft_X-949-64zXaBg&libraries=geometry"></script>
 @section('script_page')
+    <script src="{{asset('dist/pay/pay.js')}}"></script>
+    <script>
+        function calculateDistance(address1, address2) {
+            var service = new google.maps.DistanceMatrixService();
+            var distanceInMeters = 0;
 
+            service.getDistanceMatrix(
+                {
+                    origins: [address1],
+                    destinations: [address2],
+                    travelMode: 'DRIVING',
+                },
+                function (response, status) {
+                    if (status === 'OK') {
+                        distanceInMeters = response.rows[0].elements[0].distance.value;
+                        var distanceInKm = distanceInMeters / 1000;
+                        console.log(
+                            "Khoảng cách giữa " + address1 + " và " + address2 + " là: " + distanceInKm.toFixed(2) + " km."
+                        );
+                    } else {
+                        console.log("Không thể tính toán khoảng cách.");
+                    }
+                }
+            );
+        }
+
+        calculateDistance("Nhà số 1, Ngõ 37, Xã tả thanh oai, Thanh trì, Hà Nội", "An Phát Computer 151 Lê Thanh Nghị, 151 P. Lê Thanh Nghị, Đồng Tâm, Hai Bà Trưng,Hà Nội");
+    </script>
 @stop

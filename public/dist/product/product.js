@@ -80,6 +80,8 @@ $(document).ready(function () {
             }
         });
         let formData = {};
+        formData['product_id'] = $('#product_id').val();
+        formData['type'] = $('#type').val();
         let star = $('input[name="rating"]:checked').val();
         if (star) {
             formData['star'] = star;
@@ -235,6 +237,57 @@ $(document).ready(function () {
                     location.replace('/thanh-toan')
                 } else {
                     $("#modalCheckout").modal("show");
+                }
+            }
+        });
+    });
+
+    let page = 2;
+    $('#loadMore').click(function () {
+        let data = {};
+        data['product_id'] = $('#product_id').val();
+        data['page'] = page;
+        $.ajax({
+            url: window.location.origin + '/api/get_review_product',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                if (data.length > 0) {
+                    let html = '';
+                    data.forEach(function (post) {
+                        let createdAtDate = new Date(post.created_at);
+                        let day = createdAtDate.getDate();
+                        let month = createdAtDate.getMonth() + 1;
+                        let year = createdAtDate.getFullYear();
+                        let formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+                        html += `
+                                <div class="mb-4 post">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                         style="font-weight: 600">
+                                        <p>${post.name}</p>
+                                        <p>${formattedDate}</p>
+                                    </div>
+                                    <div class="boxReview-comment-item-review p-2 py-2">
+                                        <div class="d-flex align-items-center">
+                                            <span>Đánh giá: </span>
+                                            <span class="px-2">
+                                        <div class="star-rating" style="--rating:${post.star}"></div>
+                                    </span>
+                                        </div>
+                                        <div>
+                                            <span>Nhận xét: </span>
+                                            <span>${post.content}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                        `;
+                    });
+                    $('#postContainer').append(html);
+                    page++;
+                    if (data.length < 5){
+                        $('#loadMore').css('display','none');
+                    }
                 }
             }
         });

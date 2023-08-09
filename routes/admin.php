@@ -10,6 +10,7 @@ use \App\Http\Controllers\Admin\IntroduceController;
 use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\FlashSaleController;
 use \App\Http\Controllers\Admin\ProductReviewController;
+use \App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,13 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('check-admin-auth')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('index');
+
+    Route::prefix('order')->name('order.')->group(function (){
+        Route::get('index/{status}', [OrderController::class,'getDataOrder'])->name('index');
+        Route::get('detail/{id}', [OrderController::class,'orderDetail'])->name('detail');
+        Route::get('status/{order_id}/{status_id}', [OrderController::class,'statusOrder'])->name('status');
+    });
+
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('', [CategoryController::class, 'index'])->name('index');
         Route::get('create', [CategoryController::class, 'create'])->name('create');
@@ -50,6 +58,9 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('item_similar', [ProductController::class, 'itemSimilar']);
         Route::get('item_similar/delete', [ProductController::class, 'itemDeleteSimilar']);
         Route::get('item_similar/delete_related', [ProductController::class, 'itemDeleteRelated']);
+        Route::get('review/{status}', [ProductController::class, 'reviewProduct'])->name('reviews');
+        Route::get('browser-review/{id}', [ProductController::class, 'browserReview']);
+        Route::get('delete-review/{id}', [ProductController::class, 'deleteReview']);
     });
 
     Route::prefix('product-flash-sale')->name('flash-sale.')->group(function () {

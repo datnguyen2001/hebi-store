@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryModel;
+use App\Models\DistrictGhnModel;
 use App\Models\FlashSaleModel;
 use App\Models\ImageVariantModel;
 use App\Models\ProductAttribute;
@@ -12,6 +13,7 @@ use App\Models\ProductRelatedModel;
 use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
 use App\Models\ProductValue;
+use App\Models\WardGhnModel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -259,12 +261,50 @@ class Controller extends BaseController
      **/
     public function starReview($product)
     {
-        $star = ProductReviewsModel::where('product_id', $product->id)->get();
+        $star = ProductReviewsModel::where('product_id', $product->id)->where('status',1)->orderBy('created_at','desc')->get();
         if (!$star->isEmpty()) {
-            $total_score =  ProductReviewsModel::where('product_id', $product->id)->sum('star');
+            $total_score =  ProductReviewsModel::where('product_id', $product->id)->where('status',1)->sum('star');
             $total_votes = count($star);
             $product->star = round($total_score/$total_votes, 1);
         }
         return $star;
+    }
+
+    /**
+     * Lấy danh sách quận huyện theo tỉnh
+     */
+    public function getDistrict($province_id){
+        try {
+            $districts = DistrictGhnModel::where('ProvinceId', $province_id)->get();
+
+            $html = 'Tất cả';
+            foreach ($districts as $value){
+                $html .= '<option value="'.$value->DistrictID.'">'.$value->DistrictName.'</option>';
+            }
+            $data['html'] = $html;
+            $data['status'] = true;
+            return $data;
+        }catch (\Exception $exception){
+            dd($exception);
+        }
+    }
+
+    /**
+     * Lấy danh sách Phường/Xã theo quận huyện
+     */
+    public function getWard($district_id){
+        try {
+            $districts = WardGhnModel::where('DistrictID', $district_id)->get();
+
+            $html = 'Tất cả';
+            foreach ($districts as $value){
+                $html .= '<option value="'.$value->WardCode.'">'.$value->WardName.'</option>';
+            }
+            $data['html'] = $html;
+            $data['status'] = true;
+            return $data;
+        }catch (\Exception $exception){
+            dd($exception);
+        }
     }
 }

@@ -19,7 +19,7 @@
                                 <div id="search_form_mobile">
                                     <input type="text" value="{{request()->get('keyword')}}" placeholder="Tìm kiếm sản phẩm" name="keyword"
                                            class="navigation__search__input" id="navigation__search__input"/>
-                                    <button type="submit" class="searchbt" id='searchbt' class='searchbt'><i
+                                    <button type="submit" class="searchbt" id='searchbt' ><i
                                             class="fas fa-search"></i></button>
                                 </div>
                             </form>
@@ -27,16 +27,16 @@
                     </div>
                     <div class="d-flex">
                         <a class="icon-phone-xb mobile-phone" href="tel::0978129116">
-                            <img src="https://onewaymobile.vn/images/phone-call.svg" alt=""
+                            <img src="{{asset('assets/images/phone-call.svg')}}" alt=""
                                  class="img-responsive img-icon"
                                  width="24px" height="24px">
                         </a>
-                        <a class="icon-phone-xb"
-                           href="https://onewaymobile.vn/index.php?module=products&view=cart&task=cart">
-                            <img src="https://onewaymobile.vn/images/shopping-bag.svg" alt=""
+                        <span class="icon-phone-xb" data-bs-toggle="offcanvas"
+                              data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                            <img src="{{asset('assets/images/shopping-bag.svg')}}" alt=""
                                  class="img-responsive img-icon"
                                  width="24px" height="24px">
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                             <div class="position-relative">
                                 <div class="d-flex align-items-center justify-content-end">
                                         <span class="icon-phone-xb">
-                                            <img src="https://onewaymobile.vn/images/phone-call.svg" alt=""
+                                            <img src="{{asset('assets/images/phone-call.svg')}}" alt=""
                                                  class="img-responsive" width="24px" height="24px">
                                         </span>
                                     <a href="tel::0978129116" class="link-to-hotline">
@@ -115,14 +115,14 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="position-relative">
+                            <div class="position-relative" data-bs-toggle="offcanvas"
+                                 data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                 <div class="d-flex align-items-center justify-content-end">
                                         <span class="icon-phone-xb">
-                                            <img src="https://onewaymobile.vn/images/shopping-bag.svg" alt=""
+                                            <img src="{{asset('assets/images/shopping-bag.svg')}}" alt=""
                                                  class="img-responsive" width="24px" height="24px">
                                         </span>
-                                    <span class="link-to-hotline" data-bs-toggle="offcanvas"
-                                          data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <span class="link-to-hotline">
                                         <div class="hotline-head">
                                             <p class="title-hotline">Giỏ hàng</p>
                                             <b>Sản phẩm <span class="number_cart">0</span></b>
@@ -309,7 +309,6 @@
                                 <li class='level_0' style="padding-bottom: 7px"><a
                                         href='https://onewaymobile.vn/tra-gop.html'
                                         class='lv_0'> <span><img
-                                                onerror='this.src="/images/NA-icon.svg"'
                                                 src=https://onewaymobile.vn/images/menus/tragop_1663659805.svg alt=Trả
                                                 góp width='20px' height='20px'>Tra cứu đơn hàng</span><i
                                             class='fa fa-angle-right'></i></a>
@@ -328,19 +327,12 @@
 </div>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header" style="background-color: #0a58ca;padding: 18px 0">
+    <div class="offcanvas-header header_cart" >
         <h5 class="offcanvas-title text-center w-100 text-white" id="offcanvasRightLabel" style="padding-left: 20px">Giỏi hàng</h5>
         <button type="button" class="btn-close-cart" data-bs-dismiss="offcanvas" aria-label="Close"><i
                 class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="offcanvas-body">
-        <div class="list_carts">
+    <div class="offcanvas-body list_carts">
 
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <span class="title_end_small">Tổng tiền</span>
-            <span class="total_end_small">0₫</span>
-        </div>
-        <button class="payment-btn-small">Thanh toán</button>
     </div>
 </div>

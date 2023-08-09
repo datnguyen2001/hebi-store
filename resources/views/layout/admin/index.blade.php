@@ -10,8 +10,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/images/logo_page.jpg" rel="icon">
-    <link href="assets/images/logo_page.jpg" rel="apple-touch-icon">
+    <link href="{{asset('assets/images/logo.png')}}" rel="icon">
+    <link href="{{asset('assets/images/logo.png')}}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -57,6 +57,9 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.repeater@1.2.1/jquery.repeater.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=xHpc3Z3l"></script>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <!--end::Global Theme Bundle-->
 @yield('script')
 <div class="loading"></div>
@@ -150,6 +153,51 @@
             $('#img').click();
         });
     });
+</script>
+<script>
+    Pusher.logToConsole = true;
+
+    let pusher = new Pusher('ed69eed56dde9c503dde', {
+        cluster: 'ap1'
+    });
+
+    let channel = pusher.subscribe('my-channel');
+
+    channel.bind('my-event', function(data) {
+        const cartSuccess = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 7000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+        });
+        cartSuccess.fire({
+            icon: 'success',
+            title: data.message
+        });
+        playNotificationSound(data.message);
+    });
+
+    function playNotificationSound(text) {
+        var audio = new Audio('assets/notification/notification.mp3');
+        audio.play().catch(function(error) {
+            console.error('Lỗi phát âm thanh:', error);
+        });
+        audio.onended = function() {
+            responsiveVoice.speak(text, 'Vietnamese Female', {
+                onend: function () {
+                    console.log('Giọng nói đã kết thúc.');
+                },
+            });
+        };
+    }
+    function handleUserInteraction() {}
+
+    $(document).on('click keydown', handleUserInteraction);
 </script>
 </body>
 </html>

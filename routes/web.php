@@ -5,6 +5,8 @@ use \App\Http\Controllers\Web\NewsController;
 use \App\Http\Controllers\Web\HomeController;
 use \App\Http\Controllers\Web\ProductController;
 use \App\Http\Controllers\Web\CartController;
+use \App\Http\Controllers\Controller;
+use \App\Http\Controllers\Web\PayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,16 +23,15 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('danh-muc/{status}',[ProductController::class, 'category']);
 Route::get('danh-muc/{status}/{name}',[ProductController::class, 'productCate']);
 Route::get('danh-muc/{status}/{name}/{slug}',[ProductController::class, 'productCateDetail']);
-Route::get('san-pham/{slug}',[ProductController::class, 'detailProduct'])->name('detailProduct');
 Route::post('bo-loc-dien-thoai', [ProductController::class,'filterPhone'])->name('filter');
-Route::post('danh-gia', [ProductController::class,'storeReview'])->name('review');
 Route::get('tim-kiem', [ProductController::class,'search'])->name('search');
-Route::get('thanh-toan',[CartController::class,'pay'])->name('pay');
-//Giới thiệu footer
-Route::get('gioi-thieu/{slug}', [NewsController::class, 'introduce'])->name('introduce');
-//Tin tức
+Route::get('san-pham/{slug}',[ProductController::class, 'detailProduct'])->name('detailProduct');
+Route::post('danh-gia', [ProductController::class,'storeReview'])->name('review');
+Route::get('thanh-toan',[PayController::class,'pay'])->name('pay');
+Route::post('tao-don', [PayController::class, 'createOrderUser'])->name('create-order');
+Route::get('thanh-toan/thanh-cong',[PayController::class,'successOrderVnPay'])->name('pay');
 Route::get('tin-tuc/{status}', [NewsController::class, 'news']);
 Route::get('chi-tiet-tin-tuc/{slug}', [NewsController::class, 'detailNew']);
-Route::get('account',function (){
-    return view('web.account.index');
-});
+Route::get('gioi-thieu/{slug}', [NewsController::class, 'introduce'])->name('introduce');
+Route::get('get_district/{province_id}', [Controller::class,'getDistrict']);
+Route::get('get_ward/{district_id}', [Controller::class,'getWard']);

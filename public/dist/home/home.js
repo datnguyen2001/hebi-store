@@ -196,10 +196,17 @@ function getCart() {
                         total_money += data.data[i].total_money;
                     }
                     $('.list_carts').append(html);
-                    $('.total_end_small').text(formatPrice(total_money)+'đ')
+                    let htmlMoney = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="title_end_small">Tổng tiền</span>
+                        <span class="total_end_small">${formatPrice(total_money)}₫</span>
+                    </div>
+                    <a href="${window.location.origin +'/thanh-toan'}"><button type="submit" class="payment-btn-small">Thanh toán</button></a>
+                    `;
+                    $('.list_carts').append(htmlMoney);
                 }else {
                     html = `<p class="text_empty"><i class="fa-solid fa-face-frown face_frown"></i> </br>Không có sản phẩm nào trong giỏ hàng </br>Vui lòng thêm sản phẩm.</p>`;
-                    $('.offcanvas-body').html(html);
+                    $('.list_carts').html(html);
                 }
             }
         }

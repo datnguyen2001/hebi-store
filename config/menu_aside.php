@@ -8,7 +8,14 @@ return [
             'icon' => 'bi bi-grid',
             'route' => 'admin.index',
             'submenu' => [],
-            'number' => 1
+        ],
+        [
+            'name' => 'order',
+            'title' => 'Quản lý đơn hàng',
+            'icon' => 'bi bi-grid',
+            'route' => 'admin.order.index',
+            'parameters' => ['status' => '0'],
+            'submenu' => [],
         ],
         [
             'name' => 'banner',
@@ -44,18 +51,26 @@ return [
                     'route' => 'admin.products.index',
                     'name' => 'index'
                 ],
-//                [
-//                    'title' => 'Thêm mới sản phẩm',
-//                    'route' => 'admin.products.create',
-//                    'name' => 'create',
-//                ],
                 [
                     'title' => 'Danh sách flash sale',
                     'route' => 'admin.flash-sale.index',
                     'name' => 'flash_sale'
                 ],
+//                [
+//                    'title' => 'Danh sách đánh giá sản phẩm',
+//                    'route' => 'admin.products.reviews',
+//                    'parameters' => ['status' => '0'],
+//                    'name' => 'review',
+//                ],
             ],
-            'number' => 9
+        ],
+        [
+            'name' => 'review',
+            'title' => 'Danh sách đánh giá sản phẩm',
+            'icon' => 'bi bi-grid',
+            'route' => 'admin.products.reviews',
+            'parameters' => ['status' => '1'],
+            'submenu' => [],
         ],
         [
             'name' => 'blog',

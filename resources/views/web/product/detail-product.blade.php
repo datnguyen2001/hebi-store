@@ -1,6 +1,6 @@
 @extends('web.layout.master')
 @section('title','Hebi Store')
-{{--meta--}}
+
 @section('meta')
     <meta name="description" content=""/>
     <meta name="keywords" content="Hebi Mobile">
@@ -8,7 +8,7 @@
 @section('style_page')
     <link rel="stylesheet" href="dist/product/product.css">
 @stop
-{{--content of page--}}
+
 @section('content')
     <div class="headerCategory">
         <div class="container">
@@ -126,7 +126,7 @@
                                              class="item_price products_type_item products_type_click  @if($index == 0) active @endif  ">
                                             <p class="w-100" style="margin-left: 0px!important;">
                                                 <span class="text-center w-100"
-                                                      style="font-weight: 600">{{$item->name_color}}</span>
+                                                      style="font-weight: 600">{{$item->name}}</span>
                                                 <span class="text-center w-100" style="color: #DA0000;font-weight: 600">{{number_format($item->price_sale)}}đ</span>
                                             </p>
                                         </div>
@@ -247,7 +247,7 @@
                 </div>
             </div>
         @endif
-        <section class="contentdetail row">
+        <section class="contentdetail row flex-wrap-reverse">
             <div class="col-sm-8 detail_botom">
                 <div class="box-detail">
                     <div class="title_box">
@@ -330,7 +330,7 @@
                         </div>
                     </div>
                     <div class="collapse" id="collapseFeedback">
-                        <div>
+                        <div style="border-bottom: 1px solid #e5e5e5">
                             <div class="rating-container d-flex align-items-center mt-3 mb-3 w-100 flex-wrap">
                                 <p class="title_start" style="font-weight: 600">Đánh giá của bạn về sản phẩm</p>
                                 <div class="d-flex">
@@ -357,6 +357,8 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
+                                <input type="hidden" name="type" id="type" value="{{$product_infor->type_product}}">
                                 <div class="col-sm-6">
                                     <textarea name="content" id="full_rate" class="form-control" required></textarea>
                                 </div>
@@ -376,7 +378,34 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="mt-3">
+                        <div id="postContainer">
+                            @foreach($comment as $value)
+                                <div class="mb-4 post">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                         style="font-weight: 600">
+                                        <p>{{$value->name}}</p>
+                                        <p>{{date('d/m/Y', strtotime($value->created_at))}}</p>
+                                    </div>
+                                    <div class="boxReview-comment-item-review p-2 py-2">
+                                        <div class="d-flex align-items-center">
+                                            <span>Đánh giá: </span>
+                                            <span class="px-2">
+                                        <div class="star-rating" style="--rating:{{$value->star}}"></div>
+                                    </span>
+                                        </div>
+                                        <div>
+                                            <span>Nhận xét: </span>
+                                            <span>{{$value->content}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="w-100 d-flex justify-content-center">
+                            <div class="load-more" id="loadMore">Xem thêm</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-4 left_bottom" id="thongso">

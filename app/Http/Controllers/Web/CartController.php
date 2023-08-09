@@ -24,8 +24,11 @@ class CartController extends Controller
                 }
                 $flash_sale = FlashSaleModel::where('product_id',$product_attribute->product_id)->first();
                 if ($flash_sale){
-                    $product_attribute->price_flash_sale = $flash_sale->price_sale;
+                    $item->total_money = $flash_sale->price_sale * $item->quantity;
+                }else{
+                    $item->total_money = $product_attribute->promotional_price * $item->quantity;
                 }
+                $item->save();
                 $product = ProductsModel::find($product_attribute->product_id);
                 $product_infor = ProductInformationModel::find($product->product_infor_id);
                 $carts[$k]['product_attribute'] = $product_attribute;
@@ -132,6 +135,7 @@ class CartController extends Controller
             }else{
                 $total_price = $quantity * $product_attribute->promotional_price;
             }
+            $money_base = $quantity * $product_attribute->price;
             $cart->total_money = $total_price;
             $cart->quantity = $quantity;
             $cart->save();
@@ -141,7 +145,8 @@ class CartController extends Controller
                 'msg' => 'Thêm sản phẩm thành công',
                 'quantity'=> $quantity,
                 'total_money' => $total_price,
-                'sum_price'=>$sum_price
+                'sum_price'=>$sum_price,
+                'money_base'=>$money_base
             ];
             return response()->json($dataReturn, Response::HTTP_OK);
         } catch (\Exception $exception) {
@@ -164,9 +169,5 @@ class CartController extends Controller
         } catch (\Exception $exception) {
             return $exception->getMessage();
         }
-    }
-
-    public function pay(){
-        return view('web.pay.index');
     }
 }

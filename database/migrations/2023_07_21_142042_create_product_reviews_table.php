@@ -22,6 +22,7 @@ class CreateProductReviewsTable extends Migration
             $table->string('content');
             $table->integer('star');
             $table->integer('type');
+            $table->integer('status');
             $table->timestamps();
         });
     }

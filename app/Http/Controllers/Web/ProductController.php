@@ -76,7 +76,7 @@ class ProductController extends Controller
             'product', 'slug'), $this->criteria($checkCate, $product_infor)));
     }
 
-    public function detailProduct($slug)
+    public function detailProduct(Request $request,$slug)
     {
         $product = ProductsModel::where('slug', $slug)->first();
         if (empty($product)) {
@@ -87,16 +87,17 @@ class ProductController extends Controller
             $product->time_end = $sale->time_end;
         }
         $star = $this->starReview($product);
-        $star_five = ProductReviewsModel::where('product_id', $product->id)->where('star', 5)->count();
-        $star_four = ProductReviewsModel::where('product_id', $product->id)->where('star', 4)->count();
-        $star_three = ProductReviewsModel::where('product_id', $product->id)->where('star', 3)->count();
-        $star_two = ProductReviewsModel::where('product_id', $product->id)->where('star', 2)->count();
-        $star_one = ProductReviewsModel::where('product_id', $product->id)->where('star', 1)->count();
+        $star_five = ProductReviewsModel::where('product_id', $product->id)->where('star', 5)->where('status',1)->count();
+        $star_four = ProductReviewsModel::where('product_id', $product->id)->where('star', 4)->where('status',1)->count();
+        $star_three = ProductReviewsModel::where('product_id', $product->id)->where('star', 3)->where('status',1)->count();
+        $star_two = ProductReviewsModel::where('product_id', $product->id)->where('star', 2)->where('status',1)->count();
+        $star_one = ProductReviewsModel::where('product_id', $product->id)->where('star', 1)->where('status',1)->count();
         $percent_5 = round(($star_five / count($star)) * 100,0);
         $percent_4 = round(($star_four / count($star)) * 100,0);
         $percent_3 = round(($star_three / count($star)) * 100,0);
         $percent_2 = round(($star_two / count($star)) * 100,0);
         $percent_1 = round(($star_one / count($star)) * 100,0);
+        $comment = ProductReviewsModel::where('product_id', $product->id)->where('status',1)->orderBy('created_at','desc')->paginate(5);
         $image_product = ImageVariantModel::where('product_infor_id', $product->product_infor_id)->get();
         $product_infor = ProductInformationModel::where('id', $product->product_infor_id)->first();
         $status = $this->statusCategory($product_infor);
@@ -135,7 +136,7 @@ class ProductController extends Controller
         $w_title = 'Chi tiết sản phẩm';
         return view('web.product.detail-product', compact('w_title', 'product', 'product_attribute', 'product_infor',
             'image_product', 'list_product', 'name_category', 'category', 'product_related', 'new', 'status', 'star','percent_5',
-        'percent_4','percent_3','percent_2','percent_1'));
+        'percent_4','percent_3','percent_2','percent_1','comment'));
     }
 
     public function filterPhone(Request $request)
@@ -231,12 +232,14 @@ class ProductController extends Controller
     public function storeReview(Request $request)
     {
         $review = new ProductReviewsModel([
+            'product_id' => $request->get('product_id'),
             'name' => $request->get('name'),
             'phone' => $request->get('phone'),
             'email' => $request->get('email'),
             'content' => $request->get('content'),
             'star' => $request->get('star'),
-            'type' => 0
+            'type' => $request->get('type'),
+            'status' => 0
         ]);
         $review->save();
         $dataReturn = [
@@ -245,4 +248,17 @@ class ProductController extends Controller
         ];
         return response()->json($dataReturn, Response::HTTP_OK);
     }
+
+    public function getReviewProduct(Request $request)
+    {
+        $perPage = 5;
+        $offset = ($request->get("page") - 1) * $perPage;
+        $posts = ProductReviewsModel::where('product_id', $request->get("product_id"))->where('status',1)->orderBy('created_at','desc')
+            ->skip($offset)
+            ->take($perPage)
+            ->get();
+
+        return response()->json($posts);
+    }
+
 }

@@ -819,9 +819,10 @@ img-responsive {
 .btn-close-cart {
     border: none;
     outline: unset;
-    font-size: 20px;
+    font-size: 22px;
     color: white;
     background-color: transparent;
+    margin-right: 15px;
 }
 
 .img-cart-small {

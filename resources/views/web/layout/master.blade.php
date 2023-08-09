@@ -77,5 +77,19 @@
 <script src="{{asset('assets/web/slick/slick.min.js')}}"></script>
 @yield('script_page')
 <script src="{{asset('dist/home/home.js')}}"></script>
+<script>
+    @if(session('error'))
+    Swal.fire({
+        icon: "error",
+        title: "{{session('error')}}",
+    });
+    @endif
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: '{{session('success')}}',
+    })
+    @endif
+</script>
 </body>
 </html>
