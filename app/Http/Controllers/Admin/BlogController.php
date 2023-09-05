@@ -9,12 +9,18 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
-        $titlePage = 'Bài viết';
+        $titlePage = 'Danh sách bài viết';
         $page_menu = 'blog';
         $page_sub = 'index';
-        $listData = BlogPostsModel::get();
+        if (isset($request->key_search)) {
+            $listData = BlogPostsModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
+                ->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $listData = BlogPostsModel::orderBy('created_at', 'desc')->paginate(10);
+        }
+
         return view('admin.blog.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
     }
     public function create ()

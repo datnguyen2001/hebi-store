@@ -307,7 +307,7 @@
                                             <img src='{{asset('assets/images/tintuc.svg')}}'  width='20px' height='20px'>Tin tức</span><i
                                             class='fa fa-angle-right'></i></a>
                                 <li class='level_0' style="padding-bottom: 7px"><a
-                                        href='https://onewaymobile.vn/tra-gop.html'
+                                        href='{{url('tra-cuu-don-hang')}}'
                                         class='lv_0'> <span><img
                                                 src=https://onewaymobile.vn/images/menus/tragop_1663659805.svg alt=Trả
                                                 góp width='20px' height='20px'>Tra cứu đơn hàng</span><i

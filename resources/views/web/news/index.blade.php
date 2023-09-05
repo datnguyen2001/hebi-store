@@ -113,7 +113,7 @@
                         @foreach($banner_news as $value)
                             <div class="item-home block">
                                 <a href="{{url('chi-tiet-tin-tuc/'.$value->slug)}}" class="item-image">
-                                    <img src="{{$value->image}}" alt="" class="img-responsive">
+                                    <img data-src="{{$value->image}}" alt="" class="img-responsive lazy">
                                 </a>
                                 <div class="item-text">
                                     <a href="{{url('chi-tiet-tin-tuc/'.$value->slug)}}" class="name">{{$value->title}}</a>
@@ -138,7 +138,7 @@
                             @foreach($news as $item)
                                 <div class="item-news">
                                     <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}" class="item-image">
-                                        <img src="{{$item->image}}" class="img-responsive">
+                                        <img data-src="{{$item->image}}" class="img-responsive lazy">
                                     </a>
                                     <div class="item-text">
                                         <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}"
@@ -170,7 +170,7 @@
                                 <div class="item-right item-list item-sale">
                                     @foreach($news_right_more as $item)
                                         <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                            <img src="{{$item->image}}" class="img-responsive">
+                                            <img data-src="{{$item->image}}" class="img-responsive lazy">
                                             <span class="custom-content-3-line">{{$item->title}}</span>
                                         </a>
                                     @endforeach
@@ -182,7 +182,7 @@
                                 <div class="item-right item-list item-sale">
                                     @foreach($news_right_one as $item)
                                     <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                        <img src="{{$item->image}}" class="img-responsive">
+                                        <img data-src="{{$item->image}}" class="img-responsive lazy">
                                         <span class="custom-content-3-line">{{$item->title}}</span>
                                     </a>
                                    @endforeach
@@ -193,7 +193,7 @@
                                 <div class="item-right item-list">
                                     @foreach($news_right_two as $item)
                                     <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                        <img src="{{$item->image}}" class="img-responsive">
+                                        <img data-src="{{$item->image}}" class="img-responsive lazy">
                                         <span class="custom-content-3-line">{{$item->title}}</span>
                                     </a>
                                     @endforeach
@@ -216,7 +216,7 @@
                                     <div class="item-right item-list">
                                         @foreach($news_right_three as $item)
                                             <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                                <img src="{{$item->image}}" class="img-responsive">
+                                                <img data-src="{{$item->image}}" class="img-responsive lazy">
                                                 <span class="custom-content-3-line">{{$item->title}}</span>
                                             </a>
                                         @endforeach

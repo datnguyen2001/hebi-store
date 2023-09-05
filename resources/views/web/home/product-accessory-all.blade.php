@@ -11,7 +11,7 @@
             @foreach($category_product as $value)
                 @if($value->type == 6)
                 <a href="{{url('danh-muc/phu-kien/'.$value->name)}}" class="b-item-cat">
-                    <img src="{{$value->image}}" class="img-responsive">
+                    <img data-src="{{$value->image}}" class="img-responsive lazy">
                     <div>
                         <p class="name-cat">{{$value->name}}</p>
                         <p class="link-cat">Xem tất cả <i class="fa fa-angle-right"></i></p>

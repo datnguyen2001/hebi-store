@@ -372,7 +372,7 @@
     z-index: 90;
 }
 
-.btn-filter-group, .btn-filter-group1, .btn-filter-group2, .btn-filter-group3, .btn-filter-group4 {
+.btn-filter-group, .btn-filter-group1, .btn-filter-group2, .btn-filter-group3, .btn-filter-group4,.btn-filter-group5 {
     margin-top: 10px;
     background: #fff;
     width: 100%;
@@ -428,7 +428,7 @@
     background: #4882d8 !important;
 }
 
-.close_one, .close_two, .close_three, .close_four, .close_five {
+.close_one, .close_two, .close_three, .close_four, .close_five, .close_six {
     position: absolute;
     right: -5px;
     top: -5px;
@@ -449,6 +449,70 @@
     font-size: 18px;
     height: 38vh;
     padding-top: 50px;
+}
+
+.range-slider {
+    height: 5px;
+    position: relative;
+    background-color: #e1e9f6;
+    border-radius: 2px;
+}
+.range-selected {
+    height: 100%;
+    left: 0%;
+    right: 0%;
+    position: absolute;
+    border-radius: 5px;
+    background-color: #1b53c0;
+}
+.range-input {
+    position: relative;
+}
+.range-input input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -7px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.range-input input::-webkit-slider-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 3px solid #1b53c0;
+    background-color: #fff;
+    pointer-events: auto;
+    -webkit-appearance: none;
+}
+.range-input input::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    border: 3px solid #1b53c0;
+    background-color: #fff;
+    pointer-events: auto;
+    -moz-appearance: none;
+}
+.range-price {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.range-price label {
+    margin-right: 5px;
+}
+.range-price input {
+    padding: 5px;
+    border: unset;
+    outline: unset;
+}
+.range-price input:first-of-type {
+    margin-right: 15px;
 }
 
 @media (max-width: 1400px) {
@@ -482,7 +546,7 @@
         margin-bottom: 20px;
     }
 
-    .close_one, .close_two, .close_three, .close_four, .close_five {
+    .close_one, .close_two, .close_three, .close_four, .close_five,.close_six {
         position: relative;
         top: -42px;
         right: 0px;
@@ -498,7 +562,7 @@
     }
 
     .field_filter .btn {
-        padding-right: 15px;
+        padding-right: 17px;
     }
 }
 

@@ -21,17 +21,29 @@ return [
             'name' => 'banner',
             'title' => 'Banner hình ảnh',
             'icon' => 'bi bi-grid',
+            'route' => 'admin.banner.index',
+            'submenu' => [],
+        ],
+        [
+            'name' => 'import_export',
+            'title' => 'Quản lý xuất nhập hàng',
+            'icon' => 'bi bi-grid',
             'route' => null,
             'submenu' => [
                 [
-                    'title' => 'Danh sách banner',
-                    'route' => 'admin.banner.index',
-                    'name' => 'index'
+                    'title' => 'Nhập hàng',
+                    'route' => 'admin.import-export-product.import',
+                    'name' => 'import'
                 ],
                 [
-                    'title' => 'Tạo mới',
-                    'route' => 'admin.banner.create',
-                    'name' => 'create'
+                    'title' => 'Xuất hàng',
+                    'route' => 'admin.import-export-product.export',
+                    'name' => 'export'
+                ],
+                [
+                    'title' => 'Xuất nhập tồn',
+                    'route' => 'admin.import-export-product.index',
+                    'name' => 'import_export'
                 ]
             ],
         ],
@@ -56,17 +68,11 @@ return [
                     'route' => 'admin.flash-sale.index',
                     'name' => 'flash_sale'
                 ],
-//                [
-//                    'title' => 'Danh sách đánh giá sản phẩm',
-//                    'route' => 'admin.products.reviews',
-//                    'parameters' => ['status' => '0'],
-//                    'name' => 'review',
-//                ],
             ],
         ],
         [
             'name' => 'review',
-            'title' => 'Danh sách đánh giá sản phẩm',
+            'title' => 'Danh sách đánh giá',
             'icon' => 'bi bi-grid',
             'route' => 'admin.products.reviews',
             'parameters' => ['status' => '1'],
@@ -81,7 +87,7 @@ return [
         ],
         [
             'name' => 'introduce',
-            'title' => 'Quản lý website',
+            'title' => 'Quản lý footer',
             'icon' => 'bi bi-grid',
             'route' => 'admin.introduce.index',
             'submenu' => [],

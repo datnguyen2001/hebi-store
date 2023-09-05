@@ -15,7 +15,8 @@ class ShippingUnitController extends Controller
     /**
      * Tạo đơn hàng giao hàng nhanh
      */
-    public function createOrdersGHN($order, $type = 1){
+    public function createOrdersGHN($order)
+    {
         try {
             $province = ProvinceGhnModel::where('ProvinceID', $order->province_id)->first();
             $district = DistrictGhnModel::where('DistrictID', $order->district_id)->first();
@@ -25,19 +26,20 @@ class ShippingUnitController extends Controller
             $shop_district = DistrictGhnModel::where('DistrictID', '1493')->first();
             $shop_ward = WardGhnModel::where('WardCode', '1A0709')->first();
             $products = [];
-                $order_item = OrderItemModel::where('order_id', $order->id)->get();
-                $_value = $order->total_money;
+            $order_item = OrderItemModel::where('order_id', $order->id)->get();
+            $_value = $order->total_money_order;
+
             $__products_name = '';
             $__quantity = 0;
             $__products_price = 0;
             $__products_weight = 0;
-            foreach ($order_item as $k => $item){
+            foreach ($order_item as $k => $item) {
                 $product_attribute = ProductAttributesModel::find($item->product_attributes_id);
                 $product = ProductsModel::find($product_attribute->product_id);
                 $products[$k]['name'] = $product->name;
                 $products[$k]['quantity'] = $item->quantity;
                 $products[$k]['price'] = $item->promotional_price;
-                $__products_name .= ', '. $product->name;
+                $__products_name .= ', ' . $product->name;
                 $__quantity += $item->quantity;
                 $__products_price += $item->promotional_price;
                 $__products_weight += $item->quantity * 100;
@@ -46,31 +48,31 @@ class ShippingUnitController extends Controller
 
             $__post = '{
                     "payment_type_id": 1,
-                    "note": "không cho xem hàng, không cho thử",
+                    "note": "không cho xem hàng",
                     "required_note": "KHONGCHOXEMHANG",
                     "from_name":"Hebi Store",
                     "from_phone":"0978129116",
                     "from_address":"Nhà số 1",
-                    "from_ward_name":"'.$shop_ward->WardName.'",
-                    "from_district_name":"'.$shop_district->DistrictName.'",
-                    "from_province_name":"'.$shop_province->ProvinceName.'",
+                    "from_ward_name":"' . $shop_ward->WardName . '",
+                    "from_district_name":"' . $shop_district->DistrictName . '",
+                    "from_province_name":"' . $shop_province->ProvinceName . '",
                     "client_order_code": "' . $order->order_code . '",
-                    "to_name": "'.$order->name.'",
-                    "to_phone": "'.$order->phone.'",
-                    "to_address": "'.$order->full_address.'",
-                    "to_ward_name": "'.$ward->WardName.'",
-                    "to_district_name": '.$district->DistrictName.',
-                    "to_province_name": '.$province->ProvinceName.',
-                    "cod_amount": '.$_value.',
-                    "content": "'.$__products_name.'",
-                    "weight": '.$__products_weight.',
+                    "to_name": "' . $order->name . '",
+                    "to_phone": "' . $order->phone . '",
+                    "to_address": "' . $order->full_address . '",
+                    "to_ward_name": "' . $ward->WardName . '",
+                    "to_district_name": "' . $district->DistrictName . '",
+                    "to_province_name": "' . $province->ProvinceName . '",
+                    "cod_amount": ' . $_value . ',
+                    "content": "' . $__products_name . '",
+                    "weight": ' . $__products_weight . ',
                     "length": 5,
                     "width": 5,
                     "height": 5,
-                    "insurance_value": '.$__products_price.',
-                    "service_id": '.$services.',
+                    "insurance_value": ' . $__products_price . ',
+                    "service_id": ' . $services . ',
                     "service_type_id":2,
-                    "items":'.json_encode($products).'
+                    "items":' . json_encode($products) . '
                 }';
             $curl = curl_init();
 
@@ -96,7 +98,7 @@ class ShippingUnitController extends Controller
             curl_close($curl);
 
             return json_decode($response);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             dd($exception);
         }
@@ -105,9 +107,10 @@ class ShippingUnitController extends Controller
     /**
      * Huỷ đơn hàng giao hàng nhanh
      */
-    public function cancelOrdersGHN($order_transport_code){
+    public function cancelOrdersGHN($order_transport_code)
+    {
         try {
-            $__post = '{"order_codes":["'.$order_transport_code.'"]}';
+            $__post = '{"order_codes":["' . $order_transport_code . '"]}';
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -132,7 +135,7 @@ class ShippingUnitController extends Controller
             curl_close($curl);
 
             return json_decode($response);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
     }
@@ -140,7 +143,8 @@ class ShippingUnitController extends Controller
     /**
      * Tính phí vận chuyển giao hàng nhanh
      */
-    public function feeShippingGHN($_address_shipping, $total_money_product){
+    public function feeShippingGHN($_address_shipping, $total_money_product)
+    {
         try {
             $district = DistrictGhnModel::where('DistrictID', '1493')->first();
             $district_customer = DistrictGhnModel::where('DistrictID', $_address_shipping['district_id_ghn'])->first();
@@ -150,16 +154,16 @@ class ShippingUnitController extends Controller
             $__service = $this->serviceGHN($district->DistrictID, $district_customer->DistrictID);
 
             $data = '{
-                    "from_district_id":'.$district->DistrictID.',
-                    "service_id":'.$__service.',
+                    "from_district_id":' . $district->DistrictID . ',
+                    "service_id":' . $__service . ',
                     "service_type_id":null,
-                    "to_district_id":'.$district_customer->DistrictID.',
-                    "to_ward_code":"'.$ward_customer->WardCode.'",
+                    "to_district_id":' . $district_customer->DistrictID . ',
+                    "to_ward_code":"' . $ward_customer->WardCode . '",
                     "height":0,
                     "length":0,
-                    "weight":'.$__weight.',
+                    "weight":' . $__weight . ',
                     "width":0,
-                    "insurance_value":'.$__value.',
+                    "insurance_value":' . $__value . ',
                     "coupon": null
                     }';
             $curl = curl_init();
@@ -186,13 +190,13 @@ class ShippingUnitController extends Controller
             curl_close($curl);
             $response = json_decode($response);
 
-            if ($response->code == 200){
+            if ($response->code == 200) {
                 return $response->data->total;
-            }else{
+            } else {
                 return 0;
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
     }
@@ -200,7 +204,7 @@ class ShippingUnitController extends Controller
     /**
      * Tính giá cho tất cả các dịch vụ phù hợp
      */
-    protected function serviceGHN ($district, $district_customer)
+    protected function serviceGHN($district, $district_customer)
     {
         try {
             $curl = curl_init();
@@ -214,10 +218,10 @@ class ShippingUnitController extends Controller
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{
+                CURLOPT_POSTFIELDS => '{
                     "shop_id":4404387,
-                    "from_district": '.$district.',
-                    "to_district": '.$district_customer.'
+                    "from_district": ' . $district . ',
+                    "to_district": ' . $district_customer . '
                 }',
                 CURLOPT_HTTPHEADER => array(
                     'token: cdb73e69-2ea8-11ee-96dc-de6f804954c9',
@@ -229,12 +233,12 @@ class ShippingUnitController extends Controller
 
             curl_close($curl);
             $response = json_decode($response);
-            if ($response->code){
+            if ($response->code) {
                 return $response->data[0]->service_id;
-            }else{
+            } else {
                 return 53320;
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
         }
     }

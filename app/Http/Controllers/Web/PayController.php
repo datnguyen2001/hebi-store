@@ -17,6 +17,7 @@ use App\Models\WardGhnModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PayController extends ShippingUnitController
 {
@@ -33,7 +34,7 @@ class PayController extends ShippingUnitController
                     $item->product_attribute = ProductAttributesModel::find($item->product_attributes_id);
                     $item->product = ProductsModel::find($item->product_attribute->product_id);
                     $item->product_infor = ProductInformationModel::find($item->product->product_infor_id);
-                    $flash_sale = FlashSaleModel::where('product_id',$item->product->id)->first();
+                    $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$item->product->id)->first();
                     if ($flash_sale){
                         $item->product_attribute->promotional_price = $flash_sale->price_sale;
                     }
@@ -63,11 +64,35 @@ class PayController extends ShippingUnitController
     public function createOrderUser(Request $request)
     {
         try {
+            $rule = [
+                'name' => 'required',
+                'phone' => 'required|regex:/(0)[0-9]/|not_regex:/[a-z]/|min:10|max:10',
+                'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+            ];
+            $messenger = [
+                'name.required' => 'Vui lòng thêm họ tên',
+                'phone.required' => 'Vui lòng thêm số điện thoại',
+                'phone.regex' => 'Số điện thoại không hợp lệ',
+                'phone.not_regex' => 'Số điện thoại không hợp lệ',
+                'phone.min' => 'Số điện thoại không hợp lệ',
+                'phone.max' => 'Số điện thoại không hợp lệ',
+                'email.required' => 'Vui lòng thêm email',
+                'email.regex' => 'Email không hợp lệ',
+            ];
+            $validator = Validator::make($request->all(), $rule, $messenger);
+            if ($validator->fails()){
+                return back()->with(['error' => $validator->errors()->first()]);
+            }
             $carts = CartModel::where('user_token',$request->get('user_token'))->get();
             $province = ProvinceGhnModel::where('ProvinceID', $request->get('province_id'))->first();
             $district = DistrictGhnModel::where('DistrictID', $request->get('district_id'))->first();
             $ward = WardGhnModel::where('WardCode', $request->get('ward_id'))->first();
             $total_money = $carts->sum('total_money');
+            if ($total_money >= 5000000){
+                $fee_ship = 0;
+            }else{
+                $fee_ship = $request->get('fee_ship');
+            }
             $order = new OrderModel();
             $order['order_code'] = '';
             $order['name'] = $request->get('name');
@@ -85,11 +110,16 @@ class PayController extends ShippingUnitController
             $order['name_cty'] = $request->get('name_cty');
             $order['address_cty'] = $request->get('address_cty');
             $order['tax_code'] = $request->get('tax_code');
-            $order['fee_shipping'] = $request->get('fee_ship');
+            $order['fee_shipping'] = $fee_ship;
             $order['total_money_product'] = $total_money;
-            $order['total_money_order'] = $total_money + $request->get('fee_ship');
+            $order['total_money_order'] = $total_money + $fee_ship;
             $order['status'] = 0;
             $order->save();
+            if ($request->get('fee_ship') == 0){
+                $order['transport_name'] = 'Store';
+            }else{
+                $order['transport_name'] = 'GHN';
+            }
             $order['order_code'] = 'HS'.rand(0, 99999).$order->id;
             $order->save();
             foreach ($carts as $k => $item){
@@ -103,6 +133,7 @@ class PayController extends ShippingUnitController
                 return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Cảm ơn bạn!']);
             }elseif ($request->type_payment == 2){
                 $this->checkoutByVnPay($total_money,$order,$request->get('user_token'));
+                CartModel::where('user_token',$request->get('user_token'))->delete();
             }
         } catch (\Exception $exception) {
             dd($exception);
@@ -121,13 +152,15 @@ class PayController extends ShippingUnitController
                 'district_id_ghn' => $request->district_id,
                 'ward_id_ghn' => $request->ward_id,
                 'address_detail' => $request->address_detail,
-                'full_address' => $request->address_detail . ' - ' . $ward->WardName . ' - ' . $district->DistrictName . ' - ' . $province->ProvinceName
+                'full_address' => $request->address_detail . ', ' . $ward->WardName . ', ' . $district->DistrictName . ', ' . $province->ProvinceName
             ];
             $total_money_product = (int)$request->total_all;
             $fee_ship = $this->feeShippingGHN($_address_shipping, $total_money_product);
 
             $data['status'] = true;
+            $data['address'] = $_address_shipping['full_address'];
             $data['ship'] = $fee_ship;
+            $data['total_product'] = $total_money_product;
             $data['msg'] = 'Tính phí ship thành công';
             return $data;
         } catch (\Exception $exception) {
@@ -260,7 +293,7 @@ class PayController extends ShippingUnitController
             $order_item['order_id'] = $order->id;
             $order_item['product_attributes_id'] = $item->product_attributes_id;
             $order_item['price'] = $product_attributes->price;
-            $order_item['promotional_price'] = $item->promotional_price;
+            $order_item['promotional_price'] = $product_attributes->promotional_price;
             $order_item['quantity'] = $item->quantity;
             $order_item['total_money'] = $item->total_money;
             $order_item->save();

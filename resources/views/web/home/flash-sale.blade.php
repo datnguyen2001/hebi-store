@@ -1,8 +1,8 @@
-<div class="box-sale">
-    <a href="" class="d-flex justify-content-center">
-        <img src="{{$banner_hot_sale->image}}" class="img-big-sale" alt="">
-    </a>
-    @if(count($flash_sale) > 0)
+@if(count($flash_sale) > 0)
+    <div class="box-sale">
+        <a href="" class="d-flex justify-content-center">
+            <img data-src="{{$banner_hot_sale->image}}" class="img-big-sale lazy" alt="">
+        </a>
         <div class="box-sales">
             <div class="product_sale sale-hot">
                 @foreach($flash_sale as $value)
@@ -10,9 +10,8 @@
                         <div class="item-child">
                             <a href="{{url('san-pham/'.$value->product->slug)}}">
                                 <div class="product-img">
-                                    <img class="img-responsive img-prd"
-                                         src="{{$value->infor->image}}"
-                                         alt="">
+                                    <img class="img-responsive img-prd lazy"
+                                         data-src="{{$value->infor->image}}" alt="">
                                     <div class="box-absolute">
                                         <div class="discount-box">
                                             Giảm {{round( 100 - ($value->price_sale / $value->price * 100))}}%
@@ -67,5 +66,5 @@
                 @endforeach
             </div>
         </div>
-    @endif
-</div>
+    </div>
+@endif

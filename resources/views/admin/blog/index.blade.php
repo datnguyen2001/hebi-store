@@ -1,7 +1,6 @@
 @extends('layout.admin.index')
 @section('main')
     <main id="main" class="main">
-
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
@@ -16,14 +15,23 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$titlePage}}</h5>
                                 <a class="btn btn-success"
-                                   href="{{route('admin.blog.create')}}">Thêm {{$titlePage}}</a>
+                                   href="{{route('admin.blog.create')}}">Thêm bài viết</a>
+                            </div>
+                            <div class="mb-3 d-flex justify-content-end">
+                                <form class="d-flex align-items-center w-50" method="get"
+                                      action="{{route('admin.blog.index')}}">
+                                    <input name="key_search" type="text" value="{{request()->get('key_search')}}"
+                                           placeholder="Tìm kiếm tên bài viết" class="form-control" style="margin-right: 16px">
+                                    <button class="btn btn-info"><i class="bi bi-search"></i></button>
+                                    <a href="{{route('admin.blog.index')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
+                                </form>
                             </div>
                             @if(count($listData) > 0)
                                 <table class="table">
                                     <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col" style="width: 300px">Tên title</th>
+                                        <th scope="col" style="width: 300px">Tên bài viết</th>
                                         <th scope="col">Hình ảnh</th>
                                         <th scope="col" class="text-center">Thể loại</th>
                                         <th scope="col" class="text-center">Link bài viết</th>
@@ -68,6 +76,7 @@
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-center">
+                                    {{ $listData->appends(request()->all())->links('admin.pagination_custom.index') }}
                                 </div>
                             @else
                                 <h5 class="card-title">Không có dữ liệu</h5>

@@ -24,20 +24,24 @@
                     @endif
                     <div class="card">
                         <div class="card-body">
-                            <div class="mb-2 mt-3 d-flex justify-content-end">
-                                <form action="{{route('admin.products.index')}}" method="get" class="w-50 d-flex justify-content-end">
-                                    <input class="form-control" style="max-width: 300px; border-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;outline: none" value="{{request()->get('key_search')}}" name="key_search" placeholder="Tìm kiếm theo sku hoặc tên sản phẩm">
-                                    <button class="btn btn-info" style="border-left: 0;border-top-left-radius: 0;border-bottom-left-radius: 0"><i class="bi bi-search"></i></button>
-                                </form>
-                            </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">Danh sách sản phẩm</h5>
                                 <div>
-                                    <a class="btn btn-success" href="{{route('admin.products.create')}}">Tạo mới sản phẩm</a>
+                                    <a class="btn btn-success" href="{{route('admin.products.create')}}">Thêm sản phẩm</a>
                                 </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <form class="d-flex align-items-center w-50" method="get"
+                                      action="{{route('admin.products.index')}}">
+                                    <input name="key_search" type="text" value="{{request()->get('key_search')}}"
+                                           placeholder="Tìm kiếm tên sản phẩm" class="form-control" style="margin-right: 16px">
+                                    <button class="btn btn-info" style="padding-top: 10px;padding-bottom: 10px"><i class="bi bi-search"></i></button>
+                                    <a href="{{route('admin.products.index')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
+                                </form>
                             </div>
                             <div class="card-body p-3">
                                 <div class="overflow-auto">
+                                    @if(count($listData) > 0)
                                     <div>
                                         <div class="d-flex w-100 align-items-center text-center text-white font-size-16" style="background: #4154f1;padding: 5px 0">
                                             <div style="width: 15%">Hình ảnh</div>
@@ -85,6 +89,12 @@
                                             @endforeach
                                         </div>
                                     </div>
+                                    <div class="d-flex justify-content-center">
+                                        {{ $listData->appends(request()->all())->links('admin.pagination_custom.index') }}
+                                    </div>
+                                    @else
+                                        <h5 class="card-title">Không có dữ liệu</h5>
+                                    @endif
                                 </div>
                             </div>
                         </div>

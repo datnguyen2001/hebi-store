@@ -27,7 +27,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">Danh sách sản phẩm flash sale</h5>
                                 <div>
-                                    <a class="btn btn-success" href="{{route('admin.flash-sale.create')}}">Tạo mới sản phẩm flash</a>
+                                    <a class="btn btn-success" href="{{route('admin.flash-sale.create')}}">Thêm sản phẩm flash sale</a>
                                 </div>
                             </div>
                             <div class="card-body p-3">

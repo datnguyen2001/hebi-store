@@ -20,8 +20,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if (isset($request->key_search)) {
-            $data_product = ProductInformationModel::where('display', 1)->where('name', 'like', '%' . $request->get('key_search') . '%')
-                ->orWhere('sku', 'like', '%' . $request->get('key_search') . '%')->orderBy('created_at', 'desc')->paginate(10);
+            $id_product = ProductsModel::where('name', 'like', '%' . $request->get('key_search') . '%')->pluck('product_infor_id');
+            $data_product = ProductInformationModel::whereIn('id',$id_product)->where('display', 1)->paginate(10);
         } else {
             $data_product = ProductInformationModel::orderBy('created_at', 'desc')->where('display', 1)->paginate(10);
         }
@@ -29,10 +29,13 @@ class ProductController extends Controller
             foreach ($data_product as $value) {
                 $value->product = ProductsModel::where('product_infor_id', $value->id)->get();
                 foreach ($value->product as $item) {
-                    $item->product_attribute = ProductAttributesModel::where('product_id', $item->id)->get();
+                    $attribute = ProductAttributesModel::where('product_id', $item->id)->first();
+                    $item->price = $attribute->price;
+                    $item->promotional_price = $attribute->promotional_price;
                 }
             }
         }
+
         $titlePage = 'Admin | Sản Phẩm';
         $page_menu = 'products';
         $page_sub = 'index';
@@ -44,7 +47,7 @@ class ProductController extends Controller
     {
         $data['titlePage'] = 'Thêm sản phẩm';
         $data['page_menu'] = 'products';
-        $data['page_sub'] = 'create';
+        $data['page_sub'] = 'index';
         return view('admin.products.create', $data);
     }
 
@@ -341,7 +344,7 @@ class ProductController extends Controller
             $page_sub = '';
             $listData = ProductReviewsModel::query();
             $listData = $listData->where('type', $type);
-            $listData = $listData->orderBy('status', 'asc')->paginate(15);
+            $listData = $listData->orderBy('status', 'asc')->paginate(10);
             foreach ($listData as $item){
                 $item->name_product = ProductsModel::find($item->product_id)->name;
             }

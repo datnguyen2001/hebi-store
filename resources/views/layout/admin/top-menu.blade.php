@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{'/admin'}}" class="logo d-flex align-items-center">
             <img src="{{asset('assets/images/logo.png')}}" alt="" style="width: 50px;height: 50px;max-height: 50px">
-            <h5>HebiMobile</h5>
+            <h5>Hebi</h5>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -24,11 +24,7 @@
                     <i class="bi bi-search"></i>
                 </a>
             </li>
-            <!-- End Search Icon-->
 
-            <!-- End Notification Nav -->
-
-            <!-- End Messages Nav -->
 
             <li class="nav-item dropdown pe-3">
 
@@ -83,10 +79,10 @@
                         </a>
                     </li>
 
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
+                </ul>
+            </li>
 
         </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
-</header><!-- End Header -->
+</header>

@@ -179,7 +179,14 @@
         overflow-y: hidden;
     }
 }
-
+.lv_0:hover i{
+    color: black;
+}
+.fa-truck-fast{
+    color: black!important;
+    font-size: 18px;
+    margin-right: 5px;
+}
 @media (max-width: 992px) {
     .me-4 {
         margin-right: 0px !important;
@@ -294,7 +301,7 @@
     }
 
     .banners-home img {
-        height: auto;
+        height: 52px;
     }
 
     .banner-home-top2 {

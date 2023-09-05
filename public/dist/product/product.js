@@ -82,92 +82,33 @@ $(document).ready(function () {
         let formData = {};
         formData['product_id'] = $('#product_id').val();
         formData['type'] = $('#type').val();
-        let star = $('input[name="rating"]:checked').val();
-        if (star) {
-            formData['star'] = star;
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng chọn đánh giá trước khi gửi.'
-            });
-            return;
-        }
+        formData['star'] = $('input[name="rating"]:checked').val();
+        formData['content'] = $('#full_rate').val();
+        formData['name'] = $('input[name="name"]').val();
+        formData['phone'] = $('input[name="phone"]').val();
+        formData['email'] = $('input[name="email"]').val();
 
-        let content = $('#full_rate').val();
-        if (content) {
-            formData['content'] = content;
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập nội dung đánh giá trước khi gửi.'
-            });
-            return;
-        }
-
-        let name = $('input[name="name"]').val();
-        if (name) {
-            formData['name'] = name;
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập hộ và tên trước khi gửi.'
-            });
-            return;
-        }
-
-        let phone = $('input[name="phone"]').val();
-        if (phone) {
-            let phoneRegex = /^\d{1,10}$/;
-            if (!phone.match(phoneRegex)) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại hợp lệ.'
-                });
-                return;
-            }
-            formData['phone'] = phone;
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập số điện thoại trước khi gửi.'
-            });
-            return;
-        }
-
-        let email = $('input[name="email"]').val();
-        if (email) {
-            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email.match(emailRegex)) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Địa chỉ email không hợp lệ. Vui lòng nhập địa chỉ email hợp lệ.'
-                });
-                return;
-            }
-            formData['email'] = email;
-        } else {
-            Toast.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập địa chỉ email trước khi gửi.'
-            });
-            return;
-        }
         $.ajax({
             url: window.location.origin + '/danh-gia',
             type: 'post',
             dataType: 'json',
             data: formData,
             success: function (data) {
-                if (data.status){
-                    localStorage.setItem('success','true');
+                if (data.status) {
+                    localStorage.setItem('success', 'true');
                     location.reload();
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.msg,
+                    });
                 }
             }
         });
     });
 
     let success = localStorage.getItem('success');
-    if (success == 'true'){
+    if (success == 'true') {
         const ToastSuccess = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -183,7 +124,7 @@ $(document).ready(function () {
             icon: 'success',
             title: 'Cảm ơn bạn đã gửi đánh giá.'
         });
-        localStorage.setItem('success','false');
+        localStorage.setItem('success', 'false');
     }
 
     $(".btn-add-cart").click(function () {
@@ -285,8 +226,8 @@ $(document).ready(function () {
                     });
                     $('#postContainer').append(html);
                     page++;
-                    if (data.length < 5){
-                        $('#loadMore').css('display','none');
+                    if (data.length < 5) {
+                        $('#loadMore').css('display', 'none');
                     }
                 }
             }

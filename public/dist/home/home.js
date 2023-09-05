@@ -170,7 +170,7 @@ function getCart() {
                                 </div>
                                 <div>
                                     <p class="title_sp_cart_small">${data.data[i].product.name}</p>
-                                    <p class="type_cart_sp_small">Màu: ${data.data[i].product_attribute.name_color}</p>
+                                    <p class="type_cart_sp_small">Màu: ${data.data[i].product_attribute.name}</p>
                                     <p class="price_sp_cart_small price_sp_${i}">${formatPrice(data.data[i].total_money)}₫</p>
                                     <input type="hidden" class="cart_id_${i}" name="cart_id" value="${data.data[i].id}">
                                     <span class="number-input">
@@ -300,3 +300,53 @@ function setCookie(cookieName, cookieValue, expirationDays) {
     const expires = "expires=" + d.toUTCString();
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    var lazyloadImages;
+
+    if ("IntersectionObserver" in window) {
+        lazyloadImages = document.querySelectorAll(".lazy");
+        var imageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var image = entry.target;
+                    image.src = image.dataset.src;
+                    image.classList.remove("lazy");
+                    imageObserver.unobserve(image);
+                }
+            });
+        });
+
+        lazyloadImages.forEach(function(image) {
+            imageObserver.observe(image);
+        });
+    } else {
+        var lazyloadThrottleTimeout;
+        lazyloadImages = document.querySelectorAll(".lazy");
+
+        function lazyload () {
+            if(lazyloadThrottleTimeout) {
+                clearTimeout(lazyloadThrottleTimeout);
+            }
+
+            lazyloadThrottleTimeout = setTimeout(function() {
+                var scrollTop = window.pageYOffset;
+                lazyloadImages.forEach(function(img) {
+                    if(img.offsetTop < (window.innerHeight + scrollTop)) {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                    }
+                });
+                if(lazyloadImages.length == 0) {
+                    document.removeEventListener("scroll", lazyload);
+                    window.removeEventListener("resize", lazyload);
+                    window.removeEventListener("orientationChange", lazyload);
+                }
+            }, 20);
+        }
+
+        document.addEventListener("scroll", lazyload);
+        window.addEventListener("resize", lazyload);
+        window.addEventListener("orientationChange", lazyload);
+    }
+});

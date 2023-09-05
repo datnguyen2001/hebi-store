@@ -35,7 +35,7 @@ class OrderController extends ShippingUnitController
                         ->orWhere('order_code', 'LIKE', '%' . $key_search . '%');
                 });
             }
-            $listData = $listData->orderBy('updated_at', 'desc')->paginate(15);
+            $listData = $listData->orderBy('updated_at', 'desc')->paginate(10);
             foreach ($listData as $item) {
                 $item->status_name = $this->checkStatusOrder($item);
             }
@@ -114,8 +114,6 @@ class OrderController extends ShippingUnitController
                         $order_ghn = $this->createOrdersGHN($order);
                         if ($order_ghn->code == 200) {
                             $order->order_code_transport = $order_ghn->data->order_code;
-                            $order->transport_name = 'GHN';
-                            $order->transport_id = $order_ghn->data->order_code;
                         } else {
                             return back()->with('error', $order_ghn->message);
                         }

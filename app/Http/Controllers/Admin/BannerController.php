@@ -9,12 +9,18 @@ use Illuminate\Support\Str;
 
 class BannerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $titlePage = 'Admin';
+        $titlePage = 'Danh sách banner';
         $page_menu = 'banner';
-        $page_sub = 'index';
-        $listData = BannerModel::orderBy('location','asc')->get();
+        $page_sub = null;
+        if (isset($request->key_search)) {
+            $listData = BannerModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
+                ->orderBy('location', 'asc')->paginate(10);
+        } else {
+            $listData = BannerModel::orderBy('location','asc')->paginate(10);
+        }
+
         return view('admin.banner.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
     }
 

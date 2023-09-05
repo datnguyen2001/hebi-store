@@ -18,7 +18,6 @@
                     @endif
                     <div class="card">
                         <div class="card-body d-flex justify-content-evenly align-items-center flex-wrap" style="padding-top: 20px">
-{{--                            <h5 class="card-title"></h5>--}}
                             <a href="{{url('admin/products/review/1')}}" type="button"
                                class="btn btn-outline-info @if($type == 1) active @endif">Điện thoại </a>
                             <a href="{{url('admin/products/review/2')}}" type="button"

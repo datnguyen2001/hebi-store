@@ -1,7 +1,6 @@
 @extends('layout.admin.index')
 @section('main')
     <main id="main" class="main">
-
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
@@ -15,7 +14,16 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">Danh sách danh mục sản phẩm</h5>
-                                <a class="btn btn-success" href="{{route('admin.category.create')}}">Tạo mới danh mục sản phẩm</a>
+                                <a class="btn btn-success" href="{{route('admin.category.create')}}">Thêm danh mục</a>
+                            </div>
+                            <div class="mb-3 d-flex justify-content-end">
+                                <form class="d-flex align-items-center w-50" method="get"
+                                      action="{{route('admin.category.index')}}">
+                                    <input name="key_search" type="text" value="{{request()->get('key_search')}}"
+                                           placeholder="Tìm kiếm tên danh mục" class="form-control" style="margin-right: 16px">
+                                    <button class="btn btn-info"><i class="bi bi-search"></i></button>
+                                    <a href="{{route('admin.category.index')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
+                                </form>
                             </div>
                             @if(count($listData) > 0)
                             <table class="table">
@@ -29,11 +37,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($listData as $value)
+                                    @foreach($listData as $index => $value)
                                         <tr>
-                                            <th scope="row">{{$value->id}}</th>
+                                            <th scope="row">{{$index+1}}</th>
                                             <td>{{$value->name}}</td>
-                                            <td>{{$value->parent_id??'Là danh mục cha'}}</td>
+                                            <td>{{$value->category_parent}}</td>
                                             <td>
                                                 @if($value->display == 1)
                                                     Bật
@@ -56,7 +64,7 @@
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-center">
-{{--                                {{ $listData->render('pagination_custom.index') }}--}}
+                                {{ $listData->render('admin.pagination_custom.index') }}
                             </div>
                             @else
                                 <h5 class="card-title">Không có dữ liệu</h5>

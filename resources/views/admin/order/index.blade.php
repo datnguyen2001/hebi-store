@@ -17,8 +17,8 @@
                         </div>
                     @endif
                     <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
+                        <div class="card-body d-flex justify-content-evenly align-items-center flex-wrap"
+                             style="padding-top: 20px">
                             <a href="{{url('admin/order/index/0')}}"
                                class="btn btn-outline-warning @if($status == 0) active @endif">Chờ xác nhận <span
                                     style="font-weight: 700">{{$order_pending}}</span></a>
@@ -37,20 +37,24 @@
                             <a href="{{url('admin/order/index/5')}}" type="button"
                                class="btn btn-outline-danger @if($status == 5) active @endif">Khách từ chối nhận<span
                                     style="font-weight: 700">{{$order_refuse}}</span></a>
-                            <a href="{{url('admin/order/index/5')}}" type="button"
-                               class="btn btn-outline-danger @if($status == 6) active @endif">Trả hàng hoàn tiền<span
-                                    style="font-weight: 700">{{$order_refund}}</span></a>
+                            {{--                            <a href="{{url('admin/order/index/5')}}" type="button"--}}
+                            {{--                               class="btn btn-outline-danger @if($status == 6) active @endif">Trả hàng hoàn tiền<span--}}
+                            {{--                                    style="font-weight: 700">{{$order_refund}}</span></a>--}}
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <form class="d-flex align-items-center" method="get"
-                              action="{{url('admin/order/index/'.$status)}}">
-                            <input name="search" type="text" value="{{request()->get('search')}}"
-                                   placeholder="Tìm kiếm..." class="form-control" style="margin-right: 16px">
-                            <button class="btn btn-info" style="margin-left: 15px">Lọc</button>
-                            <a href="{{url('admin/order/index/all')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
-                        </form>
+                    <div class="card" >
+                        <div class="card-body d-flex justify-content-end" style="padding: 20px">
+                            <form class="d-flex align-items-center w-50" method="get"
+                                  action="{{url('admin/order/index/'.$status)}}">
+                                <input name="search" type="text" value="{{request()->get('search')}}"
+                                       placeholder="Tìm kiếm..." class="form-control" style="margin-right: 16px">
+                                <button class="btn btn-info" style="margin-left: 15px"><i class="bi bi-search"></i>
+                                </button>
+                                <a href="{{url('admin/order/index/all')}}" class="btn btn-danger"
+                                   style="margin-left: 15px">Hủy </a>
+                            </form>
+                        </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
@@ -65,10 +69,9 @@
                                         <th scope="col">Mã đơn</th>
                                         <th scope="col">Bên nhận</th>
                                         <th scope="col" style="width: 12%;">Tổng tiền</th>
-                                        <th scope="col" style="width: 10%;">Mã vận chuyển</th>
-                                        <th scope="col" style="width: 15%;">Đơn vị vận chuyển</th>
+                                        <th scope="col" style="width: 15%;">Mã vận chuyển</th>
                                         @if($status == 0 || $status == 'all' || $status == 1 || $status == 2 || $status == 3)
-                                            <th scope="col" style="width: 14%;">Xác nhận nhanh</th>
+                                            <th scope="col" style="width: 15%;">Xác nhận nhanh</th>
                                         @endif
                                     </tr>
                                     </thead>
@@ -102,17 +105,9 @@
                                                 @if($value->order_code_transport)
                                                     {{$value->order_code_transport}}
                                                 @else
-                                                    Chưa tạo đơn
+                                                    Không có
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if($value->transport_name == 'GHN')
-                                                    GIAO HÀNG NHANH
-                                                @else
-                                                    Chưa thiết lập
-                                                @endif
-                                            </td>
-
                                             <td style="border-top: 1px solid #cccccc">
                                                 @if($value->status == 0)
                                                     <a href="{{url('admin/order/status/'.$value->id.'/1')}}">

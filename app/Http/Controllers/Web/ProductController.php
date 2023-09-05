@@ -15,6 +15,8 @@ use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -82,7 +84,7 @@ class ProductController extends Controller
         if (empty($product)) {
             return back()->with(['error' => 'Sản phẩm không tồn tại']);
         }
-        $sale = FlashSaleModel::where('product_id', $product->id)->first();
+        $sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id', $product->id)->first();
         if ($sale) {
             $product->time_end = $sale->time_end;
         }
@@ -92,11 +94,11 @@ class ProductController extends Controller
         $star_three = ProductReviewsModel::where('product_id', $product->id)->where('star', 3)->where('status',1)->count();
         $star_two = ProductReviewsModel::where('product_id', $product->id)->where('star', 2)->where('status',1)->count();
         $star_one = ProductReviewsModel::where('product_id', $product->id)->where('star', 1)->where('status',1)->count();
-        $percent_5 = round(($star_five / count($star)) * 100,0);
-        $percent_4 = round(($star_four / count($star)) * 100,0);
-        $percent_3 = round(($star_three / count($star)) * 100,0);
-        $percent_2 = round(($star_two / count($star)) * 100,0);
-        $percent_1 = round(($star_one / count($star)) * 100,0);
+        $percent_5 = round(($star_five??0 / count($star)) * 100,0);
+        $percent_4 = round(($star_four??0 / count($star)) * 100,0);
+        $percent_3 = round(($star_three??0 / count($star)) * 100,0);
+        $percent_2 = round(($star_two??0 / count($star)) * 100,0);
+        $percent_1 = round(($star_one??0 / count($star)) * 100,0);
         $comment = ProductReviewsModel::where('product_id', $product->id)->where('status',1)->orderBy('created_at','desc')->paginate(5);
         $image_product = ImageVariantModel::where('product_infor_id', $product->product_infor_id)->get();
         $product_infor = ProductInformationModel::where('id', $product->product_infor_id)->first();
@@ -107,7 +109,7 @@ class ProductController extends Controller
         }
         $product_attribute = ProductAttributesModel::where('product_id', $product->id)->get();
         foreach ($product_attribute as $value) {
-            $flash_sale = FlashSaleModel::where('product_id', $value->product_id)->first();
+            $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id', $value->product_id)->first();
             if ($flash_sale) {
                 $value->price_sale = $flash_sale->price_sale;
             } else {
@@ -120,7 +122,7 @@ class ProductController extends Controller
             $item->infor = ProductInformationModel::find($item->product->product_infor_id);
             $item->type_product = ProductsModel::where('product_infor_id', $item->product->product_infor_id)->get();
             $item->price = ProductAttributesModel::where('product_id', $item->product->id)->first()->price;
-            $flash_sale = FlashSaleModel::where('product_id', $item->product_id)->first();
+            $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id', $item->product_id)->first();
             if ($flash_sale) {
                 $item->promotional_price = $flash_sale->price_sale;
                 $item->time_end = $flash_sale->time_end;
@@ -139,9 +141,11 @@ class ProductController extends Controller
         'percent_4','percent_3','percent_2','percent_1','comment'));
     }
 
-    public function filterPhone(Request $request)
+    public function filter(Request $request)
     {
         try {
+            $minPrice = $request->input('min_price', 0);
+            $maxPrice = $request->input('max_price', 200000000);
             if ($request->sort == 1) {
                 $sort = ['product_attributes.promotional_price', 'asc'];
             } else if ($request->sort == 2) {
@@ -157,12 +161,14 @@ class ProductController extends Controller
                     ->orderBy($sort[0], $sort[1])
                     ->select('products.*')
                     ->whereIn('product_infor_id', $product_infor)->where('own_parameter', $request->parameter_five)
+                    ->whereBetween('product_attributes.promotional_price', [$minPrice, $maxPrice])
                     ->paginate(20);
             } else {
                 $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
                     ->orderBy($sort[0], $sort[1])
                     ->select('products.*')
                     ->whereIn('product_infor_id', $product_infor)
+                    ->whereBetween('product_attributes.promotional_price', [$minPrice, $maxPrice])
                     ->paginate(20);
             }
 
@@ -193,7 +199,7 @@ class ProductController extends Controller
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
             ->orderBy($sort[0], $sort[1])
             ->select('products.*')
-            ->where('name', 'like', '%' . $keyword . '%')
+            ->where('products.name', 'like', '%' . $keyword . '%')
             ->paginate(20);
         foreach ($product as $item) {
             $item->infor = ProductInformationModel::find($item->product_infor_id);
@@ -231,6 +237,30 @@ class ProductController extends Controller
 
     public function storeReview(Request $request)
     {
+        $rule = [
+            'star' => 'required',
+            'content' => 'required',
+            'name' => 'required',
+            'phone' => 'required|regex:/(0)[0-9]/|not_regex:/[a-z]/|min:10|max:10',
+            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i',
+        ];
+        $messenger = [
+            'star.required' => 'Vui lòng chọn đánh giá trước khi gửi',
+            'content.required' => 'Vui lòng nhập nội dung đánh giá trước khi gửi',
+            'name.required' => 'Vui lòng nhập họ và tên trước khi gửi',
+            'phone.required' => 'Vui lòng nhập số điện thoại trước khi gửi',
+            'phone.regex' => 'Số điện thoại không hợp lệ',
+            'phone.not_regex' => 'Số điện thoại không hợp lệ',
+            'phone.min' => 'Số điện thoại không hợp lệ',
+            'phone.max' => 'Số điện thoại không hợp lệ',
+            'email.required' => 'Vui lòng nhập địa chỉ email trước khi gửi',
+            'email.regex' => 'Địa chỉ email không hợp lệ',
+        ];
+        $validator = Validator::make($request->all(), $rule, $messenger);
+        if ($validator->fails()){
+            return response()->json(['status' => false, 'msg' => $validator->errors()->first()], 201);
+        }
+
         $review = new ProductReviewsModel([
             'product_id' => $request->get('product_id'),
             'name' => $request->get('name'),

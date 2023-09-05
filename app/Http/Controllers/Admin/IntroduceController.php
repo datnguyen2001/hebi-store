@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\IntroduceModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class IntroduceController extends Controller
 {
     public function index()
     {
-        $titlePage = 'Quản lý website';
+        $titlePage = 'Quản lý footer';
         $page_menu = 'introduce';
         $page_sub = 'index';
         $listData = IntroduceModel::orderBy('created_at', 'desc')->get();
         foreach ($listData as $k => $item){
             if ($item->type == 0){
-                $name_type = 'Giới thiệu';
+                $name_type = 'Thông tin liên hệ';
             }elseif ($item->type == 1){
-                $name_type = 'Liên hệ';
+                $name_type = 'Chính sách';
             }else{
-                $name_type = 'Footer';
+                $name_type = 'Thông tin khác';
             }
             $listData[$k]->name_type = $name_type;
         }
@@ -50,7 +49,6 @@ class IntroduceController extends Controller
             }
             $introduce = new IntroduceModel([
                 'title' => $request->get('title'),
-                'slug' => Str::slug($request->get('title')),
                 'content' => $request->get('content'),
                 'display' => $display,
                 'type' => $request->get('type')
@@ -98,7 +96,6 @@ class IntroduceController extends Controller
             }
             $introduce->display = $display;
             $introduce->title = $request->get('title');
-            $introduce->slug = Str::slug($request->get('title'));
             $introduce->content = $request->get('content');
             $introduce->type = $request->get('type');
             $introduce->save();
@@ -107,5 +104,4 @@ class IntroduceController extends Controller
             return back()->with(['error' => $e->getMessage()]);
         }
     }
-
 }

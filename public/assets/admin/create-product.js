@@ -73,6 +73,7 @@ $(document).ready(function () {
     // select category
     $('input[name="category"]').click(function () {
         let value = $(this).val();
+        parameter(value);
         $('input[name="category"]').prop("checked", false);
         $(this).prop("checked", true);
         $.ajax({
@@ -86,6 +87,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $(document).on("click", 'input[name="category_children"]', function () {
         let value = $(this).val();
         $('input[name="category_children"]').prop("checked", false);
@@ -119,6 +121,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $(document).on("click", 'input[name="category_children"]', function () {
         let value = $(this).val();
         $('input[name="category_children"]').prop("checked", false);
@@ -135,6 +138,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $(document).on("click", 'input[name="category_children"]', function () {
         let value = $(this).val();
         $('input[name="category_children"]').prop("checked", false);
@@ -251,59 +255,48 @@ $(document).ready(function () {
         search(query);
     });
 
-    // Khu vuc kho
-    $('input[name="khu_vuc"]').click(function () {
-        let value = $(this).val();
-        $('input[name="khu_vuc"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children-project-kho',
-            type: 'post',
-            dataType: 'json',
-            data: {"parent_id": value, "name": "khu_vuc_hang"},
-            success: function (data) {
-                $("[khu_vuc_hang]").html(data.html);
-                $("[khu_vuc_tang]").html("");
-                $("[khu_vuc_ke]").html("");
-
-            }
-        });
-    });
-    $(document).on("click", 'input[name="khu_vuc_hang"]', function () {
-        let value = $(this).val();
-        $('input[name="khu_vuc_hang"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children-project-kho',
-            type: 'post',
-            dataType: 'json',
-            data: {"parent_id": value, "name": "khu_vuc_tang"},
-            success: function (data) {
-                $("[khu_vuc_tang]").html(data.html);
-                $("[khu_vuc_ke]").html("");
-
-            }
-        });
-    });
-    $(document).on("click", 'input[name="khu_vuc_tang"]', function () {
-        let value = $(this).val();
-        $('input[name="khu_vuc_tang"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children-project-kho',
-            type: 'post',
-            dataType: 'json',
-            data: {"parent_id": value, "name": "khu_vuc_ke"},
-            success: function (data) {
-                $("[khu_vuc_ke]").html(data.html);
-            }
-        });
-    });
-    $(document).on("click", 'input[name="khu_vuc_ke"]', function () {
-        let value = $(this).val();
-        $('input[name="khu_vuc_ke"]').prop("checked", false);
-        $(this).prop("checked", true);
-    });
+    function parameter(value){
+        if (value == 1){
+            $(".parameter_1").text('Ram :');
+            $(".parameter_2").text('Kích thước màn hình :');
+            $(".parameter_3").text('Nhu cầu sử dụng :');
+            $(".parameter_4").text('Chíp xử lí :');
+        }else if(value == 2){
+            $(".parameter_1").text('Ram :');
+            $(".parameter_2").text('Kích thước màn hình :');
+            $(".parameter_3").text('Nhu cầu sử dụng :');
+            $(".parameter_4").text('Chíp xử lí :');
+        }else if(value == 3){
+            $(".parameter_1").text('Ram :');
+            $(".parameter_2").text('Kích thước màn hình :');
+            $(".parameter_3").text('CPU :');
+            $(".parameter_4").text('Card đồ họa :');
+        }else if(value == 4){
+            $(".parameter_1").text('Chất liệu viền :');
+            $(".parameter_2").text('Kích cỡ mặt đồng hồ :');
+            $(".parameter_3").text('Thời lượng pin');
+            $(".box_parameter_4").css('display','none');
+        }else if(value == 5){
+            $(".parameter_1").text('Thông số 1 :');
+            $(".parameter_2").text('Thông số 2 :');
+            $(".parameter_3").text('Thông số 3');
+            $(".parameter_4").text('Thông số 4');
+        }else if(value == 6){
+            // $(".parameter_1").text('Phân loại ốp :');
+            // $(".parameter_2").text('Dòng sản phẩm :');
+            // $(".parameter_3").text('Tính năng :');
+            // $(".parameter_4").text('Hãng :');
+            $(".parameter_1").text('Thông số 1 :');
+            $(".parameter_2").text('Thông số 2 :');
+            $(".parameter_3").text('Thông số 3');
+            $(".parameter_4").text('Thông số 4');
+        }else {
+            $(".parameter_1").text('Thông số 1 :');
+            $(".parameter_2").text('Thông số 2 :');
+            $(".parameter_3").text('Thông số 3');
+            $(".parameter_4").text('Thông số 4');
+        }
+    }
 
     // add size theo can nang
     $(document).on("click", ".btn-size", function () {

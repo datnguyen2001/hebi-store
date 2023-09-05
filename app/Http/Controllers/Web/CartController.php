@@ -8,6 +8,7 @@ use App\Models\FlashSaleModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductsModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,7 +23,8 @@ class CartController extends Controller
                 if (empty($product_attribute)) {
                     $carts[$k]->delete();
                 }
-                $flash_sale = FlashSaleModel::where('product_id',$product_attribute->product_id)->first();
+                $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())
+                    ->where('product_id',$product_attribute->product_id)->first();
                 if ($flash_sale){
                     $item->total_money = $flash_sale->price_sale * $item->quantity;
                 }else{
@@ -51,7 +53,7 @@ class CartController extends Controller
         try {
             $product_attribute = ProductAttributesModel::find($request->get('product_attributes_id'));
             $cart = CartModel::where('user_token', $request->get('token'))->where('product_attributes_id', $request->get('product_attributes_id'))->first();
-            $flash_sale = FlashSaleModel::where('product_id',$product_attribute->product_id)->first();
+            $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$product_attribute->product_id)->first();
             if (isset($cart)) {
                 $quantity = $cart->quantity + 1;
                 if ($quantity > 3) {
@@ -111,7 +113,7 @@ class CartController extends Controller
             }
             $type = $request->get('type');
             $product_attribute = ProductAttributesModel::find($cart->product_attributes_id);
-            $flash_sale = FlashSaleModel::where('product_id',$product_attribute->product_id)->first();
+            $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$product_attribute->product_id)->first();
             switch ($type) {
                 case 1:
                     $quantity = $cart->quantity + 1;

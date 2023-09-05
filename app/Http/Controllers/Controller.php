@@ -83,14 +83,14 @@ class Controller extends BaseController
                 foreach ($value['data'] as $item) {
                     if (isset($item['value_id'])) {
                         $product_attribute = ProductAttributesModel::find($item['value_id']);
-                        $product_attribute->name_color = $item['color'];
+                        $product_attribute->name = $item['color'];
                         $product_attribute->price = isset($item['price']) ? str_replace(",", "", $item['price']) : 0;
                         $product_attribute->promotional_price = isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : 0;
                         $product_attribute->save();
                     } else {
                         $product_attribute = new ProductAttributesModel([
                             'product_id' => $product->id,
-                            'name_color' => $item['color'],
+                            'name' => $item['color'],
                             'price' => isset($item['price']) ? str_replace(",", "", $item['price']) : 0,
                             'promotional_price' => isset($item['promotion_price']) ? str_replace(",", "", $item['promotion_price']) : 0,
                         ]);
@@ -120,7 +120,7 @@ class Controller extends BaseController
             $product_infor = ProductInformationModel::where('type_product', $type)->pluck('id');
             $product = ProductsModel::whereIn('product_infor_id', $product_infor)->where('is_featured_products', 1)->limit(10)->get();
             foreach ($product as $value) {
-                $flash_sale = FlashSaleModel::where('product_id',$value->id)->first();
+                $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$value->id)->first();
                 $value->infor = ProductInformationModel::find($value->product_infor_id);
                 $value->type_product = ProductsModel::where('product_infor_id', $value->product_infor_id)->get();
                 $value->price = ProductAttributesModel::where('product_id', $value->id)->first()->price;
@@ -209,7 +209,7 @@ class Controller extends BaseController
     public function dataProduct($product)
     {
         foreach ($product as $item) {
-            $flash_sale = FlashSaleModel::where('product_id', $item->id)->first();
+            $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id', $item->id)->first();
             $item->infor = ProductInformationModel::find($item->product_infor_id);
             $item->type_product = ProductsModel::where('product_infor_id', $item->product_infor_id)->get();
             $item->price = ProductAttributesModel::where('product_id', $item->id)->first()->price;
@@ -231,12 +231,64 @@ class Controller extends BaseController
      **/
     public function criteria($checkCate,$product_infor)
     {
-        $ram = ProductInformationModel::select('parameter_one')->where('type_product', $checkCate['type'])->distinct()->get();
-        $rom = ProductsModel::select('own_parameter')->whereIn('product_infor_id', $product_infor)->distinct()->get();
-        $screen = ProductInformationModel::select('parameter_two')->where('type_product', $checkCate['type'])->distinct()->get();
-        $intended_use = ProductInformationModel::select('parameter_three')->where('type_product', $checkCate['type'])->distinct()->get();
-        $chip = ProductInformationModel::select('parameter_four')->where('type_product', $checkCate['type'])->distinct()->get();
-        return compact('ram', 'rom', 'screen', 'intended_use', 'chip');
+        $parameter_one = ProductInformationModel::select('parameter_one')->where('type_product', $checkCate['type'])->distinct()->get();
+        $parameter_two = ProductInformationModel::select('parameter_two')->where('type_product', $checkCate['type'])->distinct()->get();
+        $parameter_three = ProductInformationModel::select('parameter_three')->where('type_product', $checkCate['type'])->distinct()->get();
+        $parameter_four = ProductInformationModel::select('parameter_four')->where('type_product', $checkCate['type'])->distinct()->get();
+        $parameter_five = ProductsModel::select('own_parameter')->whereIn('product_infor_id', $product_infor)->distinct()->get();
+        $name_filter =$this->nameFilter($checkCate);
+        return compact('parameter_one', 'parameter_five', 'parameter_two', 'parameter_three', 'parameter_four','name_filter');
+    }
+
+    /**
+     * lấy name bộ lọc
+     **/
+    public function nameFilter($checkCate)
+    {
+        if ($checkCate['type'] == 1){
+            $name_filter_one = 'Ram';
+            $name_filter_two = 'Kích thước màn hình';
+            $name_filter_three = 'Nhu cầu sử dụng';
+            $name_filter_four = 'Chíp xử lí';
+            $name_filter_five = 'Bộ nhớ trong';
+        }elseif ($checkCate['type'] == 2){
+            $name_filter_one = 'Ram';
+            $name_filter_two = 'Kích thước màn hình';
+            $name_filter_three = 'Nhu cầu sử dụng';
+            $name_filter_four = 'Chíp xử lí';
+            $name_filter_five = 'Bộ nhớ trong';
+        }elseif ($checkCate['type'] == 3){
+            $name_filter_one = 'Ram';
+            $name_filter_two = 'Kích thước màn hình';
+            $name_filter_three = 'CPU';
+            $name_filter_four = 'Card đồ họa';
+            $name_filter_five = 'Bộ nhớ trong';
+        }elseif ($checkCate['type'] == 4){
+            $name_filter_one = 'Chất liệu viền';
+            $name_filter_two = 'Kích cỡ mặt đồng hồ';
+            $name_filter_three = 'Thời lượng pin';
+            $name_filter_four = 'Thông số 4';
+            $name_filter_five = 'Thông số 5';
+        }elseif ($checkCate['type'] == 5){
+            $name_filter_one = 'Thông số 1';
+            $name_filter_two = 'Thông số 2';
+            $name_filter_three = 'Thông số 3';
+            $name_filter_four = 'Thông số 4';
+            $name_filter_five = 'Thông số 5';
+        }elseif ($checkCate['type'] == 6){
+            $name_filter_one = 'Thông số 1';
+            $name_filter_two = 'Thông số 2';
+            $name_filter_three = 'Thông số 3';
+            $name_filter_four = 'Thông số 4';
+            $name_filter_five = 'Thông số 5';
+        }else{
+            $name_filter_one = 'Thông số 1';
+            $name_filter_two = 'Thông số 2';
+            $name_filter_three = 'Thông số 3';
+            $name_filter_four = 'Thông số 4';
+            $name_filter_five = 'Thông số 5';
+        }
+        return [$name_filter_one,$name_filter_two,$name_filter_three,$name_filter_four,$name_filter_five];
     }
 
     /**
@@ -244,7 +296,7 @@ class Controller extends BaseController
      **/
     public function flashSale($item)
     {
-        $flash_sale = FlashSaleModel::where('product_id', $item->product_id)->first();
+        $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id', $item->id)->first();
         if ($flash_sale) {
             $item->promotional_price = $flash_sale->price_sale;
             $item->time_end = $flash_sale->time_end;

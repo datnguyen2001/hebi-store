@@ -150,7 +150,7 @@
                             </a>
                         </div>
                         <button class="btn-add-cart">
-                            <img src="{{asset('assets/images/add-to-cart.png')}}" alt="">
+                            <img data-src="{{asset('assets/images/add-to-cart.png')}}" class="lazy" alt="">
                             <span>Thêm vào giỏ</span>
                         </button>
 
@@ -165,7 +165,7 @@
                     <aside class="buycall col-sm-4">
                         <div class="standard_product" id="accessories">
                             <h4 class="c-h4">
-                                <img src="/images/gift-box-3966268-3286985 2.svg" alt="" class="img-responsive">
+                                <img data-src="" alt="" class="img-responsive lazy">
                                 Chính sách khuyến mãi
                             </h4>
                             <div class="c-standard_product">{!! $product_infor->promotion_policy !!}</div>
@@ -185,8 +185,8 @@
                             <div class="item-child">
                                 <a href="{{url('san-pham/'.$value->product->slug)}}">
                                     <div class="product-img">
-                                        <img class="img-responsive img-prd"
-                                             src="{{$value->infor->image}}"
+                                        <img class="img-responsive img-prd lazy"
+                                             data-src="{{$value->infor->image}}"
                                              alt="ảnh sản phẩm">
                                         <div class="box-absolute">
                                             <div class="discount-box">
@@ -427,9 +427,9 @@
                         </div>
                         <div class="relate_content ">
                             @foreach($new as $value)
-                                <a class="l_item" href="https://onewaymobile.vn/-n461.html">
-                                    <img class="img-responsive" width="120" height="68"
-                                         src="{{$value->image}}">
+                                <a class="l_item" href="{{url('chi-tiet-tin-tuc/'.$value->slug)}}">
+                                    <img class="img-responsive lazy" width="120" height="68"
+                                         data-src="{{$value->image}}">
                                     <span>{{$value->title}}</span>
                                 </a>
                             @endforeach

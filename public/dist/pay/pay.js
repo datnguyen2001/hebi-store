@@ -48,7 +48,7 @@ function getPay() {
                                             <div class="price_detail">
                                                 <div class="box_color">
                                                     <span
-                                                        class="select_color">Màu: ${data.data[i].product_attribute.name_color}</span>
+                                                        class="select_color">Màu: ${data.data[i].product_attribute.name}</span>
                                                 </div>
                                                 <div class="quan visibleCart-xs">
                                                     <span class="number-input">
@@ -225,7 +225,7 @@ function changeAddress() {
         data['province_id'] = $('select[name="province_id"]').val();
         data['district_id'] = $('select[name="district_id"]').val();
         data['ward_id'] = $('select[name="ward_id"]').val();
-        data['address_detail'] = $('#address_detail').val();
+        data['address_detail'] = $('#address').val();
         data['total_all'] = $('.total_product').val();
         $.ajax({
             url: window.location.origin + '/api/fee_ship_order',
@@ -234,10 +234,29 @@ function changeAddress() {
             dataType: 'json',
             success: function (data) {
                 if (data.status) {
-                    $('.total_free_ship').text(formatPrice(data.ship) + 'đ');
-                    $('.fee_ship').val(data.ship);
-                    let total_all_ship = parseInt($('.total_product').val())+parseInt(data.ship);
-                    $('.total_money_all').text(formatPrice(total_all_ship)+'đ');
+                    calculateDistance("Nhà số 1, Ngõ 37, Xã tả thanh oai, Thanh trì, Hà Nội", data.address)
+                        .then(distance => {
+                            let total_all_ship = 0;
+                            if (distance > 10){
+                                if (data.total_product > 5000000){
+                                    $('.total_free_ship').text(0 + 'đ');
+                                    $('.fee_ship').val(0);
+                                    total_all_ship = parseInt($('.total_product').val());
+                                }else {
+                                    $('.total_free_ship').text(formatPrice(data.ship) + 'đ');
+                                    $('.fee_ship').val(data.ship);
+                                    total_all_ship = parseInt($('.total_product').val())+parseInt(data.ship);
+                                }
+                            }else {
+                                $('.total_free_ship').text(0 + 'đ');
+                                $('.fee_ship').val(0);
+                                total_all_ship = parseInt($('.total_product').val());
+                            }
+                            $('.total_money_all').text(formatPrice(total_all_ship)+'đ');
+                        })
+                        .catch(error => {
+                            alert(error)
+                        });
                 } else {
                     swal({
                         title: data.msg,
@@ -251,3 +270,25 @@ function changeAddress() {
 
 }
 
+function calculateDistance(address1, address2) {
+    return new Promise((resolve, reject) => {
+        let service = new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix(
+            {
+                origins: [address1],
+                destinations: [address2],
+                travelMode: 'DRIVING',
+            },
+            function (response, status) {
+                if (status === 'OK') {
+                    let distanceInMeters = response.rows[0].elements[0].distance.value;
+                    let distanceInKm = distanceInMeters / 1000;
+                    resolve(distanceInKm.toFixed(0));
+                } else {
+                    reject("Không thể tính toán khoảng cách.");
+                }
+            }
+        );
+    });
+}

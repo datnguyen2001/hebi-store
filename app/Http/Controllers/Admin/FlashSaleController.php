@@ -68,7 +68,7 @@ class FlashSaleController extends Controller
         $data['flash_sale'] = $flash_sale;
         $data['titlePage'] = 'Admin | Sản Phẩm';
         $data['page_menu'] = 'products';
-        $data['page_sub'] = 'index';
+        $data['page_sub'] = 'flash_sale';
         return view('admin.flash-sale.edit', $data);
     }
 

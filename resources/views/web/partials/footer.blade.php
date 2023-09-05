@@ -20,7 +20,7 @@
             <i class="fa-brands fa-tiktok" style="font-size: 25px"></i>
         </a>
         <a class="fab-action fab-action-3" style="background: #ffa000">
-            <img src="{{asset('assets/images/icon-zalo.png')}}" alt="" style="width: 35px;">
+            <img data-src="{{asset('assets/images/icon-zalo.png')}}" class="lazy" alt="" style="width: 35px;">
         </a>
         <a class="fab-action fab-action-4" style="background: #0058ff">
             <i class="fa-brands fa-facebook" style="font-size: 29px"></i>
@@ -72,17 +72,17 @@
             <div class="fanpage item-menu">
                 <span class="title_item">Hỗ trợ thanh toán</span>
                 <div class="bank-ft">
-                    <img src="https://onewaymobile.vn/images/icon/bank1.png" alt=""
-                         class="img-responsive img-footer-pay" width="241px"
+                    <img data-src="https://onewaymobile.vn/images/icon/bank1.png" alt=""
+                         class="img-responsive img-footer-pay lazy" width="241px"
                          height="33px">
-                    <img src="https://onewaymobile.vn/images/icon/bank2.png" alt=""
-                         class="img-responsive img-footer-pay" width="117px"
+                    <img data-src="https://onewaymobile.vn/images/icon/bank2.png" alt=""
+                         class="img-responsive img-footer-pay lazy" width="117px"
                          height="33px">
                 </div>
                 <div class="dmca-protec">
                     <a href="" target="_blank" class="img-dk-ft">
-                        <img src=" https://onewaymobile.vn/images/config/c52a1034a68361dd3892_1666686156.jpg"
-                             class="img-responsive img" style="width: 133px; height: 50px">
+                        <img data-src=" https://onewaymobile.vn/images/config/c52a1034a68361dd3892_1666686156.jpg"
+                             class="img-responsive img lazy" style="width: 133px; height: 50px">
                     </a>
                 </div>
             </div>
@@ -118,8 +118,8 @@
                         <div class="show_par icon_hover" title="Điện thoại">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="{{asset('assets/images/dienthoai.svg')}}"
-                                     class="img-responsive icon-img-footer"> Điện thoại
+                                     data-src="{{asset('assets/images/dienthoai.svg')}}"
+                                     class="img-responsive icon-img-footer lazy"> Điện thoại
                             </div>
                         </div>
                     </li>
@@ -127,8 +127,8 @@
                         <div class="show_par icon_hover" title="Laptop">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="{{asset('assets/images/icon_ipad.png')}}"
-                                     class="img-responsive icon-img-footer"> Máy tính bảng
+                                     data-src="{{asset('assets/images/icon_ipad.png')}}"
+                                     class="img-responsive icon-img-footer lazy"> Máy tính bảng
                             </div>
                         </div>
                     </li>
@@ -145,8 +145,8 @@
                         <div class="show_par icon_hover" title="Đồng hồ thông minh">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
-                                     class="img-responsive icon-img-footer"> Đồng hồ thông minh
+                                     data-src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
+                                     class="img-responsive icon-img-footer lazy"> Đồng hồ thông minh
                             </div>
                         </div>
                     </li>
@@ -154,34 +154,34 @@
                         <div class="show_par icon_hover" title="Nhà thông minh">
                             <div class="icon_plus">
                                 <img width="30" height="30"
-                                     src="{{asset('assets/images/nhathongminh.svg')}}"
-                                     class="img-responsive icon-img-footer"> Nhà thông minh
+                                     data-src="{{asset('assets/images/nhathongminh.svg')}}"
+                                     class="img-responsive icon-img-footer lazy"> Nhà thông minh
                             </div>
                         </div>
                     </li>
                     <li class="menubottom " onclick="activeFooter(6)">
                         <div class="show_par icon_hover" title="Phụ kiện">
                             <div class="icon_plus">
-                                <img width="30" height="30" src="{{asset('assets/images/accessory.svg')}}"
-                                     class="img-responsive icon-img-footer"> Phụ kiện
+                                <img width="30" height="30" data-src="{{asset('assets/images/accessory.svg')}}"
+                                     class="img-responsive icon-img-footer lazy"> Phụ kiện
                             </div>
                         </div>
                     </li>
                     <li class="menubottom " onclick="activeFooter(7)">
                         <div class="show_par" title="Âm thanh">
                             <div class="icon_plus">
-                                <img width="30" height="30" src="{{asset('assets/images/am-thanh.svg')}}"
-                                     class="img-responsive icon-img-footer"> Âm thanh
+                                <img width="30" height="30" data-src="{{asset('assets/images/am-thanh.svg')}}"
+                                     class="img-responsive icon-img-footer lazy"> Âm thanh
                             </div>
                         </div>
                     </li>
                     <li class="menubottom " onclick="activeFooter(8)">
                         <div class="show_par" title="Tin tức">
                             <div class="icon_plus">
-                                <a href="{{url('tin-tuc/trang-chu')}}"> <img width="30" height="30"
-                                                                             src="{{asset('assets/images/tintuc.svg')}}"
-                                                                             class="img-responsive icon-img-footer"> Tin
-                                    tức </a></div>
+                                <a href="{{url('tin-tuc/trang-chu')}}">
+                                    <img width="30" height="30"
+                                         data-src="{{asset('assets/images/tintuc.svg')}}"
+                                         class="img-responsive icon-img-footer lazy"> Tin tức </a></div>
                         </div>
                     </li>
 
@@ -194,8 +194,8 @@
                                     <a href="{{url('danh-muc/dien-thoai')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/dienthoai.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/dienthoai.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Điện thoại</span>
                                     </a>
@@ -231,8 +231,8 @@
                                     <a href="{{url('danh-muc/may-tinh-bang')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/icon_ipad.png')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/icon_ipad.png')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Máy tính bảng</span>
                                     </a>
@@ -268,8 +268,8 @@
                                     <a href="{{url('danh-muc/laptop')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/laptop.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/laptop.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Laptop</span>
                                     </a>
@@ -305,8 +305,8 @@
                                     <a href="{{url('danh-muc/dong-ho-thong-minh')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/dong-ho-thong-minh.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Đồng hồ thông minh</span>
                                     </a>
@@ -342,8 +342,8 @@
                                     <a href="{{url('danh-muc/nha-thong-minh')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/nhathongminh.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/nhathongminh.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Nhà thông minh</span>
                                     </a>
@@ -379,8 +379,8 @@
                                     <a href="{{url('danh-muc/phu-kien')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/accessory.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/accessory.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Phụ kiện</span>
                                     </a>
@@ -416,8 +416,8 @@
                                     <a href="{{url('danh-muc/am-thanh')}}"
                                        style="display:flex; line-height:20px;">
                                         <img width="20" height="20"
-                                             src="{{asset('assets/images/am-thanh.svg')}}"
-                                             class="img-responsive"
+                                             data-src="{{asset('assets/images/am-thanh.svg')}}"
+                                             class="img-responsive lazy"
                                              style="padding: 0; height: 20px; width: 20px; margin: 0 10px 0 0; object-fit: contain;"/>
                                         <span>Âm thanh</span>
                                     </a>
@@ -467,15 +467,15 @@
                 </a>
             </li>
             <li>
-                <a href="/lien-he.html" id="modal_support">
-                    <i class="fa fa-address-card"></i>
-                    <span>Liên hệ</span>
-                </a>
-            </li>
-            <li>
                 <a href="javascript:void(0)" id="procat">
                     <i class="fa fa-list"></i>
                     <span>Danh mục</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url('tra-cuu-don-hang')}}" id="modal_support">
+                    <i class="fa-solid fa-truck-fast" style="font-size: unset;margin-right: 0" ></i>
+                    <span>Tra cứu đơn</span>
                 </a>
             </li>
             <li>

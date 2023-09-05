@@ -2,15 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\DashboardController;
+use \App\Http\Controllers\admin\LoginController;
+use \App\Http\Controllers\admin\DashboardController;
 use \App\Http\Controllers\Admin\BannerController;
 use \App\Http\Controllers\Admin\BlogController;
-use \App\Http\Controllers\Admin\IntroduceController;
+use \App\Http\Controllers\admin\IntroduceController;
 use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\FlashSaleController;
-use \App\Http\Controllers\Admin\ProductReviewController;
 use \App\Http\Controllers\Admin\OrderController;
+use \App\Http\Controllers\admin\ImportExportProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,11 +74,18 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('item_product/delete', [FlashSaleController::class, 'itemDeleteProduct']);
     });
 
-    Route::prefix('product-review')->name('product-review.')->group(function () {
-        Route::get('/', [ProductReviewController::class, 'index'])->name('index');
-        Route::get('show/{id}', [ProductReviewController::class, 'show'])->name('show');
-        Route::get('browser/{id}', [ProductReviewController::class, 'browser'])->name('show');
-        Route::get('cancel/{id}', [ProductReviewController::class, 'cancel'])->name('show');
+    Route::prefix('import-export-product')->name('import-export-product.')->group(function () {
+        Route::get('', [ImportExportProductController::class, 'importExport'])->name('index');
+        Route::get('import', [ImportExportProductController::class, 'indexImport'])->name('import');
+        Route::get('create-import', [ImportExportProductController::class, 'createImport'])->name('create-import');
+        Route::post('store-import', [ImportExportProductController::class, 'storeImport'])->name('store-import');
+        Route::get('export', [ImportExportProductController::class, 'indexExport'])->name('export');
+        Route::get('create-export', [ImportExportProductController::class, 'createExport'])->name('create-export');
+        Route::post('store-export', [ImportExportProductController::class, 'storeExport'])->name('store-export');
+
+        Route::get('item_product/search', [ImportExportProductController::class, 'productSearch']);
+        Route::get('item_product', [ImportExportProductController::class, 'itemProduct']);
+        Route::get('item_product/delete', [ImportExportProductController::class, 'itemDeleteProduct']);
     });
 
     Route::prefix('banner')->name('banner.')->group(function () {

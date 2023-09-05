@@ -1,6 +1,6 @@
 @extends('web.layout.master')
 @section('title','Hebi Store')
-{{--meta--}}
+
 @section('meta')
     <meta name="description" content=""/>
     <meta name="keywords" content="Hebi Mobile">
@@ -8,7 +8,7 @@
 @section('style_page')
     <link rel="stylesheet" href="dist/pay/pay.css">
 @stop
-{{--content of page--}}
+
 @section('content')
     <div class="container">
         <div class="container-cart">
@@ -16,7 +16,6 @@
                 <a href="{{url('/')}}" class="buy-more">
                     <i class="fa fa-angle-left"></i>
                     Mua thêm sản phẩm khác </a>
-                {{--                <a href="javascript:void(0)">Giỏ hàng của bạn</a>--}}
             </div>
             <div class="content-cart">
                 <div class="list-products">
@@ -157,31 +156,4 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3G5DUAOaV9CFr3Pft_X-949-64zXaBg&libraries=geometry"></script>
 @section('script_page')
     <script src="{{asset('dist/pay/pay.js')}}"></script>
-    <script>
-        function calculateDistance(address1, address2) {
-            var service = new google.maps.DistanceMatrixService();
-            var distanceInMeters = 0;
-
-            service.getDistanceMatrix(
-                {
-                    origins: [address1],
-                    destinations: [address2],
-                    travelMode: 'DRIVING',
-                },
-                function (response, status) {
-                    if (status === 'OK') {
-                        distanceInMeters = response.rows[0].elements[0].distance.value;
-                        var distanceInKm = distanceInMeters / 1000;
-                        console.log(
-                            "Khoảng cách giữa " + address1 + " và " + address2 + " là: " + distanceInKm.toFixed(2) + " km."
-                        );
-                    } else {
-                        console.log("Không thể tính toán khoảng cách.");
-                    }
-                }
-            );
-        }
-
-        calculateDistance("Nhà số 1, Ngõ 37, Xã tả thanh oai, Thanh trì, Hà Nội", "An Phát Computer 151 Lê Thanh Nghị, 151 P. Lê Thanh Nghị, Đồng Tâm, Hai Bà Trưng,Hà Nội");
-    </script>
 @stop

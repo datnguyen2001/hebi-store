@@ -92,7 +92,7 @@
                     <div class="news-related">
                         @foreach($data_more as $item)
                         <a class="item-related" href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                            <img src="{{$item->image}}" class="img-responsive">
+                            <img data-src="{{$item->image}}" class="img-responsive lazy">
                             <span class="custom-content-3-line">{{$item->title}}</span>
                         </a>
                         @endforeach

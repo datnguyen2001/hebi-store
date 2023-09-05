@@ -260,26 +260,32 @@
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="phone"
                                                        value="3" name="category"></div>
+                                            <label for="phone" class="m-0">Laptop</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
+                                                       value="4" name="category"></div>
                                             <label for="watch" class="m-0">Đồng hồ thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="home"
-                                                       value="4" name="category"></div>
+                                                       value="5" name="category"></div>
                                             <label for="home" class="m-0">Nhà thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="accessory"
-                                                       value="5" name="category"></div>
+                                                       value="6" name="category"></div>
                                             <label for="accessory" class="m-0">Phụ kiện</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="sound"
-                                                       value="6" name="category"></div>
+                                                       value="7" name="category"></div>
                                             <label for="sound" class="m-0">Âm thanh</label>
                                         </div>
                                     </div>
@@ -314,33 +320,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_1">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Ram :</p>
+                                <p class="m-0 parameter_1">Thống số 1 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_one" required value="">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_2">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Màn hình :</p>
+                                <p class="m-0 parameter_2">Thông số 2 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_two" required value="">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_3">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Mục đích dùng :</p>
+                                <p class="m-0 parameter_3">Thông số 3 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_three" required value="">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_4">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Chíp xử lí :</p>
+                                <p class="m-0 parameter_4">Thông số 4 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_four" required value="">
@@ -411,23 +417,23 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-header bg-primary text-white">
-                                Thuộc tính sản phẩm <span style="font-size: 14px; color: white">( Thêm ít nhất 1 loại sản phẩm )</span>
+                                Thêm sản phẩm
                             </div>
                             <div class="card-body p-0 bg-white">
                                 <div class="mt-3 border-bottom data-variant pb-3">
                                     <div class="row m-0">
                                         <div class="col-lg-3 p-1">
                                             <input type="text" name="variant[0][name]" class="form-control"
-                                                   placeholder="Tên loại sản phẩm" required>
+                                                   placeholder="Tên sản phẩm" required>
                                         </div>
                                         <div class="col-lg-2 p-1">
                                             <button type="button" class="btn btn-success btn-add-size form-control"><i
                                                     class="bi bi-plus-lg"></i> Thêm Màu
                                             </button>
                                         </div>
-                                        <div class="col-lg-3 p-1">
+                                        <div class="col-lg-2 p-1">
                                             <button type="button" class="btn btn-primary btn-add-color form-control"><i
-                                                    class="bi bi-plus-lg"></i> Thêm Loại Sản Phẩm
+                                                    class="bi bi-plus-lg"></i> Thêm Sản Phẩm
                                             </button>
                                         </div>
                                     </div>

@@ -78,7 +78,9 @@
 }
 
 .product-tech {
-    margin-bottom: 8px
+    margin-bottom: 8px;
+    overflow: hidden;
+    max-height: 27.5px;
 }
 
 .product-tech .slick-track {

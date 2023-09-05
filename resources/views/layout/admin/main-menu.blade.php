@@ -1,4 +1,3 @@
-<!-- ======= Sidebar ======= -->
 <?php
 //    $user_id = auth()->id();
 //    $rule = \App\Models\RuleModel::where('user_id', $user_id)->first();
@@ -46,4 +45,4 @@
             @endif
         @endforeach
     </ul>
-</aside><!-- End Sidebar-->
+</aside>

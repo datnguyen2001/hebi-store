@@ -280,24 +280,30 @@
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="watch"
                                                        value="3" name="category" @if($product_infor->type_product == 3) checked @endif></div>
+                                            <label for="watch" class="m-0">Laptop</label>
+                                        </div>
+                                        <div class="d-flex align-items-center category p-1">
+                                            <div class="d-flex align-items-center" style="margin-right: 10px">
+                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
+                                                       value="4" name="category" @if($product_infor->type_product == 4) checked @endif></div>
                                             <label for="watch" class="m-0">Đồng hồ thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="home"
-                                                       value="4" name="category" @if($product_infor->type_product == 4) checked @endif></div>
+                                                       value="5" name="category" @if($product_infor->type_product == 5) checked @endif></div>
                                             <label for="home" class="m-0">Nhà thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="accessory"
-                                                       value="5" name="category" @if($product_infor->type_product == 5) checked @endif></div>
+                                                       value="6" name="category" @if($product_infor->type_product == 6) checked @endif></div>
                                             <label for="accessory" class="m-0">Phụ kiện</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
                                                 <input type="checkbox" style="width: 20px; height: 20px" id="sound"
-                                                       value="6" name="category" @if($product_infor->type_product == 6) checked @endif></div>
+                                                       value="7" name="category" @if($product_infor->type_product == 7) checked @endif></div>
                                             <label for="sound" class="m-0">Âm thanh</label>
                                         </div>
                                     </div>
@@ -368,33 +374,33 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_1">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Ram :</p>
+                                <p class="m-0 parameter_1">Thống số 1 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_one" required value="{{$product_infor->parameter_one}}">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_2">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Màn hình :</p>
+                                <p class="m-0 parameter_2">Thống số 2 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_two" required value="{{$product_infor->parameter_two}}">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_3">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Mục đích dùng :</p>
+                                <p class="m-0 parameter_3">Thống số 3 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_three" required value="{{$product_infor->parameter_three}}">
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3 box_parameter_4">
                             <div class="col-3 d-flex align-items-center">
-                                <p class="m-0">Chíp xử lí :</p>
+                                <p class="m-0 parameter_4">Thống số 4 :</p>
                             </div>
                             <div class="col-9">
                                 <input class="form-control" name="parameter_four" required value="{{$product_infor->parameter_four}}">
@@ -520,7 +526,7 @@
                                                     <input value="{{$value->id}}" hidden name="variant[{{$key}}][data][{{$k}}][value_id]">
                                                     <div class="col-lg-3 p-1">
                                                         <input type="text" name="variant[{{$key}}][data][{{$k}}][color]"
-                                                               class="form-control" placeholder="Tên màu sản phẩm" required value="{{$value->name_color}}">
+                                                               class="form-control" placeholder="Tên màu sản phẩm" required value="{{$value->name}}">
                                                     </div>
                                                     <div class="col-lg-3 p-1">
                                                         <input name="variant[{{$key}}][data][{{$k}}][price]" type="text" class="form-control price format-currency" value="{{number_format($value->price)}}" placeholder="Gía gốc">

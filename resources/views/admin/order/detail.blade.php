@@ -173,7 +173,7 @@
                                             <td><img class="image-preview" style="width: 40px; height: auto"
                                                      src="{{$order_item->product_image->image}}"></td>
                                             <td>{{$order_item->product_name->name}}</td>
-                                            <td>{{$order_item->product_attribute->name_color}}</td>
+                                            <td>{{$order_item->product_attribute->name}}</td>
                                             <td>{{$order_item->quantity}}</td>
                                             <td>{{number_format($order_item->promotional_price)}}đ</td>
                                             <td>{{number_format($order_item->total_money)}}đ</td>
@@ -207,7 +207,7 @@
                                 <label for="inputText" class="col-sm-3 col-form-label">Đơn vị vận chuyển</label>
                                 <div class="col-sm-9">
                                     <input disabled type="text" name="transport_name" required class="form-control"
-                                           value="@if($listData->transport_name == 'GHN') GIAO HÀNG NHANH @else Chưa thiết lập @endif">
+                                           value="@if($listData->transport_name == 'GHN') GIAO HÀNG NHANH @else Cửa hàng @endif">
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -215,7 +215,7 @@
                                 <div class="col-sm-9">
                                     <input disabled type="text" name="order_code_transport" required
                                            class="form-control"
-                                           value="@if($listData->order_code_transport ) {{$listData->order_code_transport}} @else Chưa tạo đơn @endif">
+                                           value="@if($listData->order_code_transport ) {{$listData->order_code_transport}} @else Không có @endif">
                                 </div>
                             </div>
                             <div class="row mb-3">

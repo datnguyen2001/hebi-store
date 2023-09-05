@@ -9,12 +9,21 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index ()
+    public function index (Request $request)
     {
         $titlePage = 'Admin | Danh Mục Sản Phẩm';
         $page_menu = 'products';
         $page_sub = 'category';
-        $listData = CategoryModel::all();
+        if (isset($request->key_search)) {
+            $listData = CategoryModel::Where('name', 'like', '%' . $request->get('key_search') . '%')
+                ->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $listData = CategoryModel::paginate(10);
+        }
+        foreach ($listData as $item){
+            $category = CategoryModel::find($item->parent_id);
+            $item->category_parent = $category->name??'Là danh mục cha';
+        }
         return view('admin.category.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
     }
 

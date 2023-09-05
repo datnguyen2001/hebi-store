@@ -18,8 +18,8 @@
                     <div class="item-child">
                         <a href="{{url('san-pham/'.$value->slug)}}">
                             <div class="product-img">
-                                <img class="img-responsive img-prd"
-                                     src="{{$value->infor->image}}"
+                                <img class="img-responsive img-prd lazy"
+                                     data-src="{{$value->infor->image}}"
                                      alt="ảnh sản phẩm">
                                 <div class="box-absolute">
                                     <div class="discount-box">Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}%</div>
