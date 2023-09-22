@@ -15,15 +15,15 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$titlePage}}</h5>
                                 <a class="btn btn-success"
-                                   href="{{route('admin.blog.create')}}">Thêm bài viết</a>
+                                   href="{{route('admin.news.create')}}">Thêm bài viết</a>
                             </div>
                             <div class="mb-3 d-flex justify-content-end">
                                 <form class="d-flex align-items-center w-50" method="get"
-                                      action="{{route('admin.blog.index')}}">
+                                      action="{{route('admin.news.index')}}">
                                     <input name="key_search" type="text" value="{{request()->get('key_search')}}"
                                            placeholder="Tìm kiếm tên bài viết" class="form-control" style="margin-right: 16px">
                                     <button class="btn btn-info"><i class="bi bi-search"></i></button>
-                                    <a href="{{route('admin.blog.index')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
+                                    <a href="{{route('admin.news.index')}}" class="btn btn-danger" style="margin-left: 15px">Hủy </a>
                                 </form>
                             </div>
                             @if(count($listData) > 0)
@@ -57,13 +57,13 @@
                                             <td class="text-center">@if($value->display == 1)Bật @else Tắt @endif</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{url('admin/blog/edit/'.$value->id)}}"
+                                                    <a href="{{url('admin/news/edit/'.$value->id)}}"
                                                        class="btn btn-icon btn-light btn-hover-success btn-sm"
                                                        data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                        data-bs-original-title="Cập nhật">
                                                         <i class="bi bi-pencil-square "></i>
                                                     </a>
-                                                    <a href="{{url('admin/blog/delete/'.$value->id)}}"
+                                                    <a href="{{url('admin/news/delete/'.$value->id)}}"
                                                        class="btn btn-delete btn-icon btn-light btn-sm"
                                                        data-bs-toggle="tooltip" data-bs-placement="top" title=""
                                                        data-bs-original-title="Xóa">

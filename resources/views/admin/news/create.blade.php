@@ -6,7 +6,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Cập nhật {{$titlePage}}</h5>
+                            <h5 class="card-title">Thêm mới {{$titlePage}}</h5>
                             <!-- General Form Elements -->
                             @if (session('error'))
                                 <div
@@ -17,27 +17,25 @@
                                             aria-label="Close"></button>
                                 </div>
                             @endif
-                            <form action="{{url("admin/blog/update",$blog->id)}}" method="post"
+                            <form action="{{route('admin.news.store')}}" method="post"
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mb-3">
                                     <label for="inputText" class="col-sm-3 col-form-label">Tên blog</label>
                                     <div class="col-sm-8">
-                                        <input type="text" name="title" required class="form-control"
-                                               value="{{$blog->title}}">
+                                        <input type="text" name="title" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-3 d-flex align-items-center">
-                                        <p class="m-0">Danh mục (<span style="color: red"> * </span>) :</p>
+                                        <p class="m-0">Danh mục :</p>
                                     </div>
                                     <div class="col-sm-8">
                                         <select name="type" class="form-select">
-                                            <option value="1" @if($blog->type == 1) selected @endif>Tin mới</option>
-                                            <option value="2" @if($blog->type == 2) selected @endif>Khuyến mãi</option>
-                                            <option value="3" @if($blog->type == 3) selected @endif>Mẹo hay</option>
-                                            <option value="4" @if($blog->type == 4) selected @endif>Tin tuyển dụng
-                                            </option>
+                                            <option value="1">Tin mới</option>
+                                            <option value="2">Khuyến mãi</option>
+                                            <option value="3">Mẹo hay</option>
+                                            <option value="4">Tin tuyển dụng</option>
                                         </select>
                                     </div>
                                 </div>
@@ -45,16 +43,12 @@
                                 <div class="row mb-3">
                                     <div class="col-3">Hình ảnh :</div>
                                     <div class="col-8">
-                                        <div class="form-control position-relative div-parent" style="padding-top: 50%">
-                                            <div class="position-absolute w-100 h-100 div-file"
-                                                 style="top: 0; left: 0;z-index: 10">
-                                                <button type="button"
-                                                        class="position-absolute clear border-0 bg-danger p-0 d-flex justify-content-center align-items-center"
-                                                        style="top: -10px;right: -10px;width: 30px;height: 30px;border-radius: 50%">
-                                                    <i class="bi bi-x-lg text-white"></i></button>
-                                                <img src="{{$blog->image}}" class="w-100 h-100"
-                                                     style="object-fit: cover">
-                                            </div>
+                                        <div class="form-control position-relative" style="padding-top: 50%">
+                                            <button type="button"
+                                                    class="position-absolute border-0 bg-transparent select-image"
+                                                    style="top: 50%;left: 50%;transform: translate(-50%,-50%)">
+                                                <i style="font-size: 30px" class="bi bi-download"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -63,41 +57,38 @@
                                         Nội dung
                                     </div>
                                     <div class="card-body mt-2">
-                                        <textarea name="content" class="ckeditor">{!! $blog->content !!}</textarea>
+                                        <textarea name="content" class="ckeditor">{{ old('content') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-3">Thứ tự :</div>
                                     <div class="col-8">
-                                        <input class="form-control" name="index" value="{{$blog->index}}" type="number">
+                                        <input class="form-control" name="index" type="number">
                                     </div>
                                 </div>
-                                <div class="row mt-3">
+                                <div class="row mb-3">
                                     <div class="col-3">Bài viết nổi bật :</div>
                                     <div class="col-8">
                                         <label class="switch">
-                                            <input type="checkbox" @if($blog->is_featured == 1) checked
-                                                   @endif name="is_featured">
+                                            <input type="checkbox" name="is_featured">
                                             <span class="slider round"></span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
+                                <div class="row mb-3">
                                     <div class="col-3">Bật/tắt :</div>
                                     <div class="col-8">
                                         <label class="switch">
-                                            <input type="checkbox" @if($blog->display == 1) checked
-                                                   @endif name="display">
+                                            <input type="checkbox" checked name="display">
                                             <span class="slider round"></span>
                                         </label>
                                     </div>
                                 </div>
-
                                 <div class="row mt-5">
                                     <div class="col-3"></div>
                                     <div class="col-8">
-                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
-                                        <a href="{{route('admin.blog.index')}}" class="btn btn-danger">Hủy</a>
+                                        <button type="submit" class="btn btn-primary">Tạo</button>
+                                        <a href="{{route('admin.news.index')}}" class="btn btn-danger">Hủy</a>
                                     </div>
                                     <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg,video/*"
                                            hidden>
@@ -112,6 +103,13 @@
 @endsection
 @section('script')
     <script>
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
         let parent;
         $(document).on("click", ".select-image", function () {
             $('input[name="file"]').click();
@@ -149,7 +147,6 @@
         }
 
         $(document).on("click", "button.clear", function () {
-            parent = $(this).closest(".div-parent");
             $(".div-file").remove();
             let html = '<button type="button" class="position-absolute border-0 bg-transparent select-image" style="top: 50%;left: 50%;transform: translate(-50%,-50%)">\n' +
                 '                                    <i style="font-size: 30px" class="bi bi-download"></i>\n' +

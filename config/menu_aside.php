@@ -79,10 +79,10 @@ return [
             'submenu' => [],
         ],
         [
-            'name' => 'blog',
-            'title' => 'Quản lý bài viết',
+            'name' => 'news',
+            'title' => 'Quản lý tin tức',
             'icon' => 'bi bi-grid',
-            'route' => 'admin.blog.index',
+            'route' => 'admin.news.index',
             'submenu' => [],
         ],
         [

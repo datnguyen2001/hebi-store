@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\BlogPostsModel;
+use App\Models\NewsModel;
 use App\Models\CategoryModel;
 use App\Models\FlashSaleModel;
 use App\Models\ImageVariantModel;
@@ -134,7 +134,7 @@ class ProductController extends Controller
         }
         $category = CategoryModel::find($product_infor->category_id);
         $name_category = CategoryModel::find($category->parent_id);
-        $new = BlogPostsModel::where('display', 1)->where('is_featured', 1)->orderBy('index', 'desc')->limit(3)->get();
+        $new = NewsModel::where('display', 1)->where('is_featured', 1)->orderBy('index', 'desc')->limit(3)->get();
         $w_title = 'Chi tiết sản phẩm';
         return view('web.product.detail-product', compact('w_title', 'product', 'product_attribute', 'product_infor',
             'image_product', 'list_product', 'name_category', 'category', 'product_related', 'new', 'status', 'star','percent_5',

@@ -100,7 +100,7 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::post('update/{id}', [BannerController::class, 'update']);
     });
 
-    Route::prefix('blog')->name('blog.')->group(function () {
+    Route::prefix('news')->name('news.')->group(function () {
         Route::get('', [BlogController::class, 'index'])->name('index');
         Route::get('create', [BlogController::class, 'create'])->name('create');
         Route::post('store', [BlogController::class, 'store'])->name('store');

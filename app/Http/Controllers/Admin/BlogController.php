@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\BlogPostsModel;
+use App\Models\NewsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,23 +12,23 @@ class BlogController extends Controller
     public function index (Request $request)
     {
         $titlePage = 'Danh sách bài viết';
-        $page_menu = 'blog';
+        $page_menu = 'news';
         $page_sub = 'index';
         if (isset($request->key_search)) {
-            $listData = BlogPostsModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
+            $listData = NewsModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
                 ->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $listData = BlogPostsModel::orderBy('created_at', 'desc')->paginate(10);
+            $listData = NewsModel::orderBy('created_at', 'desc')->paginate(10);
         }
 
-        return view('admin.blog.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
+        return view('admin.news.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
     }
     public function create ()
     {
         $titlePage = 'Bài viết';
-        $page_menu = 'blog';
+        $page_menu = 'news';
         $page_sub = 'index';
-        return view('admin.blog.create', compact('titlePage', 'page_menu', 'page_sub'));
+        return view('admin.news.create', compact('titlePage', 'page_menu', 'page_sub'));
     }
 
     public function store(Request $request)
@@ -52,18 +52,18 @@ class BlogController extends Controller
             $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
             $request->file('file')->move($part, $file_name);
 
-            $posts = new BlogPostsModel();
-            $posts->title = $request->get('title');
-            $posts->slug = Str::slug($request->get('title'));
-            $posts->image = $file_name;
-            $posts->content = $request->get('content');
-            $posts->type = $request->get('type');
-            $posts->index = $request->get('index');
-            $posts->is_featured = $is_featured;
-            $posts->display = $display;
-            $posts->save();
+            $news = new NewsModel();
+            $news->title = $request->get('title');
+            $news->slug = Str::slug($request->get('title'));
+            $news->image = $file_name;
+            $news->content = $request->get('content');
+            $news->type = $request->get('type');
+            $news->index = $request->get('index');
+            $news->is_featured = $is_featured;
+            $news->display = $display;
+            $news->save();
 
-            return \redirect()->route('admin.blog.index')->with(['success' => 'Thêm blog thành công']);
+            return \redirect()->route('admin.news.index')->with(['success' => 'Thêm tin tức thành công']);
 
         } catch (\Exception $exception) {
             dd($exception);
@@ -72,33 +72,33 @@ class BlogController extends Controller
 
     public function delete ($id)
     {
-        BlogPostsModel::where('id', $id)->delete();
-        return \redirect()->route('admin.blog.index')->with(['success' => 'Xóa blog thành công']);
+        NewsModel::where('id', $id)->delete();
+        return \redirect()->route('admin.news.index')->with(['success' => 'Xóa tin tức thành công']);
     }
 
     public function edit ($id)
     {
-        $blog = BlogPostsModel::find($id);
+        $news = NewsModel::find($id);
         $titlePage = 'Bài viết';
-        $page_menu = 'blog';
+        $page_menu = 'news';
         $page_sub = 'index';
-        return view('admin.blog.edit', compact('blog', 'titlePage', 'page_menu', 'page_sub'));
+        return view('admin.news.edit', compact('news', 'titlePage', 'page_menu', 'page_sub'));
     }
 
     public function update ($id, Request $request)
     {
         try{
-            $blog = BlogPostsModel::find($id);
-            if (empty($blog)){
-                return back()->with(['error'=> 'Blog không tồn tại']);
+            $news = NewsModel::find($id);
+            if (empty($news)){
+                return back()->with(['error'=> 'Tin tức không tồn tại']);
             }
             if ($request->hasFile('file')){
                 $file = $request->file('file');
                 $part = 'upload/banner/img/';
                 $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
                 $request->file('file')->move($part, $file_name);
-                unlink($blog->image);
-                $blog->image = $file_name;
+                unlink($news->image);
+                $news->image = $file_name;
             }
             if ($request->get('display') == 'on'){
                 $display = 1;
@@ -110,15 +110,15 @@ class BlogController extends Controller
             }else{
                 $is_featured = 0;
             }
-            $blog->title = $request->get('title');
-            $blog->slug = Str::slug($request->get('title'));
-            $blog->content = $request->get('content');
-            $blog->type = $request->get('type');
-            $blog->index = $request->get('index');
-            $blog->is_featured = $is_featured;
-            $blog->display = $display;
-            $blog->save();
-            return \redirect()->route('admin.blog.index')->with(['success' => 'Sửa blog thành công']);
+            $news->title = $request->get('title');
+            $news->slug = Str::slug($request->get('title'));
+            $news->content = $request->get('content');
+            $news->type = $request->get('type');
+            $news->index = $request->get('index');
+            $news->is_featured = $is_featured;
+            $news->display = $display;
+            $news->save();
+            return \redirect()->route('admin.news.index')->with(['success' => 'Sửa tin tức thành công']);
         }catch (\Exception $exception){
             return back()->with(['error' => $exception->getMessage()]);
         }
