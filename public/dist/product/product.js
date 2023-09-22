@@ -22,6 +22,15 @@ $(function () {
     $(document).on('click', '.products_type_click', clickColor);
 });
 
+let number = $('.products_type_click.active').attr('data_quantity');
+if (number<=0){
+    $("#text_contact").css('display','flex');
+    $("#button-cart").css('display','none')
+}else {
+    $("#button-cart").css('display','flex');
+    $("#text_contact").css('display','none')
+}
+
 $(".clickmore").click(function () {
     $("#boxdesc").toggleClass("show-more");
     if ($("#boxdesc").hasClass("show-more")) {
@@ -36,6 +45,14 @@ function clickColor() {
     $(this).addClass('active');
     $('._price').text($(this).attr('data_promotional_price') + 'đ');
     $('.price_old').text($(this).attr('data_price') + 'đ');
+    let quantity = $(this).attr('data_quantity');
+    if (quantity<=0){
+        $("#text_contact").css('display','flex');
+        $("#button-cart").css('display','none')
+    }else {
+        $("#button-cart").css('display','flex');
+        $("#text_contact").css('display','none')
+    }
 }
 
 $(document).ready(function () {

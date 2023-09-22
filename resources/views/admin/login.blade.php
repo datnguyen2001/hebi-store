@@ -86,31 +86,23 @@
                                         <div class="invalid-feedback">Please enter your password!</div>
                                     </div>
 
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                                            <label class="form-check-label" for="rememberMe">Remember me</label>
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-12">--}}
+{{--                                        <div class="form-check">--}}
+{{--                                            <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">--}}
+{{--                                            <label class="form-check-label" for="rememberMe">Remember me</label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="col-12">
                                         <button class="btn btn-primary w-100" type="submit">Login</button>
                                     </div>
-                                    @if($title != 'Admin')
-                                        <div class="col-12">
-                                            <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
-                                        </div>
-                                    @endif
+{{--                                    @if($title != 'Admin')--}}
+{{--                                        <div class="col-12">--}}
+{{--                                            <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
                                 </form>
 
                             </div>
-                        </div>
-
-                        <div class="credits">
-                            <!-- All the links in the footer should remain intact. -->
-                            <!-- You can delete the links only if you purchased the pro version. -->
-                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                            Designed by <a href="#">Wins International</a>
                         </div>
 
                     </div>

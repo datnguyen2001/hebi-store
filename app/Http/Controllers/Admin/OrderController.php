@@ -39,6 +39,7 @@ class OrderController extends ShippingUnitController
             foreach ($listData as $item) {
                 $item->status_name = $this->checkStatusOrder($item);
             }
+            $order_all = OrderModel::count();
             $order_pending = OrderModel::where('status', 0)->count();
             $order_confirm = OrderModel::where('status', 1)->count();
             $order_delivery = OrderModel::where('status', 2)->count();
@@ -47,7 +48,7 @@ class OrderController extends ShippingUnitController
             $order_refuse = OrderModel::where('status', 5)->count();
             $order_refund = OrderModel::where('status', 6)->count();
             return view('admin.order.index', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'order_pending', 'order_confirm',
-                'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_refuse', 'order_refund'));
+                'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_refuse', 'order_refund','order_all'));
         } catch (\Exception $exception) {
             dd($exception);
         }
@@ -147,7 +148,9 @@ class OrderController extends ShippingUnitController
             $val_status = 'Đã hoàn thành';
         } elseif ($item->status == 4) {
             $val_status = 'Đã hủy';
-        } else {
+        } elseif ($item->status == 5) {
+            $val_status = 'Từ chối nhận';
+        }else {
             $val_status = 'Hoàn trả hàng';
         }
 

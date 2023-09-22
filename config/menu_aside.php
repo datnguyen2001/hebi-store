@@ -14,7 +14,7 @@ return [
             'title' => 'Quản lý đơn hàng',
             'icon' => 'bi bi-grid',
             'route' => 'admin.order.index',
-            'parameters' => ['status' => '0'],
+            'parameters' => ['status' => 'all'],
             'submenu' => [],
         ],
         [
@@ -90,6 +90,13 @@ return [
             'title' => 'Quản lý footer',
             'icon' => 'bi bi-grid',
             'route' => 'admin.introduce.index',
+            'submenu' => [],
+        ],
+        [
+            'name' => 'rule',
+            'title' => 'Phân quyền',
+            'icon' => 'bi bi-grid',
+            'route' => 'admin.rule.index',
             'submenu' => [],
         ],
     ]

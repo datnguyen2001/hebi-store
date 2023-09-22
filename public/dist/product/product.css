@@ -662,7 +662,9 @@ p {
 .btn-next {
     background: url(../../assets/images/next.png) center no-repeat;
 }
-
+#button-cart{
+    display: none;
+}
 .btn-add-cart {
     background-color: initial;
     border: 2px solid #e04040;
@@ -675,7 +677,17 @@ p {
     width: 64px;
     cursor: pointer;
 }
-
+#text_contact{
+    display: none;
+    justify-content: center;
+    color: red;
+    font-size: 18px;
+    border: 1px solid red;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+}
 .btn-add-cart img {
     width: 30px;
     height: 30px;

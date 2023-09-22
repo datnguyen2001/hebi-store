@@ -11,6 +11,7 @@ use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\FlashSaleController;
 use \App\Http\Controllers\Admin\OrderController;
 use \App\Http\Controllers\admin\ImportExportProductController;
+use \App\Http\Controllers\Admin\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('check-admin-auth')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('index');
+    Route::get('customer', [DashboardController::class, 'customer'])->name('customer');
+    Route::get('customer-buy-max', [DashboardController::class, 'customerBuyMax'])->name('customer-buy-max');
 
     Route::prefix('order')->name('order.')->group(function (){
         Route::get('index/{status}', [OrderController::class,'getDataOrder'])->name('index');
@@ -113,6 +116,16 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('delete/{id}', [IntroduceController::class, 'delete']);
         Route::get('edit/{id}', [IntroduceController::class, 'edit']);
         Route::post('update/{id}', [IntroduceController::class, 'update']);
+    });
+
+    //Quản nhân viên
+    Route::prefix('rule')->name('rule.')->group(function (){
+        Route::get('', [RoleController::class, 'index'])->name('index');
+        Route::get('create', [RoleController::class,'create'])->name('create');
+        Route::post('store', [RoleController::class,'store'])->name('store');
+        Route::get('delete/{id}', [RoleController::class,'delete']);
+        Route::get('edit/{id}', [RoleController::class,'edit'])->name('edit');
+        Route::post('update/{id}', [RoleController::class, 'update'])->name('update');
     });
 
     Route::post('ckeditor/upload', [\App\Http\Controllers\CKEditorController::class, 'upload'])->name('ckeditor.image-upload');

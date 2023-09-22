@@ -81,9 +81,7 @@
                 <aside class="_extra col-sm-4">
                     <div class="details_top1">
                         <div class="details_top">
-                            <p class="name_mobile visible-xs">Bạn đang xem {{$product->name}} màu
-                                <span class="color_mobile">Đỏ</span>
-                            </p>
+                            <p class="name_mobile visible-xs">Bạn đang xem {{$product->name}}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="top_prd ">
                                     <span class="_price"></span>
@@ -117,12 +115,13 @@
                                         </a>
                                     @endforeach
                                 </div>
-                                <p><b>Chọn màu để xem giá và chi nhánh có hàng</b></p>
+                                <p><b>Chọn màu để xem giá</b></p>
                                 <div class="products_type">
                                     @foreach($product_attribute as $index => $item)
                                         <div data_price="{{number_format($item->price)}}"
                                              data_promotional_price="{{number_format($item->price_sale)}}"
                                              data_product_id="{{$item->id}}"
+                                             data_quantity = "{{$item->quantity}}"
                                              class="item_price products_type_item products_type_click  @if($index == 0) active @endif  ">
                                             <p class="w-100" style="margin-left: 0px!important;">
                                                 <span class="text-center w-100"
@@ -142,7 +141,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div id="button-cart" class="d-flex justify-content-between align-items-center">
+                    <div id="button-cart" class="justify-content-between align-items-center">
                         <div style="width: calc(100% - 75px);">
                             <a id="buy-now" href="#" class="btn-buy btn mt10">
                                 Mua ngay
@@ -153,8 +152,8 @@
                             <img data-src="{{asset('assets/images/add-to-cart.png')}}" class="lazy" alt="">
                             <span>Thêm vào giỏ</span>
                         </button>
-
                     </div>
+                    <div id="text_contact">Sản phẩm tạm thời hết hàng</div>
                     <div class="call_shop" style="margin-top:20px;">
                         <i class="fa-solid fa-square-phone" style="color: #0a53be;font-size: 17px"></i>
                         <a href="tel:0978129116">0978129116</a>
