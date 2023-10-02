@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\NewsModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,24 +12,32 @@ class BlogController extends Controller
 {
     public function index (Request $request)
     {
-        $titlePage = 'Danh sách bài viết';
-        $page_menu = 'news';
-        $page_sub = 'index';
-        if (isset($request->key_search)) {
-            $listData = NewsModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
-                ->orderBy('created_at', 'desc')->paginate(10);
-        } else {
-            $listData = NewsModel::orderBy('created_at', 'desc')->paginate(10);
-        }
+        if (User::checkUserRole(7)) {
+            $titlePage = 'Danh sách bài viết';
+            $page_menu = 'news';
+            $page_sub = 'index';
+            if (isset($request->key_search)) {
+                $listData = NewsModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
+                    ->orderBy('created_at', 'desc')->paginate(10);
+            } else {
+                $listData = NewsModel::orderBy('created_at', 'desc')->paginate(10);
+            }
 
-        return view('admin.news.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
+            return view('admin.news.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
+        }else{
+            return view('admin.error');
+        }
     }
     public function create ()
     {
-        $titlePage = 'Bài viết';
-        $page_menu = 'news';
-        $page_sub = 'index';
-        return view('admin.news.create', compact('titlePage', 'page_menu', 'page_sub'));
+        if (User::checkUserRole(7)) {
+            $titlePage = 'Bài viết';
+            $page_menu = 'news';
+            $page_sub = 'index';
+            return view('admin.news.create', compact('titlePage', 'page_menu', 'page_sub'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function store(Request $request)
@@ -72,17 +81,25 @@ class BlogController extends Controller
 
     public function delete ($id)
     {
-        NewsModel::where('id', $id)->delete();
-        return \redirect()->route('admin.news.index')->with(['success' => 'Xóa tin tức thành công']);
+        if (User::checkUserRole(7)) {
+            NewsModel::where('id', $id)->delete();
+            return \redirect()->route('admin.news.index')->with(['success' => 'Xóa tin tức thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function edit ($id)
     {
-        $news = NewsModel::find($id);
-        $titlePage = 'Bài viết';
-        $page_menu = 'news';
-        $page_sub = 'index';
-        return view('admin.news.edit', compact('news', 'titlePage', 'page_menu', 'page_sub'));
+        if (User::checkUserRole(7)) {
+            $news = NewsModel::find($id);
+            $titlePage = 'Bài viết';
+            $page_menu = 'news';
+            $page_sub = 'index';
+            return view('admin.news.edit', compact('news', 'titlePage', 'page_menu', 'page_sub'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function update ($id, Request $request)

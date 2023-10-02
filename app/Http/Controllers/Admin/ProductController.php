@@ -10,6 +10,7 @@ use App\Models\ProductInformationModel;
 use App\Models\ProductRelatedModel;
 use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,36 +20,44 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        if (isset($request->key_search)) {
-            $id_product = ProductsModel::where('name', 'like', '%' . $request->get('key_search') . '%')->pluck('product_infor_id');
-            $data_product = ProductInformationModel::whereIn('id',$id_product)->where('display', 1)->paginate(10);
-        } else {
-            $data_product = ProductInformationModel::orderBy('created_at', 'desc')->where('display', 1)->paginate(10);
-        }
-        if ($data_product) {
-            foreach ($data_product as $value) {
-                $value->product = ProductsModel::where('product_infor_id', $value->id)->get();
-                foreach ($value->product as $item) {
-                    $attribute = ProductAttributesModel::where('product_id', $item->id)->first();
-                    $item->price = $attribute->price;
-                    $item->promotional_price = $attribute->promotional_price;
+        if (User::checkUserRole(5)) {
+            if (isset($request->key_search)) {
+                $id_product = ProductsModel::where('name', 'like', '%' . $request->get('key_search') . '%')->pluck('product_infor_id');
+                $data_product = ProductInformationModel::whereIn('id', $id_product)->where('display', 1)->paginate(10);
+            } else {
+                $data_product = ProductInformationModel::orderBy('created_at', 'desc')->where('display', 1)->paginate(10);
+            }
+            if ($data_product) {
+                foreach ($data_product as $value) {
+                    $value->product = ProductsModel::where('product_infor_id', $value->id)->get();
+                    foreach ($value->product as $item) {
+                        $attribute = ProductAttributesModel::where('product_id', $item->id)->first();
+                        $item->price = $attribute->price;
+                        $item->promotional_price = $attribute->promotional_price;
+                    }
                 }
             }
-        }
 
-        $titlePage = 'Admin | Sản Phẩm';
-        $page_menu = 'products';
-        $page_sub = 'index';
-        $listData = $data_product;
-        return view('admin.products.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            $titlePage = 'Admin | Sản Phẩm';
+            $page_menu = 'products';
+            $page_sub = 'index';
+            $listData = $data_product;
+            return view('admin.products.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function create()
     {
-        $data['titlePage'] = 'Thêm sản phẩm';
-        $data['page_menu'] = 'products';
-        $data['page_sub'] = 'index';
-        return view('admin.products.create', $data);
+        if (User::checkUserRole(5)) {
+            $data['titlePage'] = 'Thêm sản phẩm';
+            $data['page_menu'] = 'products';
+            $data['page_sub'] = 'index';
+            return view('admin.products.create', $data);
+        }else{
+            return view('admin.error');
+        }
     }
 
     /**
@@ -104,47 +113,55 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        $product_infor = ProductInformationModel::find($id);
-        unlink($product_infor->image);
-        $data_image = ImageVariantModel::where('product_infor_id', $id)->get();
-        if ($data_image) {
-            foreach ($data_image as $value) {
-                unlink($value->image);
-                $value->delete();
+        if (User::checkUserRole(5)) {
+            $product_infor = ProductInformationModel::find($id);
+            unlink($product_infor->image);
+            $data_image = ImageVariantModel::where('product_infor_id', $id)->get();
+            if ($data_image) {
+                foreach ($data_image as $value) {
+                    unlink($value->image);
+                    $value->delete();
+                }
             }
-        }
-        $product = ProductsModel::where('product_infor_id', $id)->get();
-        foreach ($product as $item) {
-            ProductAttributesModel::where('product_id', $item->id)->delete();
-            $item->delete();
-        }
-        $product_infor->delete();
+            $product = ProductsModel::where('product_infor_id', $id)->get();
+            foreach ($product as $item) {
+                ProductAttributesModel::where('product_id', $item->id)->delete();
+                $item->delete();
+            }
+            $product_infor->delete();
 
-        return back()->with(['success' => 'Xóa sản phẩm thành công']);
+            return back()->with(['success' => 'Xóa sản phẩm thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function edit($id)
     {
-        $product_infor = ProductInformationModel::find($id);
-        $product = ProductsModel::where('product_infor_id', $product_infor->id)->get();
-        $category_2 = CategoryModel::find($product_infor->category_id);
-        $category_3 = CategoryModel::where('display', 1)->where('type', $product_infor->type_product)->where('parent_id', $category_2->parent_id)->orderBy('location', 'asc')->get();
-        $related = ProductRelatedModel::where('product_infor_id', $id)->get();
-        foreach ($related as $item) {
-            $item->product = ProductsModel::find($item->product_id);
-            $item->infor = ProductInformationModel::find($item->product->product_infor_id);
-            $item->price = ProductAttributesModel::where('product_id', $item->product_id)->first()->promotional_price;
+        if (User::checkUserRole(5)) {
+            $product_infor = ProductInformationModel::find($id);
+            $product = ProductsModel::where('product_infor_id', $product_infor->id)->get();
+            $category_2 = CategoryModel::find($product_infor->category_id);
+            $category_3 = CategoryModel::where('display', 1)->where('type', $product_infor->type_product)->where('parent_id', $category_2->parent_id)->orderBy('location', 'asc')->get();
+            $related = ProductRelatedModel::where('product_infor_id', $id)->get();
+            foreach ($related as $item) {
+                $item->product = ProductsModel::find($item->product_id);
+                $item->infor = ProductInformationModel::find($item->product->product_infor_id);
+                $item->price = ProductAttributesModel::where('product_id', $item->product_id)->first()->promotional_price;
+            }
+            $data['product_infor'] = $product_infor;
+            $data['product'] = $product;
+            $data['related'] = $related;
+            $data['image_variant'] = ImageVariantModel::where('product_infor_id', $id)->get();
+            $data['category_2'] = $category_2;
+            $data['category_3'] = $category_3;
+            $data['titlePage'] = 'Admin | Sản Phẩm';
+            $data['page_menu'] = 'products';
+            $data['page_sub'] = 'index';
+            return view('admin.products.edit', $data);
+        }else{
+            return view('admin.error');
         }
-        $data['product_infor'] = $product_infor;
-        $data['product'] = $product;
-        $data['related'] = $related;
-        $data['image_variant'] = ImageVariantModel::where('product_infor_id', $id)->get();
-        $data['category_2'] = $category_2;
-        $data['category_3'] = $category_3;
-        $data['titlePage'] = 'Admin | Sản Phẩm';
-        $data['page_menu'] = 'products';
-        $data['page_sub'] = 'index';
-        return view('admin.products.edit', $data);
     }
 
     public function update($id, Request $request)
@@ -339,17 +356,21 @@ class ProductController extends Controller
     public function reviewProduct($type)
     {
         try {
-            $titlePage = 'Danh sách đánh giá sản phẩm';
-            $page_menu = 'review';
-            $page_sub = '';
-            $listData = ProductReviewsModel::query();
-            $listData = $listData->where('type', $type);
-            $listData = $listData->orderBy('status', 'asc')->paginate(10);
-            foreach ($listData as $item){
-                $item->name_product = ProductsModel::find($item->product_id)->name;
-            }
+            if (User::checkUserRole(6)) {
+                $titlePage = 'Danh sách đánh giá sản phẩm';
+                $page_menu = 'review';
+                $page_sub = '';
+                $listData = ProductReviewsModel::query();
+                $listData = $listData->where('type', $type);
+                $listData = $listData->orderBy('status', 'asc')->paginate(10);
+                foreach ($listData as $item) {
+                    $item->name_product = ProductsModel::find($item->product_id)->name;
+                }
 
-            return view('admin.products.review', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'type'));
+                return view('admin.products.review', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'type'));
+            }else{
+                return view('admin.error');
+            }
         } catch (\Exception $exception) {
             dd($exception);
         }
@@ -360,11 +381,14 @@ class ProductController extends Controller
      */
     public function browserReview($id)
     {
-        $review = ProductReviewsModel::find($id);
-        $review->status = 1;
-        $review->save();
-
-        return back()->with(['success' => 'Duyệt review sản phẩm thành công']);
+        if (User::checkUserRole(6)) {
+            $review = ProductReviewsModel::find($id);
+            $review->status = 1;
+            $review->save();
+            return back()->with(['success' => 'Duyệt review sản phẩm thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
     /**
@@ -372,9 +396,12 @@ class ProductController extends Controller
      */
     public function deleteReview($id)
     {
-       ProductReviewsModel::where('id',$id)->delete();
-
-        return back()->with(['success' => 'Xóa review sản phẩm thành công']);
+        if (User::checkUserRole(6)) {
+            ProductReviewsModel::where('id', $id)->delete();
+            return back()->with(['success' => 'Xóa review sản phẩm thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
 }

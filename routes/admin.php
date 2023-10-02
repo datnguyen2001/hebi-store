@@ -29,6 +29,7 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('check-admin-auth')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('index');
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('customer', [DashboardController::class, 'customer'])->name('customer');
     Route::get('customer-buy-max', [DashboardController::class, 'customerBuyMax'])->name('customer-buy-max');
 
@@ -118,8 +119,7 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::post('update/{id}', [IntroduceController::class, 'update']);
     });
 
-    //Quản nhân viên
-    Route::prefix('rule')->name('rule.')->group(function (){
+    Route::prefix('role')->name('role.')->group(function (){
         Route::get('', [RoleController::class, 'index'])->name('index');
         Route::get('create', [RoleController::class,'create'])->name('create');
         Route::post('store', [RoleController::class,'store'])->name('store');

@@ -22,10 +22,6 @@ class CheckAdminAuth
         {
             return redirect()->route('admin.login')->with(['alert'=>'danger', 'message' => 'Vui lòng đăng nhập để tiếp tục']);
         }
-        if(Auth::user()['roles'] != 1)
-        {
-            return redirect()->route('admin.login')->with(['alert'=>'danger', 'message' => 'Bạn không có quyền truy cập trang này']);
-        }
         return $next($request);
     }
 }

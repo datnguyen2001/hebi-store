@@ -10,6 +10,7 @@ use App\Models\ImportExxportProductModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductsModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -17,76 +18,88 @@ class ImportExportProductController extends Controller
 {
     public function importExport(Request $request)
     {
-        if (isset($request->date_form) && isset($request->date_to)) {
-            $listData = ImportExxportProductModel::whereDate('created_at', '>=', $request->get('date_form'))
-                ->whereDate('created_at', '<=', $request->get('date_to'))
-                ->selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
-                ->groupBy('product_attributes_id')
-                ->orderBy('max_created_at', 'asc')
-                ->paginate(50);
-        } else {
-            $listData = ImportExxportProductModel::selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
-                ->groupBy('product_attributes_id')
-                ->orderBy('max_created_at', 'asc')
-                ->paginate(50);
-        }
+        if (User::checkUserRole(4)) {
+            if (isset($request->date_form) && isset($request->date_to)) {
+                $listData = ImportExxportProductModel::whereDate('created_at', '>=', $request->get('date_form'))
+                    ->whereDate('created_at', '<=', $request->get('date_to'))
+                    ->selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
+                    ->groupBy('product_attributes_id')
+                    ->orderBy('max_created_at', 'asc')
+                    ->paginate(50);
+            } else {
+                $listData = ImportExxportProductModel::selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
+                    ->groupBy('product_attributes_id')
+                    ->orderBy('max_created_at', 'asc')
+                    ->paginate(50);
+            }
 
-        foreach ($listData as $item) {
-            $attribute = ProductAttributesModel::find($item->product_attributes_id);
-            $product = ProductsModel::find($attribute->product_id);
-            $item->attribute_name = $attribute->name;
-            $item->product_name = $product->name;
-            $item->survive_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_sl;
-            $item->survive_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_tt;
-            $item->import_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_sl');
-            $item->import_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_tt');
-            $item->export_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_sl');
-            $item->export_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_tt');
-            $item->ending_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_sl;
-            $item->ending_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_tt;
-        }
-        $titlePage = 'Admin | Xuất Nhập Tồn';
-        $page_menu = 'import_export';
-        $page_sub = 'import_export';
+            foreach ($listData as $item) {
+                $attribute = ProductAttributesModel::find($item->product_attributes_id);
+                $product = ProductsModel::find($attribute->product_id);
+                $item->attribute_name = $attribute->name;
+                $item->product_name = $product->name;
+                $item->survive_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_sl;
+                $item->survive_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_tt;
+                $item->import_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_sl');
+                $item->import_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_tt');
+                $item->export_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_sl');
+                $item->export_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_tt');
+                $item->ending_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_sl;
+                $item->ending_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_tt;
+            }
+            $titlePage = 'Admin | Xuất Nhập Tồn';
+            $page_menu = 'import_export';
+            $page_sub = 'import_export';
 
-        if ($request->excel == 2) {
-            return Excel::download(new ExportImport($listData), 'ThongKePhieuXuatNhapHang.xlsx');
-        } else {
-            return view('admin.import_export_product.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            if ($request->excel == 2) {
+                return Excel::download(new ExportImport($listData), 'ThongKePhieuXuatNhapHang.xlsx');
+            } else {
+                return view('admin.import_export_product.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            }
+        }else{
+            return view('admin.error');
         }
     }
 
     public function indexImport(Request $request)
     {
-        if (isset($request->date_form) && isset($request->date_to)) {
-            $listData = ImportExxportProductModel::where('type', 1)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
-                ->orderBy('created_at', 'desc')->paginate(20);
-        } else {
-            $listData = ImportExxportProductModel::where('type', 1)->orderBy('created_at', 'desc')->paginate(20);
-        }
-        foreach ($listData as $item) {
-            $attribute = ProductAttributesModel::find($item->product_attributes_id);
-            $product = ProductsModel::find($attribute->product_id);
-            $item->attribute_name = $attribute->name;
-            $item->product_name = $product->name;
-            $item->product_img = ProductInformationModel::find($product->product_infor_id)->image;
-        }
-        $titlePage = 'Admin | Nhập Hàng';
-        $page_menu = 'import_export';
-        $page_sub = 'import';
-        if ($request->excel == 2) {
-            return Excel::download(new ExportReceipt($listData), 'ThongKePhieuNhapHang.xlsx');
-        } else {
-            return view('admin.import_export_product.import.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+        if (User::checkUserRole(4)) {
+            if (isset($request->date_form) && isset($request->date_to)) {
+                $listData = ImportExxportProductModel::where('type', 1)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
+                    ->orderBy('created_at', 'desc')->paginate(20);
+            } else {
+                $listData = ImportExxportProductModel::where('type', 1)->orderBy('created_at', 'desc')->paginate(20);
+            }
+            foreach ($listData as $item) {
+                $attribute = ProductAttributesModel::find($item->product_attributes_id);
+                $product = ProductsModel::find($attribute->product_id);
+                $item->attribute_name = $attribute->name;
+                $item->product_name = $product->name;
+                $item->product_img = ProductInformationModel::find($product->product_infor_id)->image;
+            }
+            $titlePage = 'Admin | Nhập Hàng';
+            $page_menu = 'import_export';
+            $page_sub = 'import';
+            if ($request->excel == 2) {
+                return Excel::download(new ExportReceipt($listData), 'ThongKePhieuNhapHang.xlsx');
+            } else {
+                return view('admin.import_export_product.import.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            }
+        }else{
+            return view('admin.error');
         }
     }
 
     public function createImport()
     {
-        $titlePage = 'Admin | Nhập Hàng';
-        $page_menu = 'import_export';
-        $page_sub = 'import';
-        return view('admin.import_export_product.import.create', compact('titlePage', 'page_menu', 'page_sub'));
+        if (User::checkUserRole(4)) {
+            $titlePage = 'Admin | Nhập Hàng';
+            $page_menu = 'import_export';
+            $page_sub = 'import';
+            return view('admin.import_export_product.import.create', compact('titlePage', 'page_menu', 'page_sub'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function storeImport(Request $request)
@@ -124,35 +137,43 @@ class ImportExportProductController extends Controller
 
     public function indexExport(Request $request)
     {
-        if (isset($request->date_form) && isset($request->date_to)) {
-            $listData = ImportExxportProductModel::where('type', 2)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
-                ->orderBy('created_at', 'desc')->paginate(20);
-        } else {
-            $listData = ImportExxportProductModel::where('type', 2)->orderBy('created_at', 'desc')->paginate(20);
-        }
-        foreach ($listData as $item) {
-            $attribute = ProductAttributesModel::find($item->product_attributes_id);
-            $product = ProductsModel::find($attribute->product_id);
-            $item->attribute_name = $attribute->name;
-            $item->product_name = $product->name;
-            $item->product_img = ProductInformationModel::find($product->product_infor_id)->image;
-        }
-        $titlePage = 'Admin | Xuất Hàng';
-        $page_menu = 'import_export';
-        $page_sub = 'export';
-        if ($request->excel == 2) {
-            return Excel::download(new ExportDelivery($listData), 'ThongKePhieuXuatHang.xlsx');
-        } else {
-            return view('admin.import_export_product.export.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+        if (User::checkUserRole(4)) {
+            if (isset($request->date_form) && isset($request->date_to)) {
+                $listData = ImportExxportProductModel::where('type', 2)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
+                    ->orderBy('created_at', 'desc')->paginate(20);
+            } else {
+                $listData = ImportExxportProductModel::where('type', 2)->orderBy('created_at', 'desc')->paginate(20);
+            }
+            foreach ($listData as $item) {
+                $attribute = ProductAttributesModel::find($item->product_attributes_id);
+                $product = ProductsModel::find($attribute->product_id);
+                $item->attribute_name = $attribute->name;
+                $item->product_name = $product->name;
+                $item->product_img = ProductInformationModel::find($product->product_infor_id)->image;
+            }
+            $titlePage = 'Admin | Xuất Hàng';
+            $page_menu = 'import_export';
+            $page_sub = 'export';
+            if ($request->excel == 2) {
+                return Excel::download(new ExportDelivery($listData), 'ThongKePhieuXuatHang.xlsx');
+            } else {
+                return view('admin.import_export_product.export.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            }
+        }else{
+            return view('admin.error');
         }
     }
 
     public function createExport()
     {
-        $titlePage = 'Admin | Xuất Hàng';
-        $page_menu = 'import_export';
-        $page_sub = 'export';
-        return view('admin.import_export_product.export.create', compact('titlePage', 'page_menu', 'page_sub'));
+        if (User::checkUserRole(4)) {
+            $titlePage = 'Admin | Xuất Hàng';
+            $page_menu = 'import_export';
+            $page_sub = 'export';
+            return view('admin.import_export_product.export.create', compact('titlePage', 'page_menu', 'page_sub'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function storeExport(Request $request)

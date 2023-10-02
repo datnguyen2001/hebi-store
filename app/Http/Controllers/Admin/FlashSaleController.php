@@ -7,28 +7,37 @@ use App\Models\FlashSaleModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductsModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FlashSaleController extends Controller
 {
     public function index()
     {
-        $listData = FlashSaleModel::all();
-        foreach ($listData as $item){
-            $item->product = ProductsModel::find($item->product_id);
+        if (User::checkUserRole(5)) {
+            $listData = FlashSaleModel::all();
+            foreach ($listData as $item) {
+                $item->product = ProductsModel::find($item->product_id);
+            }
+            $titlePage = 'Admin | Sản Phẩm';
+            $page_menu = 'products';
+            $page_sub = 'flash_sale';
+            return view('admin.flash-sale.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+        }else{
+            return view('admin.error');
         }
-        $titlePage = 'Admin | Sản Phẩm';
-        $page_menu = 'products';
-        $page_sub = 'flash_sale';
-        return view('admin.flash-sale.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
     }
 
     public function create()
     {
-        $data['titlePage'] = 'Thêm sản phẩm vào flash sale';
-        $data['page_menu'] = 'products';
-        $data['page_sub'] = 'flash_sale';
-        return view('admin.flash-sale.create', $data);
+        if (User::checkUserRole(5)) {
+            $data['titlePage'] = 'Thêm sản phẩm vào flash sale';
+            $data['page_menu'] = 'products';
+            $data['page_sub'] = 'flash_sale';
+            return view('admin.flash-sale.create', $data);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function store(Request $request)
@@ -53,23 +62,30 @@ class FlashSaleController extends Controller
 
     public function delete($id)
     {
-        $product = FlashSaleModel::find($id);
-        $product->delete();
-
-        return back()->with(['success' => 'Xóa sản phẩm flash sale thành công']);
+        if (User::checkUserRole(5)) {
+            $product = FlashSaleModel::find($id);
+            $product->delete();
+            return back()->with(['success' => 'Xóa sản phẩm flash sale thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function edit($id)
     {
-        $flash_sale = FlashSaleModel::find($id);
-        $flash_sale->product = ProductsModel::find($flash_sale->product_id);
-        $flash_sale->infor = ProductInformationModel::find($flash_sale->product->product_infor_id);
+        if (User::checkUserRole(5)) {
+            $flash_sale = FlashSaleModel::find($id);
+            $flash_sale->product = ProductsModel::find($flash_sale->product_id);
+            $flash_sale->infor = ProductInformationModel::find($flash_sale->product->product_infor_id);
 
-        $data['flash_sale'] = $flash_sale;
-        $data['titlePage'] = 'Admin | Sản Phẩm';
-        $data['page_menu'] = 'products';
-        $data['page_sub'] = 'flash_sale';
-        return view('admin.flash-sale.edit', $data);
+            $data['flash_sale'] = $flash_sale;
+            $data['titlePage'] = 'Admin | Sản Phẩm';
+            $data['page_menu'] = 'products';
+            $data['page_sub'] = 'flash_sale';
+            return view('admin.flash-sale.edit', $data);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function update($id, Request $request)

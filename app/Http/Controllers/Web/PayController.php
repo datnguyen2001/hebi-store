@@ -94,7 +94,7 @@ class PayController extends ShippingUnitController
                 $fee_ship = $request->get('fee_ship');
             }
             $order = new OrderModel();
-            $order['order_code'] = '';
+            $order['order_code'] = 'HS'.rand(0, 99999).$order->id;
             $order['name'] = $request->get('name');
             $order['phone'] = $request->get('phone');
             $order['email'] = $request->get('email');
@@ -114,13 +114,11 @@ class PayController extends ShippingUnitController
             $order['total_money_product'] = $total_money;
             $order['total_money_order'] = $total_money + $fee_ship;
             $order['status'] = 0;
-            $order->save();
             if ($request->get('fee_ship') == 0){
                 $order['transport_name'] = 'Store';
             }else{
                 $order['transport_name'] = 'GHN';
             }
-            $order['order_code'] = 'HS'.rand(0, 99999).$order->id;
             $order->save();
             foreach ($carts as $k => $item){
                 $this->saveOrderItem($order, $item);
@@ -130,10 +128,9 @@ class PayController extends ShippingUnitController
                 $order->save();
                 CartModel::where('user_token',$request->get('user_token'))->delete();
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
-                return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Cảm ơn bạn!']);
+                return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Mã đơn hàng của bạn là: '.$order->order_code.'']);
             }elseif ($request->type_payment == 2){
                 $this->checkoutByVnPay($total_money,$order,$request->get('user_token'));
-                CartModel::where('user_token',$request->get('user_token'))->delete();
             }
         } catch (\Exception $exception) {
             dd($exception);
@@ -170,6 +167,8 @@ class PayController extends ShippingUnitController
 
     public function checkoutByVnPay ($total,$order,$user_token)
     {
+        session_start();
+        $_SESSION['user_token'] = $user_token;
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
@@ -179,7 +178,7 @@ class PayController extends ShippingUnitController
         $vnp_HashSecret = "QZHVDKNDFLLQBQIZRWSCUEBNDWEOOODQ";
 
         $vnp_TxnRef = $order->order_code;
-        $vnp_OrderInfo = $user_token;
+        $vnp_OrderInfo = 'Khách hàng '.$order->name.' - '.$order->phone.' đã mua hàng';
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = $total * 100;
         $vnp_Locale = 'vn';
@@ -232,6 +231,7 @@ class PayController extends ShippingUnitController
 
     public function successOrderVnPay ()
     {
+        session_start();
         $vnp_SecureHash = $_GET['vnp_SecureHash'];
         $vnp_HashSecret = 'QZHVDKNDFLLQBQIZRWSCUEBNDWEOOODQ';
         $inputData = array();
@@ -260,9 +260,9 @@ class PayController extends ShippingUnitController
             if ($_GET['vnp_ResponseCode'] == '00') {
                 $order->type_payment = 2;
                 $order->save();
-                CartModel::where('user_token',$_GET['vnp_OrderInfo'])->delete();
+                CartModel::where('user_token',$_SESSION['user_token'])->delete();
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
-                $msg = ['success' => 'Thanh toán thành công.Cảm ơn bạn đã lựa chọn HebiStore'];
+                $msg = ['success' => 'Thanh toán thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.''];
             }
             else {
                 $order_item = OrderItemModel::where('order_id',$order->id)->get();

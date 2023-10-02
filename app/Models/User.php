@@ -19,14 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
         'password',
         'phone',
-        'avatar',
-        'date_of_birth',
-        'roles',
-        'rank',
-        'point'
     ];
 
     /**
@@ -47,4 +41,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function checkUserRole($number)
+    {
+        $role = RoleModel::where('user_id', auth()->id())->first();
+        $arr = json_decode($role->arr_role);
+        if (in_array($number, $arr)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

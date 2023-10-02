@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoryModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,29 +12,37 @@ class CategoryController extends Controller
 {
     public function index (Request $request)
     {
-        $titlePage = 'Admin | Danh Mục Sản Phẩm';
-        $page_menu = 'products';
-        $page_sub = 'category';
-        if (isset($request->key_search)) {
-            $listData = CategoryModel::Where('name', 'like', '%' . $request->get('key_search') . '%')
-                ->orderBy('created_at', 'desc')->paginate(10);
-        } else {
-            $listData = CategoryModel::paginate(10);
+        if (User::checkUserRole(5)) {
+            $titlePage = 'Admin | Danh Mục Sản Phẩm';
+            $page_menu = 'products';
+            $page_sub = 'category';
+            if (isset($request->key_search)) {
+                $listData = CategoryModel::Where('name', 'like', '%' . $request->get('key_search') . '%')
+                    ->orderBy('created_at', 'desc')->paginate(10);
+            } else {
+                $listData = CategoryModel::paginate(10);
+            }
+            foreach ($listData as $item) {
+                $category = CategoryModel::find($item->parent_id);
+                $item->category_parent = $category->name ?? 'Là danh mục cha';
+            }
+            return view('admin.category.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
+        }else{
+            return view('admin.error');
         }
-        foreach ($listData as $item){
-            $category = CategoryModel::find($item->parent_id);
-            $item->category_parent = $category->name??'Là danh mục cha';
-        }
-        return view('admin.category.index', compact('titlePage', 'page_menu', 'listData', 'page_sub'));
     }
 
     public function create()
     {
-        $titlePage = 'Admin | Danh Mục Sản Phẩm';
-        $page_menu = 'products';
-        $page_sub = 'category';
-        $category = CategoryModel::where('parent_id',0)->get();
-        return view('admin.category.create', compact('titlePage', 'page_menu', 'page_sub', 'category'));
+        if (User::checkUserRole(5)) {
+            $titlePage = 'Admin | Danh Mục Sản Phẩm';
+            $page_menu = 'products';
+            $page_sub = 'category';
+            $category = CategoryModel::where('parent_id', 0)->get();
+            return view('admin.category.create', compact('titlePage', 'page_menu', 'page_sub', 'category'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function store (Request $request)
@@ -67,19 +76,27 @@ class CategoryController extends Controller
 
     public function delete ($id)
     {
-        $category = CategoryModel::find($id);
-        $category->delete();
-        return \redirect()->route('admin.category.index')->with(['success' => 'Xóa danh mục thành công']);
+        if (User::checkUserRole(5)) {
+            $category = CategoryModel::find($id);
+            $category->delete();
+            return \redirect()->route('admin.category.index')->with(['success' => 'Xóa danh mục thành công']);
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function edit ($id)
     {
-        $category = CategoryModel::find($id);
-        $titlePage = 'Admin | Danh Mục Sản Phẩm';
-        $page_menu = 'products';
-        $page_sub = 'category';
-        $category_all = CategoryModel::where('parent_id',0)->get();
-        return view('admin.category.edit', compact('category', 'titlePage', 'page_menu', 'page_sub','category_all'));
+        if (User::checkUserRole(5)) {
+            $category = CategoryModel::find($id);
+            $titlePage = 'Admin | Danh Mục Sản Phẩm';
+            $page_menu = 'products';
+            $page_sub = 'category';
+            $category_all = CategoryModel::where('parent_id', 0)->get();
+            return view('admin.category.edit', compact('category', 'titlePage', 'page_menu', 'page_sub', 'category_all'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function update (Request $request , $id)

@@ -19,7 +19,6 @@ class LoginController extends Controller
     {
         $bodyData = $request->all();
         $check = User::where('phone', $bodyData['username'])
-            ->where('roles', 1)
             ->exists();
         if (!$check) {
             return redirect()->route('admin.login')->with(['alert'=>'danger', 'message' => 'Số điện thoại không tồn tại']);
@@ -27,7 +26,6 @@ class LoginController extends Controller
         $dataAttemptAdmin = [
             'phone' => $bodyData['username'],
             'password' => $bodyData['password'],
-            'roles' => 1,
         ];
         if (Auth::attempt($dataAttemptAdmin)) {
             return redirect()->route('admin.index');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BannerModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,26 +12,34 @@ class BannerController extends Controller
 {
     public function index(Request $request)
     {
-        $titlePage = 'Danh sách banner';
-        $page_menu = 'banner';
-        $page_sub = null;
-        if (isset($request->key_search)) {
-            $listData = BannerModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
-                ->orderBy('location', 'asc')->paginate(10);
-        } else {
-            $listData = BannerModel::orderBy('location','asc')->paginate(10);
-        }
+        if (User::checkUserRole(3)) {
+            $titlePage = 'Danh sách banner';
+            $page_menu = 'banner';
+            $page_sub = null;
+            if (isset($request->key_search)) {
+                $listData = BannerModel::Where('title', 'like', '%' . $request->get('key_search') . '%')
+                    ->orderBy('location', 'asc')->paginate(10);
+            } else {
+                $listData = BannerModel::orderBy('location', 'asc')->paginate(10);
+            }
 
-        return view('admin.banner.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+            return view('admin.banner.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
+        }else{
+            return view('admin.error');
+        }
     }
 
     public function create ()
     {
         try{
-            $titlePage = 'Admin';
-            $page_menu = 'banner';
-            $page_sub = 'create';
-            return view('admin.banner.create', compact('titlePage', 'page_menu', 'page_sub'));
+            if (User::checkUserRole(3)) {
+                $titlePage = 'Admin';
+                $page_menu = 'banner';
+                $page_sub = 'create';
+                return view('admin.banner.create', compact('titlePage', 'page_menu', 'page_sub'));
+            }else{
+                return view('admin.error');
+            }
         }catch (\Exception $e){
             return back()->with(['error' => $e->getMessage()]);
         }
@@ -68,29 +77,37 @@ class BannerController extends Controller
 
     public function delete ($id)
     {
-        $banner = BannerModel::find($id);
-        if (empty($banner)){
-            $data['status'] = false;
-            $data['msg'] = 'Banner không tồn tại';
+        if (User::checkUserRole(3)) {
+            $banner = BannerModel::find($id);
+            if (empty($banner)) {
+                $data['status'] = false;
+                $data['msg'] = 'Banner không tồn tại';
+                return $data;
+            }
+            unlink($banner->src);
+            $banner->delete();
+            $data['status'] = true;
             return $data;
+        }else{
+            return view('admin.error');
         }
-        unlink($banner->src);
-        $banner->delete();
-        $data['status'] = true;
-        return $data;
     }
 
     public function edit ($id)
     {
         try{
-            $banner = BannerModel::find($id);
-            if (empty($banner)){
-                return back()->with(['error' => 'Banner không tồn tại']);
+            if (User::checkUserRole(3)) {
+                $banner = BannerModel::find($id);
+                if (empty($banner)) {
+                    return back()->with(['error' => 'Banner không tồn tại']);
+                }
+                $titlePage = 'Admin';
+                $page_menu = 'banner';
+                $page_sub = null;
+                return view('admin.banner.edit', compact('titlePage', 'page_menu', 'page_sub', 'banner'));
+            }else{
+                return view('admin.error');
             }
-            $titlePage = 'Admin';
-            $page_menu = 'banner';
-            $page_sub = null;
-            return view('admin.banner.edit', compact('titlePage', 'page_menu', 'page_sub', 'banner'));
         }catch (\Exception $exception){
             return back()->with(['error' => $exception->getMessage()]);
         }

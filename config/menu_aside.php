@@ -6,8 +6,9 @@ return [
             'name' => 'dashboard',
             'title' => 'Tổng quan',
             'icon' => 'bi bi-grid',
-            'route' => 'admin.index',
+            'route' => 'admin.dashboard',
             'submenu' => [],
+            'number' => 1
         ],
         [
             'name' => 'order',
@@ -16,6 +17,7 @@ return [
             'route' => 'admin.order.index',
             'parameters' => ['status' => 'all'],
             'submenu' => [],
+            'number' => 2
         ],
         [
             'name' => 'banner',
@@ -23,6 +25,7 @@ return [
             'icon' => 'bi bi-grid',
             'route' => 'admin.banner.index',
             'submenu' => [],
+            'number' => 3
         ],
         [
             'name' => 'import_export',
@@ -46,6 +49,7 @@ return [
                     'name' => 'import_export'
                 ]
             ],
+            'number' => 4
         ],
         [
             'name' => 'products',
@@ -69,6 +73,7 @@ return [
                     'name' => 'flash_sale'
                 ],
             ],
+            'number' => 5
         ],
         [
             'name' => 'review',
@@ -77,6 +82,7 @@ return [
             'route' => 'admin.products.reviews',
             'parameters' => ['status' => '1'],
             'submenu' => [],
+            'number' => 6
         ],
         [
             'name' => 'news',
@@ -84,6 +90,7 @@ return [
             'icon' => 'bi bi-grid',
             'route' => 'admin.news.index',
             'submenu' => [],
+            'number' => 7
         ],
         [
             'name' => 'introduce',
@@ -91,13 +98,15 @@ return [
             'icon' => 'bi bi-grid',
             'route' => 'admin.introduce.index',
             'submenu' => [],
+            'number' => 8
         ],
         [
-            'name' => 'rule',
+            'name' => 'role',
             'title' => 'Phân quyền',
             'icon' => 'bi bi-grid',
-            'route' => 'admin.rule.index',
+            'route' => 'admin.role.index',
             'submenu' => [],
+            'number' => 9
         ],
     ]
 ];

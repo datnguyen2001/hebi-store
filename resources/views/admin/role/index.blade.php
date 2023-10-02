@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">Danh sách nhân viên hệ thống</h5>
-                                <a class="btn btn-success" href="{{route('admin.rule.create')}}">Thêm nhân viên</a>
+                                <a class="btn btn-success" href="{{route('admin.role.create')}}">Thêm nhân viên</a>
                             </div>
                             @if(count($listData) > 0)
                             <table class="table">
@@ -32,15 +32,15 @@
                                     @foreach($listData as $value)
                                         <tr>
                                             <th scope="row">{{$value->id}}</th>
-                                            <td>{{$value->name}}</td>
-                                            <td>{{$value->phone}}</td>
-                                            <td>{{$value->rule['rule_name']??'Chủ tịch'}}</td>
+                                            <td>{{$value->user['name']}}</td>
+                                            <td>{{$value->user['phone']}}</td>
+                                            <td>{{$value->role_name}}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{url('admin/rule/edit/'.$value->id)}}" class="btn btn-icon btn-light btn-hover-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Cập nhật">
+                                                    <a href="{{url('admin/role/edit/'.$value->id)}}" class="btn btn-icon btn-light btn-hover-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Cập nhật">
                                                         <i class="bi bi-pencil-square "></i>
                                                     </a>
-                                                    <a href="{{url('admin/rule/delete/'.$value->id)}}" class="btn btn-delete btn-icon btn-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Xóa">
+                                                    <a href="{{url('admin/role/delete/'.$value->id)}}" class="btn btn-delete btn-icon btn-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Xóa">
                                                         <i class="bi bi-trash "></i>
                                                     </a>
                                                 </div>
@@ -50,7 +50,7 @@
                                 </tbody>
                             </table>
                             <div class="d-flex justify-content-center">
-                                {{ $listData->render('pagination_custom.index') }}
+                                {{ $listData->render('admin.pagination_custom.index') }}
                             </div>
                             @else
                                 <h5 class="card-title">Không có dữ liệu</h5>
