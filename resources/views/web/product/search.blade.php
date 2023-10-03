@@ -73,15 +73,25 @@
                             <a href="{{url('san-pham/'.$value->slug)}}" class="product-name">{{$value->name}}</a>
                             <div class="product-tech">
                                 @foreach($value->type_product as $item)
-                                    <a href="{{url('san-pham/'.$item->slug)}}"
-                                       class="{{$value->own_parameter == $item->own_parameter?'active':''}}">{{$item->own_parameter}}</a>
+                                    @if(isset($item->own_parameter))
+                                        <a href="{{url('san-pham/'.$item->slug)}}"
+                                           class="{{$value->own_parameter == $item->own_parameter?'active':''}}" style="max-height: 27.6px">{{$item->own_parameter}}</a>
+                                    @endif
                                 @endforeach
                             </div>
                             <div class="product-tech">
-                                <span>{{$value->infor->parameter_one}}</span>
-                                <span>{{$value->infor->parameter_two}}</span>
-                                <span>{{$value->infor->parameter_three}}</span>
-                                <span>{{$value->infor->parameter_four}}</span>
+                                @if($value->infor->parameter_one)
+                                    <span>{{$value->infor->parameter_one}}</span>
+                                @endif
+                                @if($value->infor->parameter_two)
+                                    <span>{{$value->infor->parameter_two}}</span>
+                                @endif
+                                @if($value->infor->parameter_three)
+                                    <span>{{$value->infor->parameter_three}}</span>
+                                @endif
+                                @if($value->infor->parameter_four)
+                                    <span>{{$value->infor->parameter_four}}</span>
+                                @endif
                             </div>
                             <div class="product-price">
                                 <span class="price">{{number_format($value->promotional_price)}}₫</span>

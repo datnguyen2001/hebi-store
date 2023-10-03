@@ -379,7 +379,7 @@
                                 <p class="m-0 parameter_1">Thống số 1 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_one" required value="{{$product_infor->parameter_one}}">
+                                <input class="form-control" name="parameter_one" value="{{$product_infor->parameter_one}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_2">
@@ -387,7 +387,7 @@
                                 <p class="m-0 parameter_2">Thống số 2 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_two" required value="{{$product_infor->parameter_two}}">
+                                <input class="form-control" name="parameter_two" value="{{$product_infor->parameter_two}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_3">
@@ -395,7 +395,7 @@
                                 <p class="m-0 parameter_3">Thống số 3 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_three" required value="{{$product_infor->parameter_three}}">
+                                <input class="form-control" name="parameter_three" value="{{$product_infor->parameter_three}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_4">
@@ -403,7 +403,7 @@
                                 <p class="m-0 parameter_4">Thống số 4 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_four" required value="{{$product_infor->parameter_four}}">
+                                <input class="form-control" name="parameter_four" value="{{$product_infor->parameter_four}}">
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -504,7 +504,7 @@
                                                 </div>
                                                 <div class="col-lg-2 p-1">
                                                     <input name="variant[{{$key}}][own_parameter]" type="text" value="{{$item->own_parameter}}"
-                                                           class="form-control" placeholder="Bộ nhớ trong">
+                                                           class="form-control" placeholder="">
                                                 </div>
                                                 <div class="form-check form-switch col-lg-2 p-1">
                                                     <input class="form-check-input" name="variant[{{$key}}][featured_products]" type="checkbox" @if($item->is_featured_products == 1) checked @endif

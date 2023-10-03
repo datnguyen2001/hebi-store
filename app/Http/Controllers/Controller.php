@@ -267,7 +267,7 @@ class Controller extends BaseController
             $name_filter_one = 'Chất liệu viền';
             $name_filter_two = 'Kích cỡ mặt đồng hồ';
             $name_filter_three = 'Thời lượng pin';
-            $name_filter_four = 'Thông số 4';
+            $name_filter_four = 'Thiết kế';
             $name_filter_five = 'Thông số 5';
         }elseif ($checkCate['type'] == 5){
             $name_filter_one = 'Thông số 1';
@@ -276,15 +276,15 @@ class Controller extends BaseController
             $name_filter_four = 'Thông số 4';
             $name_filter_five = 'Thông số 5';
         }elseif ($checkCate['type'] == 6){
-            $name_filter_one = 'Thông số 1';
+            $name_filter_one = 'Hãng';
             $name_filter_two = 'Thông số 2';
             $name_filter_three = 'Thông số 3';
             $name_filter_four = 'Thông số 4';
             $name_filter_five = 'Thông số 5';
         }else{
-            $name_filter_one = 'Thông số 1';
-            $name_filter_two = 'Thông số 2';
-            $name_filter_three = 'Thông số 3';
+            $name_filter_one = 'Hãng';
+            $name_filter_two = 'Công xuất';
+            $name_filter_three = 'Thời gian sử dụng';
             $name_filter_four = 'Thông số 4';
             $name_filter_five = 'Thông số 5';
         }

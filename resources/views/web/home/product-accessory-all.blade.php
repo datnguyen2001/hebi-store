@@ -1,4 +1,4 @@
-@if(count($product_accessory) > 0)
+@if(count($category_product) > 0)
     <div class="accessory">
         <div class="title-block">
             <h2>PHỤ KIỆN</h2>

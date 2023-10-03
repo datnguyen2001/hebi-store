@@ -121,7 +121,7 @@
                                         <div data_price="{{number_format($item->price)}}"
                                              data_promotional_price="{{number_format($item->price_sale)}}"
                                              data_product_id="{{$item->id}}"
-                                             data_quantity = "{{$item->quantity}}"
+                                             data_quantity="{{$item->quantity}}"
                                              class="item_price products_type_item products_type_click  @if($index == 0) active @endif  ">
                                             <p class="w-100" style="margin-left: 0px!important;">
                                                 <span class="text-center w-100"
@@ -218,15 +218,26 @@
                                    class="product-name">{{$value->product->name}}</a>
                                 <div class="product-tech">
                                     @foreach($value->type_product as $item)
-                                        <a href="{{url('san-pham/'.$item->slug)}}"
-                                           class="{{$value->product->own_parameter == $item->own_parameter?'active':''}}">{{$item->own_parameter}}</a>
+                                        @if(isset($item->own_parameter))
+                                            <a href="{{url('san-pham/'.$item->slug)}}"
+                                               class="{{$value->product->own_parameter == $item->own_parameter?'active':''}}"
+                                               style="max-height: 27.6px">{{$item->own_parameter}}</a>
+                                        @endif
                                     @endforeach
                                 </div>
                                 <div class="product-tech">
-                                    <span>{{$value->infor->parameter_one}}</span>
-                                    <span>{{$value->infor->parameter_two}}</span>
-                                    <span>{{$value->infor->parameter_three}}</span>
-                                    <span>{{$value->infor->parameter_four}}</span>
+                                    @if($value->infor->parameter_one)
+                                        <span>{{$value->infor->parameter_one}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_two)
+                                        <span>{{$value->infor->parameter_two}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_three)
+                                        <span>{{$value->infor->parameter_three}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_four)
+                                        <span>{{$value->infor->parameter_four}}</span>
+                                    @endif
                                 </div>
                                 <div class="product-price">
                                     <span class="price">{{number_format($value->promotional_price)}}₫</span>

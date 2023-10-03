@@ -325,7 +325,7 @@
                                 <p class="m-0 parameter_1">Thống số 1 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_one" required value="">
+                                <input class="form-control" name="parameter_one" value="">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_2">
@@ -333,7 +333,7 @@
                                 <p class="m-0 parameter_2">Thông số 2 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_two" required value="">
+                                <input class="form-control" name="parameter_two" value="">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_3">
@@ -341,7 +341,7 @@
                                 <p class="m-0 parameter_3">Thông số 3 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_three" required value="">
+                                <input class="form-control" name="parameter_three" value="">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_4">
@@ -349,7 +349,7 @@
                                 <p class="m-0 parameter_4">Thông số 4 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_four" required value="">
+                                <input class="form-control" name="parameter_four" value="">
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -445,7 +445,7 @@
                                             </div>
                                             <div class="col-lg-2 p-1">
                                                 <input name="variant[0][own_parameter]" type="text"
-                                                       class="form-control" placeholder="Bộ nhớ trong">
+                                                       class="form-control" placeholder="">
                                             </div>
                                             <div class="form-check form-switch col-lg-2 p-1">
                                                 <input class="form-check-input" name="variant[0][featured_products]" type="checkbox"
@@ -465,7 +465,7 @@
                                         <div class="row m-0">
                                             <div class="col-lg-4 p-1">
                                                 <input type="text" name="variant[0][data][0][color]"
-                                                       class="form-control" placeholder="Tên màu sản phẩm" required>
+                                                       class="form-control" placeholder="Tên loại sản phẩm" required>
                                             </div>
                                             <div class="col-lg-3 p-1">
                                                 <input name="variant[0][data][0][price]" type="text"

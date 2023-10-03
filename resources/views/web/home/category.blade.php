@@ -186,7 +186,7 @@
             <div class="col-md-row col-left">
                 <div class="slider-image slider-for">
                     @foreach($banner_top as $item)
-                        <div class="item-image">
+                        <div class="item-image image_banner_home">
                             <a href="{{$item->link}}">
                                 <img alt="{{$item->title}}" width="714px" height="301px"
                                      src="{{$item->image}}"

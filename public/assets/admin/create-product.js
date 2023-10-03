@@ -103,56 +103,6 @@ $(document).ready(function () {
         });
     });
 
-    // select warehouse
-    $('input[name="area"]').click(function () {
-        let value = $(this).val();
-        $('input[name="area"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children',
-            type: 'post',
-            dataType: 'json',
-            data: {"category_id": value, "name": "category_children"},
-            success: function (data) {
-                $("[warehouse_row]").html(data.html);
-                $("[warehouse_floor]").html("");
-                $("[warehouse_shelves]").html("");
-
-            }
-        });
-    });
-
-    $(document).on("click", 'input[name="category_children"]', function () {
-        let value = $(this).val();
-        $('input[name="category_children"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children',
-            type: 'post',
-            dataType: 'json',
-            data: {"category_id": value, "name": "sub_category"},
-            success: function (data) {
-                $("[warehouse_floor]").html(data.html);
-                $("[warehouse_shelves]").html("");
-
-            }
-        });
-    });
-
-    $(document).on("click", 'input[name="category_children"]', function () {
-        let value = $(this).val();
-        $('input[name="category_children"]').prop("checked", false);
-        $(this).prop("checked", true);
-        $.ajax({
-            url: window.location.origin + '/api/get-children',
-            type: 'post',
-            dataType: 'json',
-            data: {"category_id": value, "name": "sub_category"},
-            success: function (data) {
-                $("[warehouse_shelves]").html(data.html);
-            }
-        });
-    });
     // add size so
     $(document).on("click", ".btn-add-size", function () {
         let parent = $(this).closest(".data-variant");
@@ -274,62 +224,24 @@ $(document).ready(function () {
         }else if(value == 4){
             $(".parameter_1").text('Chất liệu viền :');
             $(".parameter_2").text('Kích cỡ mặt đồng hồ :');
-            $(".parameter_3").text('Thời lượng pin');
-            $(".box_parameter_4").css('display','none');
+            $(".parameter_3").text('Thời lượng pin :');
+            $(".parameter_4").text('Thiết kế :');
         }else if(value == 5){
             $(".parameter_1").text('Thông số 1 :');
             $(".parameter_2").text('Thông số 2 :');
-            $(".parameter_3").text('Thông số 3');
-            $(".parameter_4").text('Thông số 4');
+            $(".parameter_3").text('Thông số 3 :');
+            $(".parameter_4").text('Thông số 4 :');
         }else if(value == 6){
-            // $(".parameter_1").text('Phân loại ốp :');
-            // $(".parameter_2").text('Dòng sản phẩm :');
-            // $(".parameter_3").text('Tính năng :');
-            // $(".parameter_4").text('Hãng :');
-            $(".parameter_1").text('Thông số 1 :');
-            $(".parameter_2").text('Thông số 2 :');
-            $(".parameter_3").text('Thông số 3');
-            $(".parameter_4").text('Thông số 4');
+            $(".parameter_1").text('Hãng :');
+            $(".parameter_2").text('Thông số 1 :');
+            $(".parameter_3").text('Thông số 2 :');
+            $(".parameter_4").text('Thông số 3 :');
         }else {
-            $(".parameter_1").text('Thông số 1 :');
-            $(".parameter_2").text('Thông số 2 :');
-            $(".parameter_3").text('Thông số 3');
-            $(".parameter_4").text('Thông số 4');
+            $(".parameter_1").text('Hãng :');
+            $(".parameter_2").text('Công suất :');
+            $(".parameter_3").text('Thời gian sử dụng :');
+            $(".box_parameter_4").css('display','none');
         }
     }
-
-    // add size theo can nang
-    $(document).on("click", ".btn-size", function () {
-        let parent = $(this).closest(".data-variant");
-        let list_size = parent.find(".list-size");
-        let data = {};
-        data['count'] = list_size.children().length;
-        data['index'] = parent.index();
-        $.ajax({
-            url: window.location.origin + '/api/size-weight',
-            type: 'post',
-            data: data,
-            dataType: 'json',
-            success: function (data) {
-                list_size.append(data.html);
-            }
-        });
-    });
-    // delete size theo can nang
-    $(document).on("click", ".btn-clear", function () {
-        let data_parent = $(this).closest(".data-variant");
-        let parents = $(this).closest(".row");
-        parents.remove();
-        let index = data_parent.index();
-        console.log(index);
-        let list_size = data_parent.find(".list-size");
-        let count = list_size.children().length;
-        for (let i = 0; i < count; i++) {
-            let kg1 = 'variant[' + index + '][data][' + i + '][kg1]';
-            let kg2 = 'variant[' + index + '][data][' + i + '][kg2]';
-            list_size.children().eq(i).find(".form-control.kg1").attr("name", kg1);
-            list_size.children().eq(i).find(".form-control.kg2").attr("name", kg2);
-        }
-    });
 
 });

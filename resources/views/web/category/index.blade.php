@@ -48,7 +48,7 @@
             @endif
         </div>
 
-        @if(isset($parameter_one) || isset($parameter_two) || isset($parameter_three) || isset($parameter_four) || isset($parameter_five))
+        @if($type_product != 5)
             <p class="cat_title">Chọn theo tiêu chí:</p>
             <div class="filtersecond">
                 <div class="filter-area">
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     @endif
-                    @if(isset($parameter_five))
+                    @if(isset($parameter_five) && $type_product != 4 && $type_product != 7 && $type_product != 6)
                         <div class="dropdown field_filter filterAll">
                             <button class="btn dropdown-toggle btnFilterAll btnThree" type="button"
                                     data-bs-toggle="dropdown"
@@ -137,7 +137,7 @@
                             </div>
                         </div>
                     @endif
-                    @if(isset($parameter_two))
+                    @if(isset($parameter_two) && $type_product != 6)
                         <div class="dropdown field_filter filterAll">
                             <button class="btn dropdown-toggle btnFilterAll btnFour" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                     @endif
-                    @if(isset($parameter_three))
+                    @if(isset($parameter_three) && $type_product != 6)
                         <div class="dropdown field_filter filterAll">
                             <button class="btn dropdown-toggle btnFilterAll btnFive" type="button"
                                     data-bs-toggle="dropdown"
@@ -192,7 +192,7 @@
                             </div>
                         </div>
                     @endif
-                    @if(isset($parameter_four))
+                    @if(isset($parameter_four) && $type_product != 7 && $type_product != 6)
                         <div class="dropdown field_filter filterAll">
                             <button class="btn dropdown-toggle btnFilterAll btnSix" type="button"
                                     data-bs-toggle="dropdown"
@@ -280,15 +280,25 @@
                                 <a href="{{url('san-pham/'.$value->slug)}}" class="product-name">{{$value->name}}</a>
                                 <div class="product-tech">
                                     @foreach($value->type_product as $item)
-                                        <a href="{{url('san-pham/'.$item->slug)}}"
-                                           class="{{$value->own_parameter == $item->own_parameter?'active':''}}">{{$item->own_parameter}}</a>
+                                        @if(isset($item->own_parameter))
+                                            <a href="{{url('san-pham/'.$item->slug)}}"
+                                               class="{{$value->own_parameter == $item->own_parameter?'active':''}}" style="max-height: 27.6px">{{$item->own_parameter}}</a>
+                                        @endif
                                     @endforeach
                                 </div>
                                 <div class="product-tech">
-                                    <span>{{$value->infor->parameter_one}}</span>
-                                    <span>{{$value->infor->parameter_two}}</span>
-                                    <span>{{$value->infor->parameter_three}}</span>
-                                    <span>{{$value->infor->parameter_four}}</span>
+                                    @if($value->infor->parameter_one)
+                                        <span>{{$value->infor->parameter_one}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_two)
+                                        <span>{{$value->infor->parameter_two}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_three)
+                                        <span>{{$value->infor->parameter_three}}</span>
+                                    @endif
+                                    @if($value->infor->parameter_four)
+                                        <span>{{$value->infor->parameter_four}}</span>
+                                    @endif
                                 </div>
                                 <div class="product-price">
                                     <span class="price">{{number_format($value->promotional_price)}}₫</span>

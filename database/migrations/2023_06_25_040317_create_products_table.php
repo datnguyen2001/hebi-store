@@ -21,8 +21,8 @@ class CreateProductsTable extends Migration
             $table->integer('price')->default(0);
             $table->integer('promotional_price')->default(0);
             $table->integer('quantity')->default(0);
-            $table->string('own_parameter');
-            $table->longText('specifications');
+            $table->string('own_parameter')->nullable();
+            $table->longText('specifications')->nullable();
             $table->integer('is_featured_products')->default(0);
             $table->timestamps();
         });

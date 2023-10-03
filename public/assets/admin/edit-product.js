@@ -83,21 +83,21 @@ $(document).ready(function () {
         $(".parameter_1").text('Chất liệu viền :');
         $(".parameter_2").text('Kích cỡ mặt đồng hồ :');
         $(".parameter_3").text('Thời lượng pin');
-        $(".box_parameter_4").css('display','none');
+        $(".parameter_4").text('Thiết kế :');
     }else if(value == 5){
         $(".parameter_1").text('Thông số 1 :');
         $(".parameter_2").text('Thông số 2 :');
-        $(".parameter_3").text('Thông số 3');
-        $(".parameter_4").text('Thông số 4');
+        $(".parameter_3").text('Thông số 3 :');
+        $(".parameter_4").text('Thông số 4 :');
     }else if(value == 6){
-        $(".parameter_1").text('Thông số 1 :');
-        $(".parameter_2").text('Thông số 2 :');
-        $(".parameter_3").text('Thông số 3');
-        $(".parameter_4").text('Thông số 4');
+        $(".parameter_1").text('Hãng :');
+        $(".parameter_2").text('Thông số 1 :');
+        $(".parameter_3").text('Thông số 2 :');
+        $(".parameter_4").text('Thông số 3 :');
     }else {
-        $(".parameter_1").text('Thông số 1 :');
-        $(".parameter_2").text('Thông số 2 :');
-        $(".parameter_3").text('Thông số 3');
-        $(".parameter_4").text('Thông số 4');
+        $(".parameter_1").text('Hãng :');
+        $(".parameter_2").text('Công suất :');
+        $(".parameter_3").text('Thời gian sử dụng :');
+        $(".box_parameter_4").css('display','none');
     }
 });

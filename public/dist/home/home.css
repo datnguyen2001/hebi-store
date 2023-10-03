@@ -172,6 +172,9 @@
 .img-banner-responsive {
     height: 100%;
 }
+.slick-initialized .image_banner_home{
+    height: 355px;
+}
 
 @media (min-width: 1024px) {
     .slider-image.slider-for {

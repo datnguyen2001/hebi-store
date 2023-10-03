@@ -308,9 +308,7 @@
                                             class='fa fa-angle-right'></i></a>
                                 <li class='level_0' style="padding-bottom: 7px"><a
                                         href='{{url('tra-cuu-don-hang')}}'
-                                        class='lv_0'> <span><img
-                                                src=https://onewaymobile.vn/images/menus/tragop_1663659805.svg alt=Trả
-                                                góp width='20px' height='20px'>Tra cứu đơn hàng</span><i
+                                        class='lv_0'> <span><i class="fa-solid fa-truck-fast" ></i>Tra cứu đơn hàng</span><i
                                             class='fa fa-angle-right'></i></a>
                             </ul>
                         </div>
