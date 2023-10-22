@@ -198,6 +198,13 @@
     function handleUserInteraction() {}
 
     $(document).on('click keydown', handleUserInteraction);
+
+    @if(session('error'))
+    Swal.fire({
+        icon: "error",
+        title: "{{session('error')}}",
+    });
+    @endif
 </script>
 </body>
 </html>

@@ -26,6 +26,7 @@ use \App\Http\Controllers\Admin\RoleController;
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/dologin', [LoginController::class, 'doLogin'])->name('doLogin');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('changePassword/{id}', [LoginController::class, 'changePassword'])->name('changePassword');
 
 Route::middleware('check-admin-auth')->group(function () {
     Route::get('', [DashboardController::class, 'index'])->name('index');

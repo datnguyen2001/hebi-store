@@ -40,4 +40,26 @@ class LoginController extends Controller
             ->route('admin.login')
             ->with(['alert' => 'success', 'message' => 'Đăng xuất thành công']);
     }
+
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::find($id);
+        $dataAttemptAdmin = [
+            'phone' => $user['phone'],
+            'password' => $request->get('current_password'),
+        ];
+        if (Auth::attempt($dataAttemptAdmin)) {
+            if ($request->get('password') !=  $request->get('password_confirmation')) {
+                return back()->with('error', 'Mật khẩu nhập lại không khớp!');
+            }
+
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            return redirect()->route('admin.login')->with('message', 'Bạn đã đổi mật khẩu thành công');
+        }else{
+            return back()->with('error', 'Mật khẩu cũ không đúng!');
+        }
+
+    }
 }

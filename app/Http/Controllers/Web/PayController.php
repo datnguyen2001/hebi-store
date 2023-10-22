@@ -7,6 +7,7 @@ use App\Http\Controllers\ShippingUnitController;
 use App\Models\CartModel;
 use App\Models\DistrictGhnModel;
 use App\Models\FlashSaleModel;
+use App\Models\ImportExxportProductModel;
 use App\Models\OrderItemModel;
 use App\Models\OrderModel;
 use App\Models\ProductAttributesModel;
@@ -120,16 +121,21 @@ class PayController extends ShippingUnitController
                 $order['transport_name'] = 'GHN';
             }
             $order->save();
-            foreach ($carts as $k => $item){
-                $this->saveOrderItem($order, $item);
-            }
+
             if ($request->type_payment == 1) {
                 $order['type_payment'] = 1;
                 $order->save();
+                foreach ($carts as $k => $item){
+                    $order_item = $this->saveOrderItem($order, $item);
+                    $this->saveExportProduct($order_item);
+                }
                 CartModel::where('user_token',$request->get('user_token'))->delete();
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
                 return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Mã đơn hàng của bạn là: '.$order->order_code.'']);
             }elseif ($request->type_payment == 2){
+                foreach ($carts as $k => $item){
+                    $this->saveOrderItem($order, $item);
+                }
                 $this->checkoutByVnPay($total_money,$order,$request->get('user_token'));
             }
         } catch (\Exception $exception) {
@@ -260,6 +266,10 @@ class PayController extends ShippingUnitController
             if ($_GET['vnp_ResponseCode'] == '00') {
                 $order->type_payment = 2;
                 $order->save();
+                $order_item = OrderItemModel::where('order_id',$order->id)->get();
+                foreach ($order_item as $item){
+                    $this->saveExportProduct($item);
+                }
                 CartModel::where('user_token',$_SESSION['user_token'])->delete();
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
                 $msg = ['success' => 'Thanh toán thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.''];
@@ -297,8 +307,37 @@ class PayController extends ShippingUnitController
             $order_item['quantity'] = $item->quantity;
             $order_item['total_money'] = $item->total_money;
             $order_item->save();
+            return $order_item;
+        }catch (\Exception $exception){
+            dd($exception->getMessage());
+        }
+    }
 
-            return true;
+    /**
+     * tạo phiếu xuất
+     */
+    public function saveExportProduct($item){
+        try {
+            $product = ProductAttributesModel::find($item['product_attributes_id']);
+            $import = ImportExxportProductModel::where('product_attributes_id', $item['product_attributes_id'])->orderBy('id', 'desc')->first();
+            $total_money = $import->ending_tt ?? 0;
+            $list_data = ImportExxportProductModel::create([
+                'product_attributes_id' => $item['product_attributes_id'],
+                'quantity' => (int)$item['quantity'],
+                'price' => (int)$item['promotional_price'],
+                'Survive_sl' => $import->ending_sl ?? 0,
+                'Survive_tt' => $total_money,
+                'import_sl' => 0,
+                'import_tt' => 0,
+                'export_sl' => (int)$item['quantity'],
+                'export_tt' => $item['total_money'],
+                'ending_sl' => $product->quantity - (int)$item['quantity'],
+                'ending_tt' => $total_money - $item['total_money'],
+                'type' => 2,
+            ]);
+            $list_data->save();
+            $product->quantity = $product->quantity - (int)$item['quantity'];
+            $product->save();
         }catch (\Exception $exception){
             dd($exception->getMessage());
         }

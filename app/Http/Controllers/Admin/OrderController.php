@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\ShippingUnitController;
 use App\Models\DistrictGHNModel;
+use App\Models\ImportExxportProductModel;
 use App\Models\OrderItemModel;
 use App\Models\OrderModel;
 use App\Models\ProductAttributesModel;
@@ -177,6 +178,23 @@ class OrderController extends ShippingUnitController
         $order_item = OrderItemModel::where('order_id', $order->id)->get();
         foreach ($order_item as $value) {
             $product = ProductAttributesModel::find($value->product_attributes_id);
+            $import = ImportExxportProductModel::where('product_attributes_id', $value->product_attributes_id)->orderBy('id', 'desc')->first();
+            $total_money = $import->ending_tt ?? 0;
+            $list_data = ImportExxportProductModel::create([
+                'product_attributes_id' => $value->product_attributes_id,
+                'quantity' => (int)$value->quantity,
+                'price' => (int)$value->promotional_price,
+                'Survive_sl' => $import->ending_sl ?? 0,
+                'Survive_tt' => $total_money,
+                'import_sl' => 0,
+                'import_tt' => 0,
+                'export_sl' => (int)$value->quantity,
+                'export_tt' => $value->total_money,
+                'ending_sl' => $product->quantity - (int)$value->quantity,
+                'ending_tt' => $total_money - $value->total_money,
+                'type' => 1,
+            ]);
+            $list_data->save();
             if (isset($product)) {
                 $product->quantity = $product->quantity + $value->quantity;
                 $product->save();
