@@ -16,6 +16,7 @@ use App\Models\ProductValue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -23,12 +24,13 @@ class ProductController extends Controller
     public function category($status)
     {
         $checkCate = $this->checkStatus($status);
-        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', 0)->get();
+        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', 0)->orderBy('location','asc')->get();
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->pluck('id');
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-            ->orderBy('product_attributes.promotional_price', 'desc')
-            ->select('products.*')
+            ->select('products.*', DB::raw('MAX(product_attributes.promotional_price) as max_promotional_price'))
             ->whereIn('product_infor_id', $product_infor)
+            ->groupBy('product_attributes.product_id')
+            ->orderBy('max_promotional_price', 'desc')
             ->paginate(20);
         $this->dataProduct($product);
         $name = null;
@@ -39,46 +41,50 @@ class ProductController extends Controller
             'slug'), $this->criteria($checkCate, $product_infor)));
     }
 
-    public function productCate($status, $name)
+    public function productCate($status, $name_slug)
     {
         $checkCate = $this->checkStatus($status);
-        $id_cate = CategoryModel::where('name', $name)->where('display', 1)->where('type', $checkCate['type'])->first();
-        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->get();
+        $id_cate = CategoryModel::where('slug', $name_slug)->where('display', 1)->where('type', $checkCate['type'])->first();
+        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->orderBy('location','asc')->get();
         $parent_id = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->pluck('id');
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->whereIn('category_id', $parent_id)->pluck('id');
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-            ->orderBy('product_attributes.promotional_price', 'desc')
-            ->select('products.*')
+            ->select('products.*', DB::raw('MAX(product_attributes.promotional_price) as max_promotional_price'))
             ->whereIn('product_infor_id', $product_infor)
+            ->groupBy('product_attributes.product_id')
+            ->orderBy('max_promotional_price', 'desc')
             ->paginate(20);
         $this->dataProduct($product);
         $name_cate = $checkCate['name_cate'];
         $type_product = $checkCate['type'];
+        $name = $id_cate->name;
         $slug = null;
         return view('web.category.index', array_merge(compact('cate', 'name_cate', 'status', 'name', 'type_product',
-            'product', 'slug'), $this->criteria($checkCate, $product_infor)));
+            'product', 'slug','name_slug'), $this->criteria($checkCate, $product_infor)));
     }
 
-    public function productCateDetail($status, $name, $slug)
+    public function productCateDetail($status, $name_slug, $slug)
     {
         $checkCate = $this->checkStatus($status);
-        $id_cate = CategoryModel::where('name', $name)->where('display', 1)->where('type', $checkCate['type'])->first();
-        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->get();
+        $id_cate = CategoryModel::where('slug', $name_slug)->where('display', 1)->where('type', $checkCate['type'])->first();
+        $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->orderBy('location','asc')->get();
         $parent_id = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('slug', $slug)->first();
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->where('category_id', $parent_id->id)->pluck('id');
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-            ->orderBy('product_attributes.promotional_price', 'desc')
-            ->select('products.*')
+            ->select('products.*', DB::raw('MAX(product_attributes.promotional_price) as max_promotional_price'))
             ->whereIn('product_infor_id', $product_infor)
+            ->groupBy('product_attributes.product_id')
+            ->orderBy('max_promotional_price', 'desc')
             ->paginate(20);
         $this->dataProduct($product);
         $name_cate = $checkCate['name_cate'];
         $type_product = $checkCate['type'];
+        $name = $id_cate->name;
         return view('web.category.index', array_merge(compact('cate', 'name_cate', 'status', 'name', 'type_product',
-            'product', 'slug'), $this->criteria($checkCate, $product_infor)));
+            'product', 'slug','name_slug'), $this->criteria($checkCate, $product_infor)));
     }
 
-    public function detailProduct(Request $request,$slug)
+    public function detailProduct($slug)
     {
         $product = ProductsModel::where('slug', $slug)->first();
         if (empty($product)) {
@@ -147,9 +153,9 @@ class ProductController extends Controller
             $minPrice = $request->input('min_price', 0);
             $maxPrice = $request->input('max_price', 200000000);
             if ($request->sort == 1) {
-                $sort = ['product_attributes.promotional_price', 'asc'];
-            } else if ($request->sort == 2) {
                 $sort = ['product_attributes.promotional_price', 'desc'];
+            } else if ($request->sort == 2) {
+                $sort = ['product_attributes.promotional_price', 'asc'];
             } else {
                 $sort = ['product_attributes.created_at', 'desc'];
             }
@@ -158,17 +164,28 @@ class ProductController extends Controller
             $product_infor = $product_infor->where('type_product', $request->type_product)->where('display', 1)->pluck('id');
             if ($request->parameter_five) {
                 $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-                    ->orderBy($sort[0], $sort[1])
-                    ->select('products.*')
-                    ->whereIn('product_infor_id', $product_infor)->where('own_parameter', $request->parameter_five)
+                    ->select('products.*','product_attributes.name as attribute_name', 'product_attributes.price as attribute_price', 'product_attributes.promotional_price as attribute_promotional_price')
+                    ->whereIn('product_infor_id', $product_infor)
+                    ->where('own_parameter', $request->parameter_five)
                     ->whereBetween('product_attributes.promotional_price', [$minPrice, $maxPrice])
+                    ->whereIn('product_attributes.id', function($query) {
+                        $query->select(DB::raw('MIN(id)'))
+                            ->from('product_attributes')
+                            ->groupBy('product_id');
+                    })
+                    ->orderBy($sort[0], $sort[1])
                     ->paginate(20);
             } else {
                 $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-                    ->orderBy($sort[0], $sort[1])
-                    ->select('products.*')
+                    ->select('products.*','product_attributes.name as attribute_name', 'product_attributes.price as attribute_price', 'product_attributes.promotional_price as attribute_promotional_price')
                     ->whereIn('product_infor_id', $product_infor)
                     ->whereBetween('product_attributes.promotional_price', [$minPrice, $maxPrice])
+                    ->whereIn('product_attributes.id', function($query) {
+                        $query->select(DB::raw('MIN(id)'))
+                            ->from('product_attributes')
+                            ->groupBy('product_id');
+                    })
+                    ->orderBy($sort[0], $sort[1])
                     ->paginate(20);
             }
 
@@ -190,16 +207,22 @@ class ProductController extends Controller
     {
         $keyword = $request->get('keyword');
         if ($request->sort_price == 1) {
-            $sort = ['product_attributes.promotional_price', 'asc'];
-        } else if ($request->sort_price == 2) {
             $sort = ['product_attributes.promotional_price', 'desc'];
+        } else if ($request->sort_price == 2) {
+            $sort = ['product_attributes.promotional_price', 'asc'];
         } else {
             $sort = ['product_attributes.created_at', 'desc'];
         }
-        $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-            ->orderBy($sort[0], $sort[1])
-            ->select('products.*')
+        $product = DB::table('products')
+            ->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
+            ->select('products.*', 'product_attributes.name as attribute_name', 'product_attributes.price as attribute_price', 'product_attributes.promotional_price as attribute_promotional_price')
             ->where('products.name', 'like', '%' . $keyword . '%')
+            ->whereIn('product_attributes.id', function($query) {
+                $query->select(DB::raw('MIN(id)'))
+                    ->from('product_attributes')
+                    ->groupBy('product_id');
+            })
+            ->orderBy($sort[0], $sort[1])
             ->paginate(20);
         foreach ($product as $item) {
             $item->infor = ProductInformationModel::find($item->product_infor_id);

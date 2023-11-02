@@ -56,7 +56,7 @@ class Controller extends BaseController
     {
         foreach ($data_attribute as $value) {
             $is_featured_products = 0;
-            if ($value['featured_products'] == 'on') {
+            if (isset($value['featured_products'])) {
                 $is_featured_products = 1;
             }
             if (isset($value['attribute_id'])) {
@@ -313,6 +313,7 @@ class Controller extends BaseController
      **/
     public function starReview($product)
     {
+        $product->star = 0;
         $star = ProductReviewsModel::where('product_id', $product->id)->where('status',1)->orderBy('created_at','desc')->get();
         if (!$star->isEmpty()) {
             $total_score =  ProductReviewsModel::where('product_id', $product->id)->where('status',1)->sum('star');

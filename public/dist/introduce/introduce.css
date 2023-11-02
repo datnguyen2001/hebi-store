@@ -15,15 +15,32 @@
     margin-bottom: 60px;
     text-transform: uppercase;
     color: #FFFFFF;
+    text-align: center;
 }
 .content-introduce{
-    padding: 40px 40px 80px;
+    padding: 40px 40px 50px;
     background: #FFFFFF;
-    border-radius: 40px 40px 0px 0px;
+    border-radius: 40px;
     margin-top: -140px;
 }
-@media (max-width: 992px) {
+@media (max-width: 1023px) {
     .main {
         margin-top: -3px;
+    }
+    .content-introduce {
+        width: 95%!important;
+    }
+}
+@media (max-width: 767px) {
+    .content-introduce {
+        padding: 30px 15px 50px;
+    }
+    .title-intro{
+        line-height: normal;
+        font-size: 24px;
+        margin-bottom: 110px;
+    }
+    .banner-introduce{
+        height: 290px;
     }
 }

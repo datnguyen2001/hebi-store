@@ -1050,7 +1050,7 @@ h1, h2, h3, h4, h5, h6 {
 .error-404 .btn:hover {
   background: #3e4f6f;
 }
-@media (min-width: 992px) {
+@media (min-width: 1023px) {
   .error-404 img {
     max-width: 50%;
   }

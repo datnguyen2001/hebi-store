@@ -423,7 +423,7 @@
                     <div class="title_box">
                         <span>Thông số kỹ thuật </span>
                     </div>
-                    <div style="max-height: 648px;overflow: hidden">{!! $product->specifications !!}</div>
+                    <div class="box_tskt" style="max-height: 648px;overflow: hidden">{!! $product->specifications !!}</div>
                     <button id="load_more_charactestic" class="w-100" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                         <span>Xem cấu hình chi tiết</span>
@@ -457,9 +457,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body_characteristic">
-                    <p class="title_characteristic">Thông số kỹ thuật chi tiết Điện thoại Apple iPhone 13 - 128GB
-                        VN/A</p>
-                    <div>{!! $product->specifications !!}</div>
+                    <p class="title_characteristic" style="font-weight: 600">Thông số kỹ thuật chi tiết {{$product->name}}</p>
+                    <div class="box_tskt">{!! $product->specifications !!}</div>
                 </div>
             </div>
         </div>

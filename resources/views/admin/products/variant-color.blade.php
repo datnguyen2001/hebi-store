@@ -1,13 +1,13 @@
 <div class="mt-3 border-bottom data-variant pb-3">
     <div class="row m-0">
         <div class="col-lg-3 p-1">
-            <input type="text" name="variant[{{$count}}][name]" class="form-control" placeholder="Tên loại sản phẩm" required>
+            <input type="text" name="variant[{{$count}}][name]" class="form-control" placeholder="Tên sản phẩm" required>
         </div>
         <div class="col-lg-2 p-1">
             <button type="button" class="btn btn-success btn-add-size form-control"><i class="bi bi-plus-lg"></i> Thêm Màu</button>
         </div>
-        <div class="col-lg-3 p-1">
-            <button type="button" class="btn btn-primary btn-add-color form-control"><i class="bi bi-plus-lg"></i>Thêm Loại Sản Phẩm</button>
+        <div class="col-lg-2 p-1">
+            <button type="button" class="btn btn-primary btn-add-color form-control"><i class="bi bi-plus-lg"></i>Thêm Sản Phẩm</button>
         </div>
         <div class="col-lg-2 p-1">
             <button type="button" class="btn btn-danger btn-clear-color">
@@ -20,7 +20,7 @@
                 <p class="m-0">Thông tin  :</p>
             </div>
             <div class="col-lg-2 p-1">
-                <input name="variant[{{$count}}][own_parameter]" type="text" class="form-control" placeholder="Bộ nhớ trong">
+                <input name="variant[{{$count}}][own_parameter]" type="text" class="form-control" placeholder="">
             </div>
             <div class="form-check form-switch col-lg-2 p-1">
                 <input class="form-check-input" name="variant[{{$count}}][featured_products]" type="checkbox"
@@ -37,7 +37,7 @@
         </div>
         <div class="row m-0">
             <div class="col-lg-3 p-1">
-                <input type="text" name="variant[{{$count}}][data][0][color]" class="form-control" placeholder="Tên màu sản phẩm" required>
+                <input type="text" name="variant[{{$count}}][data][0][color]" class="form-control" placeholder="Tên loại sản phẩm" required>
             </div>
             <div class="col-lg-3 p-1">
                 <input name="variant[{{$count}}][data][0][price]" type="text" class="form-control price format-currency" placeholder="Gía gốc">

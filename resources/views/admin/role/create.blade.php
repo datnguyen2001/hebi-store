@@ -32,11 +32,8 @@
                                     <label for="inputNumber" class="col-sm-2 col-form-label">Chức vụ</label>
                                     <div class="col-sm-10">
                                         <select class="form-select" name="role" aria-label="Default select example">
-                                            <option class="bg-info" value="1">Chủ tịch</option>
-                                            <option class="bg-info" value="2">Giám đốc</option>
-                                            <option class="bg-info" value="3">Trưởng phòng</option>
-                                            <option class="bg-info" value="4">Chuyên viên</option>
-                                            <option class="bg-info" value="5">Giám sát viên</option>
+                                            <option class="bg-info" value="1">Giám đốc</option>
+                                            <option class="bg-info" value="2">Nhân viên</option>
                                         </select>
                                     </div>
                                 </div>

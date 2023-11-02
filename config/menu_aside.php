@@ -94,7 +94,7 @@ return [
         ],
         [
             'name' => 'introduce',
-            'title' => 'Quản lý footer',
+            'title' => 'Quản lý thông tin cửa hàng',
             'icon' => 'bi bi-grid',
             'route' => 'admin.introduce.index',
             'submenu' => [],

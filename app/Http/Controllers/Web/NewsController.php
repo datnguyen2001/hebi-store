@@ -18,32 +18,32 @@ class NewsController extends Controller
         $news_right_three = NewsModel::query();
         $news_right_more = null;
         if ($status == 'trang-chu'){
-            $news = $news->where('display',1)->orderBy('created_at','desc')->paginate(10);
+            $news = $news->where('display',1)->orderBy('created_at','desc')->paginate(8);
             $news_right_one = $news_right_one->where('type',2)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_two = $news_right_two->where('type',3)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_three = $news_right_three->where('type',4)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_more = NewsModel::where('type',1)->where('display',1)->orderBy('index','desc')->limit(5)->get();
         }
         if ($status == 'tin-moi'){
-            $news = $news->where('type',1)->where('display',1)->orderBy('created_at','desc')->paginate(10);
+            $news = $news->where('type',1)->where('display',1)->orderBy('created_at','desc')->paginate(8);
             $news_right_one = $news_right_one->where('type',2)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_two = $news_right_two->where('type',3)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_three = $news_right_three->where('type',4)->where('display',1)->orderBy('index','desc')->limit(5)->get();
         }
         if ($status == 'khuyen-mai'){
-            $news = $news->where('type',2)->where('display',1)->orderBy('created_at','desc')->paginate(10);
+            $news = $news->where('type',2)->where('display',1)->orderBy('created_at','desc')->paginate(8);
             $news_right_one = $news_right_one->where('type',1)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_two = $news_right_two->where('type',3)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_three = $news_right_three->where('type',4)->where('display',1)->orderBy('index','desc')->limit(5)->get();
         }
         if ($status == 'meo-hay'){
-            $news = $news->where('type',3)->where('display',1)->orderBy('created_at','desc')->paginate(10);
+            $news = $news->where('type',3)->where('display',1)->orderBy('created_at','desc')->paginate(8);
             $news_right_one = $news_right_one->where('type',1)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_two = $news_right_two->where('type',2)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_three = $news_right_three->where('type',4)->where('display',1)->orderBy('index','desc')->limit(5)->get();
         }
         if ($status == 'tin-tuyen-dung'){
-            $news = $news->where('type',4)->where('display',1)->orderBy('created_at','desc')->paginate(10);
+            $news = $news->where('type',4)->where('display',1)->orderBy('created_at','desc')->paginate(8);
             $news_right_one = $news_right_one->where('type',1)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_two = $news_right_two->where('type',2)->where('display',1)->orderBy('index','desc')->limit(5)->get();
             $news_right_three = $news_right_three->where('type',3)->where('display',1)->orderBy('index','desc')->limit(5)->get();

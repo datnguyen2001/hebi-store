@@ -303,7 +303,7 @@
                             <div class="col-9">
                                 <div class="d-flex align-items-center selector__image justify-content-center"
                                      style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
-                                    <img src="../assets/img/camera.png">
+                                    <img src="../assets/images/camera.png">
                                 </div>
                                 <input type="file" hidden name="file_product" accept="image/*">
                                 <input name="image_product" hidden value="">
@@ -403,7 +403,7 @@
                             <a data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false"
                                aria-controls="collapseExample4" class="btn bg-info text-white card-header">
                                 <p class="d-flex align-items-center justify-content-between mb-0"><strong
-                                        style="font-weight: unset">Đặc điểm nổi bật</strong><i
+                                        style="font-weight: unset">Chính sách bảo hành</strong><i
                                         class="fa fa-angle-down"></i></p>
                             </a>
                             <div id="collapseExample4" class="collapse shadow-sm">

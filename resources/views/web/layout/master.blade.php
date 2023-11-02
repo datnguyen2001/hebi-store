@@ -41,7 +41,7 @@
             <div class="modal-body">
                 <p>Quý khách có nhu cầu mua số lượng nhiều vui lòng liên hệ phòng bán hàng doanh nghiệp B2B:</p>
                 <p>Ms.Linh: <a href="tel:0788888162" style="color: #0a58ca">0788.888.162</a></p>
-                <p>Email: <a href="mailto:ecom@cellphones.com.vn" style="color: #0a58ca">ecom@cellphones.com.vn</a></p>
+                <p>Email: <a href="mailto:ecom@hebistore.com.vn" style="color: #0a58ca">ecom@hebistore.com.vn</a></p>
             </div>
         </div>
     </div>

@@ -108,12 +108,12 @@
             </div>
             <div class="main-content">
                 <div class="block-list-home">
-                    <h3 class="h3_news">Bài viết nổi bật</h3>
+                    <h3 class="h3_news news_hot">Bài viết nổi bật</h3>
                     <div class="list-home owl-carousel owl-theme slide-banner-news">
                         @foreach($banner_news as $value)
                             <div class="item-home block">
                                 <a href="{{url('chi-tiet-tin-tuc/'.$value->slug)}}" class="item-image">
-                                    <img data-src="{{$value->image}}" alt="" class="img-responsive lazy">
+                                    <img src="{{$value->image}}" alt="" class="img-responsive">
                                 </a>
                                 <div class="item-text">
                                     <a href="{{url('chi-tiet-tin-tuc/'.$value->slug)}}" class="name">{{$value->title}}</a>
@@ -158,7 +158,7 @@
                                 </div>
                             @endforeach
                         </div>
-                         <div class="d-flex justify-content-center">
+                         <div class="d-flex justify-content-center page_more">
                             {{ $news->appends(request()->all())->links('web.partials.paginate') }}
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                                 <div class="item-right item-list item-sale">
                                     @foreach($news_right_more as $item)
                                         <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                            <img data-src="{{$item->image}}" class="img-responsive lazy">
+                                            <img data-src="{{$item->image}}" class="img-responsive lazy img_news">
                                             <span class="custom-content-3-line">{{$item->title}}</span>
                                         </a>
                                     @endforeach
@@ -182,7 +182,7 @@
                                 <div class="item-right item-list item-sale">
                                     @foreach($news_right_one as $item)
                                     <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                        <img data-src="{{$item->image}}" class="img-responsive lazy">
+                                        <img data-src="{{$item->image}}" class="img-responsive lazy img_news">
                                         <span class="custom-content-3-line">{{$item->title}}</span>
                                     </a>
                                    @endforeach
@@ -193,7 +193,7 @@
                                 <div class="item-right item-list">
                                     @foreach($news_right_two as $item)
                                     <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                        <img data-src="{{$item->image}}" class="img-responsive lazy">
+                                        <img data-src="{{$item->image}}" class="img-responsive lazy img_news">
                                         <span class="custom-content-3-line">{{$item->title}}</span>
                                     </a>
                                     @endforeach
@@ -216,7 +216,7 @@
                                     <div class="item-right item-list">
                                         @foreach($news_right_three as $item)
                                             <a href="{{url('chi-tiet-tin-tuc/'.$item->slug)}}">
-                                                <img data-src="{{$item->image}}" class="img-responsive lazy">
+                                                <img data-src="{{$item->image}}" class="img-responsive lazy img_news">
                                                 <span class="custom-content-3-line">{{$item->title}}</span>
                                             </a>
                                         @endforeach

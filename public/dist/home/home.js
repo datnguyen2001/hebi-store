@@ -1,5 +1,6 @@
 setUserNameCookie();
 getCart();
+
 function ProductSale() {
     $('.product_sale').slick({
         infinite: false,
@@ -156,8 +157,8 @@ function getCart() {
                 $(".number_cart").text(count_cart);
                 let html = '';
                 let total_money = 0;
-                if (count_cart > 0){
-                    for (let i=0;i<count_cart;i++){
+                if (count_cart > 0) {
+                    for (let i = 0; i < count_cart; i++) {
                         html += `
                             <div class="d-flex line_cart_small">
                                 <div class="d-flex flex-column align-items-center">
@@ -201,10 +202,10 @@ function getCart() {
                         <span class="title_end_small">Tổng tiền</span>
                         <span class="total_end_small">${formatPrice(total_money)}₫</span>
                     </div>
-                    <a href="${window.location.origin +'/thanh-toan'}"><button type="submit" class="payment-btn-small">Thanh toán</button></a>
+                    <a href="${window.location.origin + '/thanh-toan'}"><button type="submit" class="payment-btn-small">Thanh toán</button></a>
                     `;
                     $('.list_carts').append(htmlMoney);
-                }else {
+                } else {
                     html = `<p class="text_empty"><i class="fa-solid fa-face-frown face_frown"></i> </br>Không có sản phẩm nào trong giỏ hàng </br>Vui lòng thêm sản phẩm.</p>`;
                     $('.list_carts').html(html);
                 }
@@ -213,10 +214,10 @@ function getCart() {
     });
 };
 
-function change_quantity(index,type) {
+function change_quantity(index, type) {
     let data = {};
     data['type'] = type;
-    data['cart_id'] = $('.cart_id_'+index).val();
+    data['cart_id'] = $('.cart_id_' + index).val();
     data['token'] = localStorage.getItem('user_token');
     $.ajax({
         url: window.location.origin + '/api/cart/change-quantity',
@@ -225,9 +226,9 @@ function change_quantity(index,type) {
         dataType: 'json',
         success: function (data) {
             if (data.status) {
-                $('#quantity_'+index).val(data.quantity);
-                $('.price_sp_'+index).text(formatPrice(data.total_money)+'đ');
-                $('.total_end_small').text(formatPrice(data.sum_price)+'đ')
+                $('#quantity_' + index).val(data.quantity);
+                $('.price_sp_' + index).text(formatPrice(data.total_money) + 'đ');
+                $('.total_end_small').text(formatPrice(data.sum_price) + 'đ')
             } else {
                 $("#modalCheckout").modal("show");
                 $("#offcanvasRight").offcanvas("hide");
@@ -257,7 +258,7 @@ function deleteProduct(id) {
 }
 
 function formatPrice(number) {
-    return new Intl.NumberFormat("en-US", { minimumFractionDigits: 0 }).format(number);
+    return new Intl.NumberFormat("en-US", {minimumFractionDigits: 0}).format(number);
 }
 
 function generateRandomName() {
@@ -275,7 +276,7 @@ function setUserNameCookie() {
         userName = generateRandomName();
         setCookie("user_token", userName, 365);
     }
-    localStorage.setItem('user_token',userName);
+    localStorage.setItem('user_token', userName);
 }
 
 function getCookie(cookieName) {
@@ -301,13 +302,13 @@ function setCookie(cookieName, cookieValue, expirationDays) {
     document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     var lazyloadImages;
 
     if ("IntersectionObserver" in window) {
         lazyloadImages = document.querySelectorAll(".lazy");
-        var imageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
+        var imageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     var image = entry.target;
                     image.src = image.dataset.src;
@@ -317,27 +318,27 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        lazyloadImages.forEach(function(image) {
+        lazyloadImages.forEach(function (image) {
             imageObserver.observe(image);
         });
     } else {
         var lazyloadThrottleTimeout;
         lazyloadImages = document.querySelectorAll(".lazy");
 
-        function lazyload () {
-            if(lazyloadThrottleTimeout) {
+        function lazyload() {
+            if (lazyloadThrottleTimeout) {
                 clearTimeout(lazyloadThrottleTimeout);
             }
 
-            lazyloadThrottleTimeout = setTimeout(function() {
+            lazyloadThrottleTimeout = setTimeout(function () {
                 var scrollTop = window.pageYOffset;
-                lazyloadImages.forEach(function(img) {
-                    if(img.offsetTop < (window.innerHeight + scrollTop)) {
+                lazyloadImages.forEach(function (img) {
+                    if (img.offsetTop < (window.innerHeight + scrollTop)) {
                         img.src = img.dataset.src;
                         img.classList.remove('lazy');
                     }
                 });
-                if(lazyloadImages.length == 0) {
+                if (lazyloadImages.length == 0) {
                     document.removeEventListener("scroll", lazyload);
                     window.removeEventListener("resize", lazyload);
                     window.removeEventListener("orientationChange", lazyload);
@@ -350,3 +351,4 @@ document.addEventListener("DOMContentLoaded", function() {
         window.addEventListener("orientationChange", lazyload);
     }
 });
+

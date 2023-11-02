@@ -18,11 +18,11 @@
                 <a href="{{url('danh-muc/'.$status)}}"><span class="name">{{$name_cate}}</span></a>
                 @if($name)
                     <div class="breadcrumbs_sepa"></div>
-                    <a href="{{url('danh-muc/'.$status.'/'.$name)}}"><span class="name">{{$name}}</span></a>
+                    <a href="{{url('danh-muc/'.$status.'/'.$name_slug)}}"><span class="name">{{$name}}</span></a>
                 @endif
                 @if($slug)
                     <div class="breadcrumbs_sepa"></div>
-                    <a href="{{url('danh-muc/'.$status.'/'.$name.'/'.$slug)}}"><span
+                    <a href="{{url('danh-muc/'.$status.'/'.$name_slug.'/'.$slug)}}"><span
                             class="name">{{\App\Models\CategoryModel::where('slug',$slug)->first()->name}}</span></a>
                 @endif
             </div>
@@ -32,14 +32,14 @@
         <div class="list_cat_parent">
             @if(!$name)
                 @foreach($cate as $item)
-                    <a class="cat_child" href="{{url('danh-muc/'.$status.'/'.$item->name)}}">
+                    <a class="cat_child" href="{{url('danh-muc/'.$status.'/'.$item->slug)}}">
                         <span class="name">{{$item->name}}</span>
                     </a>
                 @endforeach
             @else
                 @foreach($cate as $item)
                     <a class="cat_child @if($item->slug == $slug) cat_active @endif"
-                       href="{{url('danh-muc/'.$status.'/'.$name.'/'.$item->slug)}}">
+                       href="{{url('danh-muc/'.$status.'/'.$name_slug.'/'.$item->slug)}}">
                         <span class="name">{{$item->name}}</span>
                     </a>
                 @endforeach
@@ -316,7 +316,7 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center mt-4">
                     {{ $product->appends(request()->all())->links('web.partials.paginate') }}
                 </div>
             @else

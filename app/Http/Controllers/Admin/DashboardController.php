@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $titlePage = null;
+        $titlePage = 'Trang chủ';
         $page_menu = null;
         $page_sub = null;
         return view('admin.index', compact('titlePage','page_menu','page_sub'));

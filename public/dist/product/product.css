@@ -81,6 +81,7 @@ section {
 
 .details-top {
     margin-bottom: 30px;
+    justify-content: center;
 }
 
 .name_mobile {
@@ -189,7 +190,7 @@ section {
 
 .warranty h4 {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(0, 0, 0, .87);
     margin: 0 0 12px;
 }
@@ -201,7 +202,7 @@ section {
 .content_salient_features li {
     padding-left: 26px;
     margin-top: 10px;
-    background: url(../../assets/images/tick.png) top 2px left 0 no-repeat;
+    background: url(../../assets/images/icon_check.svg) top 2px left 0 no-repeat;
 }
 
 .item_same .price_same {
@@ -316,7 +317,7 @@ p {
 .accessories li {
     padding-left: 26px;
     margin-top: 10px;
-    background: url(../../assets/images/tick.png) top 2px left 0 no-repeat;
+    background: url(../../assets/images/icon_check.svg) top 2px left 0 no-repeat;
 }
 
 ._extra #buy-now {
@@ -330,7 +331,7 @@ p {
 
 .accessories h4 {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(0, 0, 0, 0.87);
     margin: 0 0 12px;
 }
@@ -442,6 +443,7 @@ p {
 
 .c-standard_product {
     padding: 20px 12px;
+    padding-top: 10px;
 }
 
 .c-standard_product ul {
@@ -624,7 +626,7 @@ p {
     border-radius: 5px;
     border: 1px solid #e5e5e5;
     margin: 0 5px;
-    object-fit: cover;
+    object-fit: contain;
     cursor: pointer;
 }
 
@@ -885,6 +887,9 @@ p {
     color: #3b8af2;
     cursor: pointer;
 }
+.box_tskt p{
+    margin: 10px;
+}
 @media (max-width: 1400px) {
     .main {
         margin-top: 0px;
@@ -897,7 +902,7 @@ p {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1023px) {
     .main {
         margin-top: -2px;
     }
@@ -970,6 +975,16 @@ p {
     .swal2-popup{
         top: 60px;
         right: 4px;
+    }
+    .details-top{
+        margin-bottom: 0px;
+    }
+    section{
+        padding-bottom: 10px;
+    }
+    #text_contact{
+        width: 50%;
+        margin: 0 auto;
     }
 }
 

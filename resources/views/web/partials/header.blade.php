@@ -326,7 +326,7 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header header_cart" >
-        <h5 class="offcanvas-title text-center w-100 text-white" id="offcanvasRightLabel" style="padding-left: 20px">Giỏi hàng</h5>
+        <h5 class="offcanvas-title text-center w-100 text-white" id="offcanvasRightLabel" style="padding-left: 20px">Giỏ hàng</h5>
         <button type="button" class="btn-close-cart" data-bs-dismiss="offcanvas" aria-label="Close"><i
                 class="fa-solid fa-xmark"></i></button>
     </div>

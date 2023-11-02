@@ -12,7 +12,7 @@ class IntroduceController extends Controller
     public function index()
     {
         if (User::checkUserRole(8)) {
-            $titlePage = 'Quản lý footer';
+            $titlePage = 'Quản lý thông tin cửa hàng';
             $page_menu = 'introduce';
             $page_sub = 'index';
             $listData = IntroduceModel::orderBy('created_at', 'desc')->get();

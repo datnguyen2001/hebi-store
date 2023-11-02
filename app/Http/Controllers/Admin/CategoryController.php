@@ -18,9 +18,9 @@ class CategoryController extends Controller
             $page_sub = 'category';
             if (isset($request->key_search)) {
                 $listData = CategoryModel::Where('name', 'like', '%' . $request->get('key_search') . '%')
-                    ->orderBy('created_at', 'desc')->paginate(10);
+                    ->orderBy('created_at', 'desc')->paginate(20);
             } else {
-                $listData = CategoryModel::paginate(10);
+                $listData = CategoryModel::paginate(20);
             }
             foreach ($listData as $item) {
                 $category = CategoryModel::find($item->parent_id);
@@ -53,6 +53,7 @@ class CategoryController extends Controller
             if (isset($category_slug)){
                 return \redirect()->back()->with(['error' => 'Tên danh mục đã tồn tại']);
             }
+            $file_name = null;
             if ($request->hasFile('file')){
                 $file = $request->file('file');
                 $part = 'upload/banner/img/';
@@ -113,7 +114,9 @@ class CategoryController extends Controller
                 $part = 'upload/banner/img/';
                 $file_name = $part.Str::random(40). '.'. $file->getClientOriginalExtension();
                 $request->file('file')->move($part, $file_name);
-                unlink($category->image);
+                if ($category->image){
+                    unlink($category->image);
+                }
                 $category->image = $file_name;
             }
             $category->name = $request->get('name');

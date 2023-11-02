@@ -461,15 +461,15 @@
 
             </li>
             <li>
-                <a alt="Hệ thống cửa hàng" href="/he-thong-cua-hang">
-                    <i class="fa fa-store"></i>
-                    <span>Cửa hàng</span>
-                </a>
-            </li>
-            <li>
                 <a href="javascript:void(0)" id="procat">
                     <i class="fa fa-list"></i>
                     <span>Danh mục</span>
+                </a>
+            </li>
+            <li>
+                <a alt="Hệ thống cửa hàng" href="/he-thong-cua-hang">
+                    <i class="fa fa-store"></i>
+                    <span>Cửa hàng</span>
                 </a>
             </li>
             <li>
