@@ -48,10 +48,8 @@ class OrderController extends ShippingUnitController
                 $order_delivery = OrderModel::where('status', 2)->count();
                 $order_complete = OrderModel::where('status', 3)->count();
                 $order_cancel = OrderModel::where('status', 4)->count();
-                $order_refuse = OrderModel::where('status', 5)->count();
-                $order_refund = OrderModel::where('status', 6)->count();
                 return view('admin.order.index', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'order_pending', 'order_confirm',
-                    'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_refuse', 'order_refund', 'order_all'));
+                    'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_all'));
             } else {
                 return view('admin.error');
             }
@@ -119,6 +117,7 @@ class OrderController extends ShippingUnitController
                         if ($order->transport_name == 'GHN') {
                             $this->cancelOrdersGHN($order->order_code_transport);
                         }
+                        $this->updateQuantityProductWhenCancel($order);
                     }
                     if ($status_id == 1) {
                         if ($order->transport_name == 'GHN') {
@@ -131,9 +130,6 @@ class OrderController extends ShippingUnitController
                         }
                     }
                     $order->save();
-                    if ($status_id == 4 || $status_id == 5 || $status_id == 6) {
-                        $this->updateQuantityProductWhenCancel($order);
-                    }
                     return \redirect()->route('admin.order.index', [$status_id])->with(['success' => 'Xét trạng thái đơn hàng thành công']);
                 } else {
                     return view('admin.error');
@@ -141,6 +137,29 @@ class OrderController extends ShippingUnitController
             }
         } catch (\Exception $exception) {
             dd($exception);
+        }
+    }
+
+    /**
+     * In nhãn đơn hàng
+     */
+    public function LabelPrintOrder (Request $request)
+    {
+        try{
+            $order = OrderModel::find($request->order_id);
+            $order_item = OrderItemModel::where('order_id', $order->id)->get();
+            foreach ($order_item as $value){
+                $product_attribute = ProductAttributesModel::find($value->product_attributes_id);
+                $product = ProductsModel::find($product_attribute->product_id);
+                $value->product_name = $product->name;
+                $value->name_attribute = $product_attribute->name;
+            }
+
+            $view = view('admin.order.print_invoice', compact('order', 'order_item'))->render();
+
+            return response()->json(['status'=> true, 'html' => $view]);
+        }catch (\Exception $exception){
+
         }
     }
 
@@ -180,18 +199,19 @@ class OrderController extends ShippingUnitController
             $product = ProductAttributesModel::find($value->product_attributes_id);
             $import = ImportExxportProductModel::where('product_attributes_id', $value->product_attributes_id)->orderBy('id', 'desc')->first();
             $total_money = $import->ending_tt ?? 0;
+            $money_import = ($import->import_tt/$import->export_sl)*(int)$value->quantity;
             $list_data = ImportExxportProductModel::create([
                 'product_attributes_id' => $value->product_attributes_id,
                 'quantity' => (int)$value->quantity,
                 'price' => (int)$value->promotional_price,
                 'Survive_sl' => $import->ending_sl ?? 0,
                 'Survive_tt' => $total_money,
-                'import_sl' => 0,
-                'import_tt' => 0,
-                'export_sl' => (int)$value->quantity,
-                'export_tt' => $value->total_money,
-                'ending_sl' => $product->quantity - (int)$value->quantity,
-                'ending_tt' => $total_money - $value->total_money,
+                'import_sl' => (int)$value->quantity,
+                'import_tt' => $money_import,
+                'export_sl' => 0,
+                'export_tt' => 0,
+                'ending_sl' => $product->quantity + (int)$value->quantity,
+                'ending_tt' => $total_money + $money_import,
                 'type' => 1,
             ]);
             $list_data->save();

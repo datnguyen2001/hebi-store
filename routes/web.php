@@ -37,3 +37,4 @@ Route::get('chi-tiet-tin-tuc/{slug}', [NewsController::class, 'detailNew']);
 Route::get('gioi-thieu/{slug}', [NewsController::class, 'introduce'])->name('introduce');
 Route::get('get_district/{province_id}', [Controller::class,'getDistrict']);
 Route::get('get_ward/{district_id}', [Controller::class,'getWard']);
+Route::get('/{any}', [Controller::class, 'checkUrl']);

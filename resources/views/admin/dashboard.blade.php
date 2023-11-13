@@ -306,45 +306,6 @@
                             </div>
                         </div>
 
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Khách từ chối nhận hàng</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{$order_refuse}}</h6>
-                                            <a href="{{url('admin/order/index/5')}}"/><span
-                                                class="text-muted small pt-2 ps-1">Xem chi tiết</span></a>
-                                            <p>{{number_format($order_refuse_money)}} VND</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Hoàn hàng trả tiền</h5>
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{$order_refund}}</h6>
-                                            <a href="{{url('admin/order/index/6')}}"/><span
-                                                class="text-muted small pt-2 ps-1">Xem chi tiết</span></a>
-                                            <p>{{number_format($order_refund_money)}} VND</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="pagetitle">
                             <h8 class="card-title" style="color: #f26522">Khách hàng</h8>
                         </div>

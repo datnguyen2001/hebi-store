@@ -166,6 +166,8 @@ class Controller extends BaseController
         }elseif ($status == 'am-thanh'){
             $type = 7;
             $name_cate = "Âm thanh";
+        }else{
+            return false;
         }
         return ['type'=>$type, 'name_cate'=>$name_cate];
     }
@@ -359,5 +361,14 @@ class Controller extends BaseController
         }catch (\Exception $exception){
             dd($exception);
         }
+    }
+
+    public function checkUrl($url)
+    {
+        $headers = @get_headers($url);
+        if ($headers === false) {
+            return view('web.error');
+        }
+         return redirect($url);
     }
 }

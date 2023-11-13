@@ -58,8 +58,8 @@
                                             <div style="width: 10%">Loại sản phẩm </div>
                                             <div style="width: 20%">Giá nhập</div>
                                             <div style="width: 10%">Số lượng nhập</div>
-                                            <div style="width: 15%">Ngày nhập</div>
-                                            <div style="width: 10%">Thao tác </div>
+                                            <div style="width: 10%">Tổng tiền</div>
+                                            <div style="width: 25%">Ngày nhập</div>
                                         </div>
                                         <div class="w-100 bg-white mt-10">
                                             @foreach($listData as $item)
@@ -74,29 +74,22 @@
                                                         <p class="mb-0">{{$item->attribute_name}}</p>
                                                     </div>
                                                     <div style="width: 20%" class="d-flex justify-content-center">
-                                                        <p class="mb-0">{{$item->price}}</p>
+                                                        <p class="mb-0">{{number_format($item->price)}}</p>
                                                     </div>
                                                     <div style="width: 10%" class="d-flex justify-content-center">
-                                                        <p class="mb-0">{{$item->quantity}}</p>
+                                                        <p class="mb-0">{{number_format($item->quantity)}}</p>
                                                     </div>
-                                                    <div style="width: 15%" class="d-flex justify-content-center">
+                                                    <div style="width: 10%" class="d-flex justify-content-center">
+                                                        <p class="mb-0">{{number_format($item->import_tt)}}</p>
+                                                    </div>
+                                                    <div style="width: 25%" class="d-flex justify-content-center">
                                                         <p class="mb-0">{{date('d/m/Y', strtotime($item->created_at))}}</p>
-                                                    </div>
-                                                    <div style="width: 10%" class="d-flex justify-content-center">
-                                                        <div class="btn-group">
-                                                            <a href="{{url('admin/products/edit/'.$item->id)}}" class="btn btn-icon btn-light btn-hover-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Cập nhật">
-                                                                <i class="bi bi-pencil-square "></i>
-                                                            </a>
-                                                            <a href="{{url('admin/products/delete/'.$item->id)}}" class="btn btn-delete btn-icon btn-light btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Xóa">
-                                                                <i class="bi bi-trash "></i>
-                                                            </a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
                                     </div>
-                                    <div class="d-flex justify-content-center">
+                                    <div class="d-flex justify-content-center mt-3">
                                         {{ $listData->appends(request()->all())->links('admin.pagination_custom.index') }}
                                     </div>
                                 </div>

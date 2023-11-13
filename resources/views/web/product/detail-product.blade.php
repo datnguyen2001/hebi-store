@@ -143,10 +143,10 @@
                     </div>
                     <div id="button-cart" class="justify-content-between align-items-center">
                         <div style="width: calc(100% - 75px);">
-                            <a id="buy-now" href="#" class="btn-buy btn mt10">
+                            <div id="buy-now" class="btn-buy btn mt10">
                                 Mua ngay
                                 <span>Giao tận nơi hoặc nhận tại cửa hàng</span>
-                            </a>
+                            </div>
                         </div>
                         <button class="btn-add-cart">
                             <img data-src="{{asset('assets/images/add-to-cart.png')}}" class="lazy" alt="">
@@ -412,9 +412,11 @@
                                 </div>
                             @endforeach
                         </div>
+                        @if(count($comment) >5)
                         <div class="w-100 d-flex justify-content-center">
                             <div class="load-more" id="loadMore">Xem thêm</div>
                         </div>
+                            @endif
                     </div>
                 </div>
             </div>

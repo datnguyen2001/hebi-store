@@ -8,6 +8,9 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">Mã đơn hàng: {{$listData->order_code}}</h5>
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-print" value="{{$listData->id}}">In đơn hàng</button>
+                                </div>
                             </div>
                             @if (session('success'))
                                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
@@ -261,15 +264,10 @@
                                         <a href="{{url('admin/order/status/'.$listData->id.'/3')}}">
                                             <button type="submit" class="btn btn-primary">Hoàn thành đơn hàng</button>
                                         </a>
-                                        <a href="{{url('admin/order/status/'.$listData->id.'/5')}}">
-                                            <button type="submit" class="btn btn-danger">Khách từ chối nhận hàng
+                                        <a href="{{url('admin/order/status/'.$listData->id.'/4')}}">
+                                            <button type="submit" class="btn btn-danger">Hủy đơn hàng
                                             </button>
                                         </a>
-                                    @elseif($listData->status == 3)
-                                        <a href="{{url('admin/order/status/'.$listData->id.'/6')}}">
-                                            <button type="submit" class="btn btn-danger">Trả hàng hoàn tiền</button>
-                                        </a>
-                                    @else
                                     @endif
                                 </div>
                             </div>
@@ -284,5 +282,35 @@
 @endsection
 @section('script')
     <script src="assets/admin/order.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(".btn-print").click(function () {
+            $.ajax({
+                url: window.location.origin + '/admin/order/label-print-order',
+                data: {'order_id': $(this).val()},
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status) {
+                        var newWin = window.open("", "_blank");
+                        newWin.document.write(data.html);
+                        newWin.onload = function () {
+                            setTimeout(function () {
+                                newWin.print();
+                            }, 2000);
+                        };
+                        newWin.onafterprint = function () {
+                            newWin.close();
+                        };
+                        newWin.print();
+                    }
+                }
+            });
+        })
+    </script>
 @endsection
 

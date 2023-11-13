@@ -10,7 +10,7 @@
                     <div class="logo">
                         <a href="{{url('/')}}" title="Hebi Mobile">
                             <img src="{{asset('assets/images/logo.png')}}"
-                                 alt="Hebi Mobile" class="img-responsive"/>
+                                 alt="Hebi Mobile" class="img-responsive" style="object-fit: contain"/>
                         </a>
                     </div>
                     <div class="search-mobiles">
@@ -105,7 +105,7 @@
                                              class="img-responsive" width="24px" height="24px">
                                         </span>
 
-                                    <a href="https://onewaymobile.vn/he-thong-cua-hang" class="link-to-hotline">
+                                    <a href="https://maps.app.goo.gl/RzNqkFyz88v3qx147" target="_blank" class="link-to-hotline">
                                         <div class="hotline-head">
                                             <p class="title-hotline">Chỉ đường đến</p>
                                             <b>Showroom</b>

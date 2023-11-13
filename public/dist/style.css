@@ -318,9 +318,12 @@
     width: 140px;
     margin: 0 auto;
     padding: 10px 0px 10px 8px;
-    margin-top: -25px;
+    margin-top: -28px;
     border-radius: 33px;
     position: relative;
+}
+.fab-action:hover{
+    color: white;
 }
 
 .slick-dots li {
@@ -515,10 +518,6 @@
 
 .fab-checkbox:checked ~ .fab-wheel .fab-action {
     opacity: 1;
-}
-
-.fab-action:hover {
-    background-color: #f16100;
 }
 
 .fab-wheel .fab-action-1 {

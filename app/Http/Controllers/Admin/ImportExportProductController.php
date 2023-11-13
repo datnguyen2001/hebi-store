@@ -184,6 +184,10 @@ class ImportExportProductController extends Controller
             $quantity = str_replace(",", "", $item['quantity']);
             $price = str_replace(",", "", $item['price']);
             $intoMoney = (int)$quantity * (int)$price;
+            if ($quantity > $product->quantity){
+                $product_name = ProductsModel::find($product->product_id);
+                return back()->with('error', 'Sản phẩm '.$product_name->name.' - màu '.$product->name.' xuất vượt quá số lượng trong kho');
+            }
             if ((int)$quantity > 0) {
                 $import = ImportExxportProductModel::where('product_attributes_id', $item['product_attributes_id'])->orderBy('id', 'desc')->first();
                 $total_money = $import->ending_tt ?? 0;
@@ -217,7 +221,7 @@ class ImportExportProductController extends Controller
         try {
             $key_search = $request->get('query');
             $products = ProductsModel::Where('name', 'LIKE', '%' . $key_search . '%')->limit(10)->pluck('id');
-            $listData = ProductAttributesModel::whereIn('product_id', $products)->get();
+            $listData = ProductAttributesModel::whereIn('product_id', $products)->limit(10)->get();
             foreach ($listData as $item) {
                 $item_product = ProductsModel::find($item->product_id);
                 $item->product = $item_product;

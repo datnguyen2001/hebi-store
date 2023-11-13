@@ -40,7 +40,7 @@
                                 <div class="row mb-3">
                                     <label for="inputText" class="col-sm-2 col-form-label">Mật khẩu</label>
                                     <div class="col-sm-10">
-                                        <input type="password" name="password" required class="form-control">
+                                        <input type="text" name="password" class="form-control" autocomplete="off">
                                     </div>
                                 </div>
                                 <br>

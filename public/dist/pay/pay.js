@@ -238,7 +238,7 @@ function changeAddress() {
                         .then(distance => {
                             let total_all_ship = 0;
                             if (distance > 10){
-                                if (data.total_product > 5000000){
+                                if (data.total_product > 2000000){
                                     $('.total_free_ship').text(0 + 'đ');
                                     $('.fee_ship').val(0);
                                     total_all_ship = parseInt($('.total_product').val());
@@ -247,10 +247,12 @@ function changeAddress() {
                                     $('.fee_ship').val(data.ship);
                                     total_all_ship = parseInt($('.total_product').val())+parseInt(data.ship);
                                 }
+                                $(".transport").val('GHN');
                             }else {
                                 $('.total_free_ship').text(0 + 'đ');
                                 $('.fee_ship').val(0);
                                 total_all_ship = parseInt($('.total_product').val());
+                                $(".transport").val('Store');
                             }
                             $('.total_money_all').text(formatPrice(total_all_ship)+'đ');
                         })
@@ -273,7 +275,6 @@ function changeAddress() {
 function calculateDistance(address1, address2) {
     return new Promise((resolve, reject) => {
         let service = new google.maps.DistanceMatrixService();
-
         service.getDistanceMatrix(
             {
                 origins: [address1],

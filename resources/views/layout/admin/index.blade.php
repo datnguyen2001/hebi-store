@@ -79,81 +79,9 @@
                 .one('click', function() { $(this).removeClass('open'); });
         });
 
-        $(document).on("click", ".btn-confirm", function () {
-            let url = $(this).attr('data-url');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: 'json',
-                beforeSend: function () {
-                    showLoading();
-                },
-                success: function (data) {
-                    alert(data.msg);
-                    window.location.reload();
-                },
-                error: function () {
-                    console.log('error')
-                },
-                complete: function () {
-                    hideLoading();
-                }
-            });
-        });
-
-        $(document).on("click", ".btn-reject", function () {
-            let url = $(this).attr('data-url');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: 'json',
-                beforeSend: function () {
-                    showLoading();
-                },
-                success: function (data) {
-                    alert(data.msg);
-                    window.location.reload();
-                },
-                error: function () {
-                    console.log('error')
-                },
-                complete: function () {
-                    hideLoading();
-                }
-            });
-        })
     });
 </script>
 
-<script type="text/javascript">
-    function changeImg(input){
-        //Nếu như tồn thuộc tính file, đồng nghĩa người dùng đã chọn file mới
-        if(input.files && input.files[0]){
-            var reader = new FileReader();
-            //Sự kiện file đã được load vào website
-            reader.onload = function(e){
-                //Thay đổi đường dẫn ảnh
-                $('#avatar').attr('src',e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $(document).ready(function() {
-        $('#avatar').click(function(){
-            $('#img').click();
-        });
-    });
-</script>
 <script>
     Pusher.logToConsole = true;
 
@@ -199,12 +127,12 @@
 
     $(document).on('click keydown', handleUserInteraction);
 
-    @if(session('error'))
-    Swal.fire({
-        icon: "error",
-        title: "{{session('error')}}",
-    });
-    @endif
+{{--    @if(session('error'))--}}
+{{--    Swal.fire({--}}
+{{--        icon: "error",--}}
+{{--        title: "{{session('error')}}",--}}
+{{--    });--}}
+{{--    @endif--}}
 </script>
 </body>
 </html>

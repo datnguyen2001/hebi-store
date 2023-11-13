@@ -94,7 +94,9 @@ class RoleController extends Controller
             $user = User::find($id);
             $user->name = $request->name??'';
             $user->phone = $request->phone??0;
-            $user->password = bcrypt($request->password);
+            if ($request->password){
+                $user->password = bcrypt($request->password);
+            }
             $user->save();
 
             $role = RoleModel::where('user_id', $id)->first();
@@ -127,16 +129,10 @@ class RoleController extends Controller
     }
 
     private function checkRule($rule_id){
-        if ($rule_id == 2){
+        if ($rule_id == 1){
             $name = 'Giám đốc';
-        }elseif ($rule_id == 3){
-            $name = 'Trưởng phòng';
-        }elseif ($rule_id == 4){
-            $name = 'Chuyên viên';
-        }elseif ($rule_id == 5){
-            $name = 'Giám sát viên';
         }else{
-            $name = 'Chủ tịch';
+            $name = 'Nhân viên';
         }
         return $name;
     }

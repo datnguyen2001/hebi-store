@@ -16,7 +16,7 @@
                 <form action="{{route('admin.banner.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-3">Title :</div>
+                        <div class="col-3">Tiêu đề :</div>
                         <div class="col-8">
                             <input class="form-control" name="title" type="text" required>
                         </div>

@@ -44,8 +44,8 @@
                                        placeholder="Số điện thoại" required>
                             </div>
                             <div class="col-md-12 col-xs-12">
-                                <input class="form-control" type="text" name="email" id="email"
-                                       placeholder="Email (Vui lòng điền email để nhận hóa đơn VAT)">
+                                <input class="form-control" type="text" name="email" id="email" required
+                                       placeholder="Email">
                             </div>
                         </div>
                         <h3 class="h3_title">Chọn cách thức nhận hàng</h3>
@@ -89,7 +89,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12">
                                         <input class="form-control bg-white" type="text" name="store" id="store"
-                                               value="Hà Nội" disabled="disabled">
+                                               value="Nhà số 1 Ngõ 37, Tả Thanh Oai, Thanh Trì, Hà Nội" disabled="disabled">
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +137,7 @@
                         </p>
                         <input type="hidden" class="total_product" >
                         <input type="hidden" class="fee_ship" name="fee_ship" value="0">
+                        <input type="hidden" class="transport" name="transport" value="Store" >
                         <p class="total_end pb-0 pt-2">Tổng tiền sản phẩm:
                             <span id="total_money" class="total_money_product" style="color: black!important;">0đ</span>
                         </p>

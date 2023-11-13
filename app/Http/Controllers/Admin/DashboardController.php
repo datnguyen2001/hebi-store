@@ -85,21 +85,17 @@ class DashboardController extends Controller
             $order_complete = OrderModel::where('status', 3)->count();
             $order_cancel = OrderModel::where('status', 4)->count();
             $order_all = OrderModel::count();
-            $order_refuse = OrderModel::where('status', 5)->count();
-            $order_refund = OrderModel::where('status', 6)->count();
             $order_pending_money = OrderModel::where('status', 0)->sum('total_money_order');
             $order_confirm_money = OrderModel::where('status', 1)->sum('total_money_order');
             $order_delivery_money = OrderModel::where('status', 2)->sum('total_money_order');
             $order_complete_money = OrderModel::where('status', 3)->sum('total_money_order');
             $order_cancel_money = OrderModel::where('status', 4)->sum('total_money_order');
             $order_all_money = OrderModel::sum('total_money_order');
-            $order_refuse_money = OrderModel::where('status', 5)->sum('total_money_order');
-            $order_refund_money = OrderModel::where('status', 6)->sum('total_money_order');
 
             return view('admin.dashboard', compact('titlePage', 'page_sub', 'page_menu', 'sectors', 'product_top',
                 'dailySalesData', 'listCustomers', 'customers', 'order_all', 'order_pending', 'order_confirm', 'order_delivery', 'order_complete',
-                'order_cancel', 'order_refuse', 'order_refund', 'order_pending_money', 'order_confirm_money', 'order_delivery_money',
-                'order_complete_money', 'order_cancel_money', 'order_all_money', 'order_refuse_money', 'order_refund_money'));
+                'order_cancel', 'order_pending_money', 'order_confirm_money', 'order_delivery_money',
+                'order_complete_money', 'order_cancel_money', 'order_all_money'));
         } else {
             return view('admin.error');
         }

@@ -62,9 +62,6 @@
                         <div class="d-flex align-items-center">
                             <a href="{{route('admin.import-export-product.import')}}" style="margin-right: 10px;font-size: 25px"><i class="fa-solid fa-arrow-left"></i></a>
                             <h5 class="card-title">Danh sách xuất nhập tồn sản phẩm</h5>
-                            {{--                                <div>--}}
-                            {{--                                    <a class="btn btn-success" href="{{route('admin.import-export-product.create-export')}}">Xuất hàng</a>--}}
-                            {{--                                </div>--}}
                         </div>
                         <div class="mb-2 mt-3 d-flex justify-content-end">
                             <form action="{{route('admin.import-export-product.index')}}" method="get"
@@ -143,7 +140,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-center">
+                                <div class="d-flex justify-content-center mt-3">
                                     {{ $listData->appends(request()->all())->links('admin.pagination_custom.index') }}
                                 </div>
                             </div>

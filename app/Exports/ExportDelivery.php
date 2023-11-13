@@ -34,6 +34,7 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
                 $item->attribute_name,
                 $item->price,
                 $item->quantity,
+                $item->	ending_tt,
                 date('d/m/Y', strtotime($item->created_at)),
             ];
             array_push($arr, $myArr);
@@ -43,7 +44,7 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
 
     public function headings(): array
     {
-        $array = ["STT", "Tên sản phẩm", "Loại sản phẩm", "Giá nhập", "Số lượng nhập", "Ngày xuất"];
+        $array = ["STT", "Tên sản phẩm", "Loại sản phẩm", "Giá nhập", "Số lượng nhập","Tổng tiền", "Ngày xuất"];
         return $array;
     }
 
@@ -56,7 +57,7 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
     {
         return [
             BeforeSheet::class => function (BeforeSheet $event) {
-                $event->sheet->mergeCells("A2:F2")->setCellValue('A2', 'THỐNG KÊ XUẤT HÀNG');
+                $event->sheet->mergeCells("A2:G2")->setCellValue('A2', 'THỐNG KÊ XUẤT HÀNG');
                 $style = [
                     'alignment' => [
                         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
@@ -71,12 +72,14 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
                 $event->sheet->getStyle('D')->applyFromArray($style);
                 $event->sheet->getStyle('E')->applyFromArray($style);
                 $event->sheet->getStyle('F')->applyFromArray($style);
+                $event->sheet->getStyle('G')->applyFromArray($style);
                 $event->sheet->getColumnDimension('A')->setWidth(5);
                 $event->sheet->getColumnDimension('B')->setWidth(40);
                 $event->sheet->getColumnDimension('C')->setWidth(20);
                 $event->sheet->getColumnDimension('D')->setWidth(20);
                 $event->sheet->getColumnDimension('E')->setWidth(10);
                 $event->sheet->getColumnDimension('F')->setWidth(15);
+                $event->sheet->getColumnDimension('G')->setWidth(15);
                 $event->sheet->getDelegate()->getStyle("5")->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle("A2")->getFont()->setSize(14);
                 $event->sheet->getDelegate()->getStyle("5")->getAlignment()->setHorizontal('center');
@@ -96,12 +99,14 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
                 $event->sheet->mergeCells("D5:D6");
                 $event->sheet->mergeCells("E5:E6");
                 $event->sheet->mergeCells("F5:F6");
+                $event->sheet->mergeCells("G5:G6");
                 $event->sheet->getStyle('A5:A6')->applyFromArray($style);
                 $event->sheet->getStyle('B5:B6')->applyFromArray($style);
                 $event->sheet->getStyle('C5:C6')->applyFromArray($style);
                 $event->sheet->getStyle('D5:D6')->applyFromArray($style);
                 $event->sheet->getStyle('E5:E6')->applyFromArray($style);
                 $event->sheet->getStyle('F5:F6')->applyFromArray($style);
+                $event->sheet->getStyle('G5:G6')->applyFromArray($style);
                 $styleBorder = [
                     'borders' => [
                         'outline' => [
@@ -116,8 +121,9 @@ class ExportDelivery implements FromCollection, WithHeadings, WithEvents, WithCu
                 $event->sheet->getDelegate()->getStyle('D5:D' . ($this->count + 6))->applyFromArray($styleBorder);
                 $event->sheet->getDelegate()->getStyle('E5:E' . ($this->count + 6))->applyFromArray($styleBorder);
                 $event->sheet->getDelegate()->getStyle('F5:F' . ($this->count + 6))->applyFromArray($styleBorder);
+                $event->sheet->getDelegate()->getStyle('G5:G' . ($this->count + 6))->applyFromArray($styleBorder);
                 for ($i = 5; $i <= $this->count + 6; $i++) {
-                    $event->sheet->getDelegate()->getStyle('A' . $i . ':F' . $i)->applyFromArray($styleBorder);
+                    $event->sheet->getDelegate()->getStyle('A' . $i . ':G' . $i)->applyFromArray($styleBorder);
                 }
             }
         ];

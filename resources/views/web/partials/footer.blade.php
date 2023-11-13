@@ -13,16 +13,16 @@
         <span class="fab-dots fab-dots-3"></span>
     </label>
     <div class="fab-wheel">
-        <a class="fab-action fab-action-1" style="background: red">
+        <a href="https://www.youtube.com/@musichebi6896/featured" target="_blank" class="fab-action fab-action-1" style="background: red">
             <i class="fa-brands fa-youtube" style="font-size: 25px"></i>
         </a>
-        <a class="fab-action fab-action-2">
+        <a href="https://www.tiktok.com/@dawsapo?is_from_webapp=1&sender_device=pc" target="_blank" class="fab-action fab-action-2">
             <i class="fa-brands fa-tiktok" style="font-size: 25px"></i>
         </a>
-        <a class="fab-action fab-action-3" style="background: #ffa000">
+        <a href="https://zalo.me/0978129116" target="_blank" class="fab-action fab-action-3" style="background: #ffa000">
             <img data-src="{{asset('assets/images/icon-zalo.png')}}" class="lazy" alt="" style="width: 35px;">
         </a>
-        <a class="fab-action fab-action-4" style="background: #0058ff">
+        <a href="https://www.facebook.com/profile.php?id=100015119344498" target="_blank" class="fab-action fab-action-4" style="background: #0058ff">
             <i class="fa-brands fa-facebook" style="font-size: 29px"></i>
         </a>
     </div>
@@ -80,10 +80,10 @@
                          height="33px">
                 </div>
                 <div class="dmca-protec">
-                    <a href="" target="_blank" class="img-dk-ft">
+                    <div class="img-dk-ft">
                         <img data-src=" https://onewaymobile.vn/images/config/c52a1034a68361dd3892_1666686156.jpg"
                              class="img-responsive img lazy" style="width: 133px; height: 50px">
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,16 +94,16 @@
             <div class="bot_foot_right">
                 <ul>
                     <li>
-                        <a href="https://www.facebook.com/ONEWAY.416CAUGIAY/"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=100015119344498" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     </li>
                     <li>
-                        <a href="https://bit.ly/33UHrmv"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.youtube.com/@musichebi6896/featured" target="_blank"><i class="fab fa-youtube"></i></a>
                     </li>
                     <li>
-                        <a href="https://bit.ly/2XtNtIJ"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=100015119344498" target="_blank"><i class="fab fa-instagram"></i></a>
                     </li>
                     <li>
-                        <a href="https://plus.google.com/"><i class="fab fa-google"></i></a>
+                        <a href="{{url('/')}}"><i class="fab fa-google"></i></a>
                     </li>
                 </ul>
             </div>
@@ -467,7 +467,7 @@
                 </a>
             </li>
             <li>
-                <a alt="Hệ thống cửa hàng" href="/he-thong-cua-hang">
+                <a alt="Hệ thống cửa hàng" href="https://maps.app.goo.gl/RzNqkFyz88v3qx147" target="_blank">
                     <i class="fa fa-store"></i>
                     <span>Cửa hàng</span>
                 </a>

@@ -59,7 +59,7 @@
                             Giá
                         </button>
                         <i class="fa-solid fa-xmark close_one"></i>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" id="scroll">
                             <div class="range mb-3">
                                 <div class="range-price">
                                     <span class="number_price number_min">0đ</span>
@@ -89,7 +89,7 @@
                                 {{$name_filter[0]}}
                             </button>
                             <i class="fa-solid fa-xmark close_two"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="scroll">
                                 <ul class="d-flex flex-wrap" style="grid-gap: 10px;">
                                     @foreach($parameter_one as $index => $item)
                                         <div class="check-box checkTwo">
@@ -117,7 +117,7 @@
                                 {{$name_filter[4]}}
                             </button>
                             <i class="fa-solid fa-xmark close_three"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="scroll">
                                 <ul class="d-flex flex-wrap" style="grid-gap: 10px;">
                                     @foreach($parameter_five as $index => $item)
                                         <div class="check-box checkThree">
@@ -144,7 +144,7 @@
                                 {{$name_filter[1]}}
                             </button>
                             <i class="fa-solid fa-xmark close_four"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="scroll">
                                 <ul class="d-flex flex-wrap" style="grid-gap: 10px;">
                                     @foreach($parameter_two as $index => $item)
                                         <div class="check-box checkFour">
@@ -172,7 +172,7 @@
                                 {{$name_filter[2]}}
                             </button>
                             <i class="fa-solid fa-xmark close_five"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="scroll">
                                 <ul class="d-flex flex-wrap" style="grid-gap: 10px;">
                                     @foreach($parameter_three as $index => $item)
                                         <div class="check-box checkFive">
@@ -200,7 +200,7 @@
                                 {{$name_filter[3]}}
                             </button>
                             <i class="fa-solid fa-xmark close_six"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" id="scroll">
                                 <ul class="d-flex flex-wrap" style="grid-gap: 10px;">
                                     @foreach($parameter_four as $index => $item)
                                         <div class="check-box checkSix">

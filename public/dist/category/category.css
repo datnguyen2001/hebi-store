@@ -562,6 +562,9 @@
         overflow: unset;
         min-width: fit-content;
     }
+    .dropdown-menu{
+        max-width: 400px;
+    }
 }
 
 @media (max-width: 769px) {
@@ -580,10 +583,9 @@
     .dropdown-menu:before {
         content: none;
     }
-
     .dropdown-menu {
         margin-top: 10px !important;
-        transform: translate3d(12px, 230px, 0px) !important;
+        /*transform: translate3d(12px, 230px, 0px) !important;*/
     }
 }
 
@@ -624,5 +626,11 @@
     }
     .fa-arrow-up-wide-short,.fa-arrow-down-wide-short{
         font-size: 14px!important;
+    }
+    .dropdown-menu{
+        min-width: 100%;
+        max-width: 100%;
+        max-height: 320px;
+        transform: translate3d(0px, 239px, 0px)!important;
     }
 }

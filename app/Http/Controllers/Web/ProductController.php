@@ -24,6 +24,9 @@ class ProductController extends Controller
     public function category($status)
     {
         $checkCate = $this->checkStatus($status);
+        if (empty($checkCate)){
+            return view('web.error');
+        }
         $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', 0)->orderBy('location','asc')->get();
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->pluck('id');
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
@@ -44,7 +47,13 @@ class ProductController extends Controller
     public function productCate($status, $name_slug)
     {
         $checkCate = $this->checkStatus($status);
+        if (empty($checkCate)){
+            return view('web.error');
+        }
         $id_cate = CategoryModel::where('slug', $name_slug)->where('display', 1)->where('type', $checkCate['type'])->first();
+        if (empty($id_cate)){
+            return view('web.error');
+        }
         $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->orderBy('location','asc')->get();
         $parent_id = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->pluck('id');
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->whereIn('category_id', $parent_id)->pluck('id');
@@ -66,9 +75,18 @@ class ProductController extends Controller
     public function productCateDetail($status, $name_slug, $slug)
     {
         $checkCate = $this->checkStatus($status);
+        if (empty($checkCate)){
+            return view('web.error');
+        }
         $id_cate = CategoryModel::where('slug', $name_slug)->where('display', 1)->where('type', $checkCate['type'])->first();
+        if (empty($id_cate)){
+            return view('web.error');
+        }
         $cate = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('parent_id', $id_cate->id)->orderBy('location','asc')->get();
         $parent_id = CategoryModel::where('display', 1)->where('type', $checkCate['type'])->where('slug', $slug)->first();
+        if (empty($parent_id)){
+            return view('web.error');
+        }
         $product_infor = ProductInformationModel::where('type_product', $checkCate['type'])->where('category_id', $parent_id->id)->pluck('id');
         $product = ProductsModel::join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
             ->select('products.*', DB::raw('MAX(product_attributes.promotional_price) as max_promotional_price'))

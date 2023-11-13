@@ -38,6 +38,7 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('index/{status}', [OrderController::class,'getDataOrder'])->name('index');
         Route::get('detail/{id}', [OrderController::class,'orderDetail'])->name('detail');
         Route::get('status/{order_id}/{status_id}', [OrderController::class,'statusOrder'])->name('status');
+        Route::post('label-print-order', [OrderController::class, 'LabelPrintOrder']);
     });
 
     Route::prefix('category')->name('category.')->group(function () {
@@ -87,7 +88,6 @@ Route::middleware('check-admin-auth')->group(function () {
         Route::get('export', [ImportExportProductController::class, 'indexExport'])->name('export');
         Route::get('create-export', [ImportExportProductController::class, 'createExport'])->name('create-export');
         Route::post('store-export', [ImportExportProductController::class, 'storeExport'])->name('store-export');
-
         Route::get('item_product/search', [ImportExportProductController::class, 'productSearch']);
         Route::get('item_product', [ImportExportProductController::class, 'itemProduct']);
         Route::get('item_product/delete', [ImportExportProductController::class, 'itemDeleteProduct']);

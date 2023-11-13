@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class PayController extends ShippingUnitController
 {
@@ -84,12 +85,24 @@ class PayController extends ShippingUnitController
             if ($validator->fails()){
                 return back()->with(['error' => $validator->errors()->first()]);
             }
+            if ($request->get('delivery_address') == 'Giao tận nơi'){
+                if (!$request->get('address_detail')){
+                    return back()->with(['error' => 'Vui lòng nhập địa chỉ để tiếp tục']);
+                }
+                if ($request->get('transport') == 'Store'){
+                    $transport_name = 'Store';
+                }else{
+                    $transport_name = 'GHN';
+                }
+                $province = ProvinceGhnModel::where('ProvinceID', $request->get('province_id'))->first();
+                $district = DistrictGhnModel::where('DistrictID', $request->get('district_id'))->first();
+                $ward = WardGhnModel::where('WardCode', $request->get('ward_id'))->first();
+            }else{
+                $transport_name = 'Store';
+            }
             $carts = CartModel::where('user_token',$request->get('user_token'))->get();
-            $province = ProvinceGhnModel::where('ProvinceID', $request->get('province_id'))->first();
-            $district = DistrictGhnModel::where('DistrictID', $request->get('district_id'))->first();
-            $ward = WardGhnModel::where('WardCode', $request->get('ward_id'))->first();
             $total_money = $carts->sum('total_money');
-            if ($total_money >= 5000000){
+            if ($total_money >= 2000000){
                 $fee_ship = 0;
             }else{
                 $fee_ship = $request->get('fee_ship');
@@ -115,11 +128,7 @@ class PayController extends ShippingUnitController
             $order['total_money_product'] = $total_money;
             $order['total_money_order'] = $total_money + $fee_ship;
             $order['status'] = 0;
-            if ($request->get('fee_ship') == 0){
-                $order['transport_name'] = 'Store';
-            }else{
-                $order['transport_name'] = 'GHN';
-            }
+            $order['transport_name'] = $transport_name;
             $order->save();
 
             if ($request->type_payment == 1) {
@@ -130,8 +139,9 @@ class PayController extends ShippingUnitController
                     $this->saveExportProduct($order_item);
                 }
                 CartModel::where('user_token',$request->get('user_token'))->delete();
+                $this->sendMail($order);
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
-                return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Mã đơn hàng của bạn là: '.$order->order_code.'']);
+                return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.'']);
             }elseif ($request->type_payment == 2){
                 foreach ($carts as $k => $item){
                     $this->saveOrderItem($order, $item);
@@ -271,6 +281,7 @@ class PayController extends ShippingUnitController
                     $this->saveExportProduct($item);
                 }
                 CartModel::where('user_token',$_SESSION['user_token'])->delete();
+                $this->sendMail($order);
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
                 $msg = ['success' => 'Thanh toán thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.''];
             }
@@ -321,6 +332,7 @@ class PayController extends ShippingUnitController
             $product = ProductAttributesModel::find($item['product_attributes_id']);
             $import = ImportExxportProductModel::where('product_attributes_id', $item['product_attributes_id'])->orderBy('id', 'desc')->first();
             $total_money = $import->ending_tt ?? 0;
+            $money_export = ($import->import_tt/$import->export_sl)*(int)$item['quantity'];
             $list_data = ImportExxportProductModel::create([
                 'product_attributes_id' => $item['product_attributes_id'],
                 'quantity' => (int)$item['quantity'],
@@ -330,9 +342,9 @@ class PayController extends ShippingUnitController
                 'import_sl' => 0,
                 'import_tt' => 0,
                 'export_sl' => (int)$item['quantity'],
-                'export_tt' => $item['total_money'],
+                'export_tt' => $money_export,
                 'ending_sl' => $product->quantity - (int)$item['quantity'],
-                'ending_tt' => $total_money - $item['total_money'],
+                'ending_tt' => $total_money - $money_export,
                 'type' => 2,
             ]);
             $list_data->save();
@@ -341,6 +353,15 @@ class PayController extends ShippingUnitController
         }catch (\Exception $exception){
             dd($exception->getMessage());
         }
+    }
+
+    public function sendMail($order){
+        $name = $order->name;
+        $name_mail = $order->email;
+        Mail::send('email.index', compact('name','order'),function ($email) use($name,$name_mail){
+            $email->subject('Thông báo mua hàng');
+            $email->to($name_mail, $name);
+        });
     }
 
 }
