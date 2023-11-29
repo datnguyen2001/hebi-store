@@ -37,6 +37,9 @@
                             <a href="{{url('admin/order/index/4')}}" type="button"
                                class="btn btn-outline-danger mx-3 @if($status == 4) active @endif">Đơn huỷ <span
                                     style="font-weight: 700">{{$order_cancel}}</span></a>
+                            <a href="{{url('admin/order/index/5')}}" type="button"
+                               class="btn btn-outline-danger mt-3 @if($status == 5) active @endif">Trả hàng hoàn tiền <span
+                                    style="font-weight: 700">{{$return_refund}}</span></a>
                         </div>
                     </div>
 
@@ -67,7 +70,7 @@
                                         <th scope="col">Bên nhận</th>
                                         <th scope="col" style="width: 12%;">Tổng tiền</th>
                                         <th scope="col" style="width: 15%;">Mã vận chuyển</th>
-                                        @if($status == 0 || $status == 'all' || $status == 1 || $status == 2)
+                                        @if($status == 0 || $status == 'all' || $status == 1 || $status == 2 || $status == 3)
                                             <th scope="col" style="width: 15%;">Xác nhận nhanh</th>
                                         @endif
                                     </tr>
@@ -134,6 +137,12 @@
                                                         </button>
                                                     </a>
                                                 @endif
+                                                @if($value->status != 4 && $value->type_payment == 2 && $value->status != 3)
+                                                        <a href="{{url('admin/order/status/'.$value->id.'/5')}}">
+                                                            <button type="submit" class="btn btn-danger">Trả hàng hoàn tiền
+                                                            </button>
+                                                        </a>
+                                                    @endif
                                             </td>
                                         </tr>
                                     @endforeach

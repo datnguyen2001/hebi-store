@@ -25,7 +25,7 @@ function getPay() {
                                     <div class="product-cart">
                                         <input type="hidden" class="cart_id_${i}" value="${data.data[i].id}">
                                         <div class="product-image text-center p-0">
-                                            <a href="${window.location.origin + 'san-pham/' + `${data.data[i].product.slug}`}">
+                                            <a href="${window.location.origin + '/san-pham/' + `${data.data[i].product.slug}`}">
                                                 <img src="${data.data[i].product_infor.image}" class="img-responsive"/>
                                             </a>
                                             <a class="del-pro-link" onclick="deleteCart(${data.data[i].id})" style="color: red">
@@ -35,7 +35,7 @@ function getPay() {
                                         <div class="product-detail">
                                             <div class="top_detail">
                                                 <a class="product-name-cart"
-                                                   href="${window.location.origin + 'san-pham/' + `${data.data[i].product.slug}`}">${data.data[i].product.name}</a>
+                                                   href="${window.location.origin + '/san-pham/' + `${data.data[i].product.slug}`}">${data.data[i].product.name}</a>
                                                 <div class="fee visibleCart-xs">
                                                     <p class="price-item price_item_{{$index}}">${formatPrice(data.data[i].product_attribute.promotional_price*data.data[i].quantity)}
                                                         đ</p>
@@ -48,7 +48,7 @@ function getPay() {
                                             <div class="price_detail">
                                                 <div class="box_color">
                                                     <span
-                                                        class="select_color">Màu: ${data.data[i].product_attribute.name}</span>
+                                                        class="select_color">Loại: ${data.data[i].product_attribute.name}</span>
                                                 </div>
                                                 <div class="quan visibleCart-xs">
                                                     <span class="number-input">

@@ -269,6 +269,12 @@
                                             </button>
                                         </a>
                                     @endif
+                                        @if($listData->status != 4 && $listData->type_payment == 2 && $listData->status != 3)
+                                            <a href="{{url('admin/order/status/'.$listData->id.'/5')}}">
+                                                <button type="submit" class="btn btn-danger">Trả hàng hoàn tiền
+                                                </button>
+                                            </a>
+                                        @endif
                                 </div>
                             </div>
 

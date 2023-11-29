@@ -68,6 +68,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
+            dd($request->all());
             $category = CategoryModel::find($request->get('sub_category'));
             if (empty($category)) {
                 return back()->with(['error' => 'Vui lòng chọn danh mục để tiếp tục']);
@@ -81,10 +82,10 @@ class ProductController extends Controller
             }
             $file = $request->file('file_product');
             $extension = $file->getClientOriginalExtension();
-            $banner = 'upload/product/' . Str::random(40) . '.' . $extension;
-            $file->move('upload/product/', $banner);
+            $image = 'upload/product/' . Str::random(40) . '.' . $extension;
+            $file->move('upload/product/', $image);
             $product_infor = new ProductInformationModel([
-                'image' => $banner,
+                'image' => $image,
                 'category_id' => isset($category) ? $category->id : null,
                 'name_category' => isset($category) ? $category->name : null,
                 'parameter_one' => $request->get('parameter_one'),
@@ -176,9 +177,13 @@ class ProductController extends Controller
             if ($request->display == 'on') {
                 $display = 1;
             }
-            if (isset($request->image_product)) {
+            if (isset($request->file_product)) {
                 unlink($product_infor->image);
-                $product_infor->image = $request->get('image_product');
+                $file = $request->file('file_product');
+                $extension = $file->getClientOriginalExtension();
+                $image = 'upload/product/' . Str::random(40) . '.' . $extension;
+                $file->move('upload/product/', $image);
+                $product_infor->image = $image;
             }
             $product_infor->category_id = isset($category) ? $category->id : null;
             $product_infor->name_category = isset($category) ? $category->name : null;
@@ -262,6 +267,7 @@ class ProductController extends Controller
     {
         $count = $request->get('count');
         $index = $request->get('index');
+//        dd($count,$index);
         $view = view('admin.products.variant-size', compact('count', 'index'))->render();
         return \response()->json(['html' => $view]);
     }

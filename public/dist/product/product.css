@@ -890,6 +890,9 @@ p {
 .box_tskt p{
     margin: 10px;
 }
+.box_tskt table{
+    width: 100%!important;
+}
 @media (max-width: 1400px) {
     .main {
         margin-top: 0px;
@@ -1053,5 +1056,8 @@ p {
     }
     .star-rating{
         font-size: 14px;
+    }
+    #text_contact{
+        width: 90%;
     }
 }

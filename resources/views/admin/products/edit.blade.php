@@ -1,8 +1,9 @@
 @extends('layout.admin.index')
 <style>
-    .category:nth-child(2n){
+    .category:nth-child(2n) {
         background: #33333330;
     }
+
     #cke_1_contents {
         height: 250px !important;
     }
@@ -88,6 +89,7 @@
         object-fit: cover;
         position: absolute
     }
+
     .image-uploader .uploaded .uploaded-image img {
         width: 100%;
         height: 100%;
@@ -107,6 +109,7 @@
         -webkit-appearance: none;
         border: none
     }
+
     .image-uploader .uploaded .uploaded-images .delete__image {
         display: block;
         cursor: pointer;
@@ -127,6 +130,7 @@
         color: #fff;
         font-size: 1.4rem
     }
+
     .image-uploader .uploaded .uploaded-images .delete__image i {
         color: #fff;
         font-size: 1.4rem
@@ -144,17 +148,21 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
-    ul li{
+
+    ul li {
         list-style-type: none;
     }
-    .sku_variant{
+
+    .sku_variant {
         text-transform: uppercase;
         text-align: center;
     }
-    .sku_variant::placeholder{
+
+    .sku_variant::placeholder {
         text-transform: capitalize;
     }
-    .attribute_product .title-attribute:before{
+
+    .attribute_product .title-attribute:before {
         content: "";
         position: absolute;
         right: 0;
@@ -163,10 +171,12 @@
         width: 2px;
         background: #ffffff;
     }
-    .attribute_product .title-attribute{
+
+    .attribute_product .title-attribute {
         padding-right: 15px;
         margin-right: 15px;
     }
+
     .switch_2 {
         position: relative;
         display: inline-block;
@@ -227,13 +237,16 @@
     .slider_2.round_2:before {
         border-radius: 50%;
     }
-    .parent_category.active{
+
+    .parent_category.active {
         background: #EFEFEF;
     }
-    .parent_category.active img{
+
+    .parent_category.active img {
         display: block;
     }
-    .parent_category img{
+
+    .parent_category img {
         display: none;
     }
 </style>
@@ -250,12 +263,15 @@
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show"
+                             role="alert">
                             {{session('error')}}
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                         </div>
                     @endif
-                    <form method="post" action="{{url('admin/products/update/'.$product_infor->id)}}" enctype="multipart/form-data" class="card p-3">
+                    <form method="post" action="{{url('admin/products/update/'.$product_infor->id)}}"
+                          enctype="multipart/form-data" class="card p-3">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-3 d-flex align-items-center">
@@ -263,56 +279,68 @@
                             </div>
                             <div class="col-9">
                                 <div class="row m-0 border">
-                                    <div class="col-lg-4 pt-2 pb-2" style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
+                                    <div class="col-lg-4 pt-2 pb-2"
+                                         style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="phone"
-                                                       value="1" name="category" @if($product_infor->type_product == 1) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="phone"
+                                                       value="1" name="category"
+                                                       @if($product_infor->type_product == 1) checked @endif></div>
                                             <label for="phone" class="m-0">Điện thoại</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="tablet"
-                                                       value="2" name="category" @if($product_infor->type_product == 2) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="tablet"
+                                                       value="2" name="category"
+                                                       @if($product_infor->type_product == 2) checked @endif></div>
                                             <label for="tablet" class="m-0">Máy tính bảng</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
-                                                       value="3" name="category" @if($product_infor->type_product == 3) checked @endif></div>
-                                            <label for="watch" class="m-0">Laptop</label>
+                                                <input type="radio" style="width: 20px; height: 20px" id="laptop"
+                                                       value="3" name="category"
+                                                       @if($product_infor->type_product == 3) checked @endif></div>
+                                            <label for="laptop" class="m-0">Laptop</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
-                                                       value="4" name="category" @if($product_infor->type_product == 4) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="watch"
+                                                       value="4" name="category"
+                                                       @if($product_infor->type_product == 4) checked @endif></div>
                                             <label for="watch" class="m-0">Đồng hồ thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="home"
-                                                       value="5" name="category" @if($product_infor->type_product == 5) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="home"
+                                                       value="5" name="category"
+                                                       @if($product_infor->type_product == 5) checked @endif></div>
                                             <label for="home" class="m-0">Nhà thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="accessory"
-                                                       value="6" name="category" @if($product_infor->type_product == 6) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="accessory"
+                                                       value="6" name="category"
+                                                       @if($product_infor->type_product == 6) checked @endif></div>
                                             <label for="accessory" class="m-0">Phụ kiện</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="sound"
-                                                       value="7" name="category" @if($product_infor->type_product == 7) checked @endif></div>
+                                                <input type="radio" style="width: 20px; height: 20px" id="sound"
+                                                       value="7" name="category"
+                                                       @if($product_infor->type_product == 7) checked @endif></div>
                                             <label for="sound" class="m-0">Âm thanh</label>
                                         </div>
                                     </div>
-                                    <div list_category_children class="col-lg-4" style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
+                                    <div list_category_children class="col-lg-4"
+                                         style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
                                         @php $category_children = \App\Models\CategoryModel::where('parent_id', 0)->where('display', 1)->where('type', $product_infor->type_product)->orderBy('location', 'asc')->get(); @endphp
                                         @foreach($category_children as $value)
                                             <div class="d-flex align-items-center category list_category_children p-1">
                                                 <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                    <input type="checkbox" style="width: 20px; height: 20px" value="{{$value->id}}" @if($category_2->parent_id == $value->id) checked @endif name="category_children">
+                                                    <input type="radio" style="width: 20px; height: 20px"
+                                                           value="{{$value->id}}"
+                                                           @if($category_2->parent_id == $value->id) checked
+                                                           @endif name="category_children">
                                                 </div>
                                                 <p class="m-0">{{$value->name}}</p>
                                             </div>
@@ -322,7 +350,10 @@
                                         @foreach($category_3 as $value)
                                             <div class="d-flex align-items-center category list_category_children p-1">
                                                 <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                    <input type="checkbox" style="width: 20px; height: 20px" value="{{$value->id}}" @if($product_infor->category_id == $value->id) checked @endif name="sub_category">
+                                                    <input type="radio" style="width: 20px; height: 20px"
+                                                           value="{{$value->id}}"
+                                                           @if($product_infor->category_id == $value->id) checked
+                                                           @endif name="sub_category">
                                                 </div>
                                                 <p class="m-0">{{$value->name}}</p>
                                             </div>
@@ -336,9 +367,14 @@
                                 <p class="m-0">Ảnh bìa sản phẩm :</p>
                             </div>
                             <div class="col-9">
-                                <div class="d-flex align-items-center position-relative selector__image justify-content-center" style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
-                                    <img src="{{$product_infor->image}}" class="position-absolute w-100 h-100" style="top: 0;left: 0; object-fit: cover">
-                                    <label class="position-absolute bg-transparent clear-img text-black" style="top: 5px; right: 5px; z-index: 10; cursor: pointer"><i class="bi bi-x-circle-fill"></i></label>
+                                <div
+                                    class="d-flex align-items-center position-relative selector__image justify-content-center"
+                                    style="width: 200px; height: 250px; background: #f0f0f0;cursor: pointer">
+                                    <img src="{{$product_infor->image}}" class="position-absolute w-100 h-100"
+                                         style="top: 0;left: 0; object-fit: cover">
+                                    <label class="position-absolute bg-transparent clear-img text-black"
+                                           style="top: 5px; right: 5px; z-index: 10; cursor: pointer"><i
+                                            class="bi bi-x-circle-fill"></i></label>
                                 </div>
                                 <input type="file" hidden name="file_product" accept="image/*">
                                 <input name="image_product" hidden value="">
@@ -354,7 +390,8 @@
                                         @foreach($image_variant as $value)
                                             <div class="uploaded-images">
                                                 <img src="{{$value->image}}">
-                                                <button type="button" value="{{$value->id}}" class="delete__image"><i class="bi bi-x"></i></button>
+                                                <button type="button" value="{{$value->id}}" class="delete__image"><i
+                                                        class="bi bi-x"></i></button>
                                             </div>
                                         @endforeach
                                     </div>
@@ -367,7 +404,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="card-body">
-                                    <label class="mt-2 mb-2"><i class="fa fa-upload"></i> Chọn hoặc kéo ảnh vào khung bên dưới</label>
+                                    <label class="mt-2 mb-2"><i class="fa fa-upload"></i> Chọn hoặc kéo ảnh vào khung
+                                        bên dưới</label>
                                     <div class="input-image-product">
                                     </div>
                                 </div>
@@ -379,7 +417,8 @@
                                 <p class="m-0 parameter_1">Thống số 1 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_one" value="{{$product_infor->parameter_one}}">
+                                <input class="form-control" name="parameter_one"
+                                       value="{{$product_infor->parameter_one}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_2">
@@ -387,7 +426,8 @@
                                 <p class="m-0 parameter_2">Thống số 2 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_two" value="{{$product_infor->parameter_two}}">
+                                <input class="form-control" name="parameter_two"
+                                       value="{{$product_infor->parameter_two}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_3">
@@ -395,7 +435,8 @@
                                 <p class="m-0 parameter_3">Thống số 3 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_three" value="{{$product_infor->parameter_three}}">
+                                <input class="form-control" name="parameter_three"
+                                       value="{{$product_infor->parameter_three}}">
                             </div>
                         </div>
                         <div class="row mb-3 box_parameter_4">
@@ -403,7 +444,8 @@
                                 <p class="m-0 parameter_4">Thống số 4 :</p>
                             </div>
                             <div class="col-9">
-                                <input class="form-control" name="parameter_four" value="{{$product_infor->parameter_four}}">
+                                <input class="form-control" name="parameter_four"
+                                       value="{{$product_infor->parameter_four}}">
                             </div>
                         </div>
                         <div class="card mb-3">
@@ -432,7 +474,8 @@
                             <div id="collapseExample2" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="special_offer" id="content2" class="ckeditor">{!! $product_infor->special_offer !!}</textarea>
+                                        <textarea name="special_offer" id="content2"
+                                                  class="ckeditor">{!! $product_infor->special_offer !!}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -480,63 +523,85 @@
                                         <input value="{{$item->id}}" hidden name="variant[{{$key}}][attribute_id]">
                                         <div class="row m-0">
                                             <div class="col-lg-4 p-1">
-                                                <input type="text" name="variant[{{$key}}][name]" class="form-control" value="{{$item->name}}"
-                                                       placeholder="Tên loại sản phẩm" required>
+                                                <input type="text" name="variant[{{$key}}][name]" class="form-control"
+                                                       value="{{$item->name}}"
+                                                       placeholder="Tên sản phẩm" required>
                                             </div>
                                             <div class="col-lg-3 p-1">
-                                                <button type="button" class="btn btn-success btn-add-size form-control"><i class="bi bi-plus-lg"></i> Thêm Màu</button>
+                                                <button type="button" class="btn btn-success btn-add-size form-control">
+                                                    <i class="bi bi-plus-lg"></i> Thêm Màu
+                                                </button>
                                             </div>
                                             <div class="col-lg-3 p-1">
-                                                <button type="button" class="btn btn-primary btn-add-color form-control"><i class="bi bi-plus-lg"></i> Thêm Loại Sản Phẩm</button>
+                                                <button type="button"
+                                                        class="btn btn-primary btn-add-color form-control"><i
+                                                        class="bi bi-plus-lg"></i> Thêm Loại Sản Phẩm
+                                                </button>
                                             </div>
                                             @if($key > 0)
                                                 <div class="col-lg-2 p-1">
-                                                    <a class="btn btn-danger btn-delete-name" href="{{url('/admin/products/delete-name/'.$item->id)}}">
+                                                    <a class="btn btn-danger btn-delete-name"
+                                                       href="{{url('/admin/products/delete-name/'.$item->id)}}">
                                                         <i class="bi bi-trash"></i> Xóa</a>
                                                 </div>
                                             @endif
                                         </div>
-                                        <div class="list-size">
-                                            <div class="row m-0 pb-1">
-                                                <div class="col-lg-2 p-1 d-flex align-items-center"
-                                                     style="padding-left: 15px!important;">
-                                                    <p class="m-0">Thông tin :</p>
-                                                </div>
-                                                <div class="col-lg-2 p-1">
-                                                    <input name="variant[{{$key}}][own_parameter]" type="text" value="{{$item->own_parameter}}"
-                                                           class="form-control" placeholder="">
-                                                </div>
-                                                <div class="form-check form-switch col-lg-2 p-1">
-                                                    <input class="form-check-input" name="variant[{{$key}}][featured_products]" type="checkbox" @if($item->is_featured_products == 1) checked @endif
-                                                           id="flexSwitchCheckChecked" style="margin-left: 0px!important;margin-top: 13px">
-                                                    <label class="form-check-label" for="flexSwitchCheckChecked" style="margin-top: 9px;margin-left: 8px">Sản phẩm nổi bật</label>
-                                                </div>
+                                        <div class="row m-0 pb-1">
+                                            <div class="col-lg-2 p-1 d-flex align-items-center"
+                                                 style="padding-left: 15px!important;">
+                                                <p class="m-0">Thông tin :</p>
                                             </div>
-                                            <div class="card mb-3">
-                                                <div class="card-header bg-info text-white">
-                                                    Thông số kỹ thuật
-                                                </div>
-                                                <div class="card-body mt-2">
+                                            <div class="col-lg-2 p-1">
+                                                <input name="variant[{{$key}}][own_parameter]" type="text"
+                                                       value="{{$item->own_parameter}}"
+                                                       class="form-control" placeholder="">
+                                            </div>
+                                            <div class="form-check form-switch col-lg-2 p-1">
+                                                <input class="form-check-input"
+                                                       name="variant[{{$key}}][featured_products]" type="checkbox"
+                                                       @if($item->is_featured_products == 1) checked @endif
+                                                       id="flexSwitchCheckChecked"
+                                                       style="margin-left: 0px!important;margin-top: 13px">
+                                                <label class="form-check-label" for="flexSwitchCheckChecked"
+                                                       style="margin-top: 9px;margin-left: 8px">Sản phẩm nổi bật</label>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-header bg-info text-white">
+                                                Thông số kỹ thuật
+                                            </div>
+                                            <div class="card-body mt-2">
                                                 <textarea name="variant[{{$key}}][specifications]"
                                                           class="ckeditor">{!! $item->specifications !!}</textarea>
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="list-size">
                                             @foreach($product_attribute as $k => $value)
                                                 <div class="row m-0">
-                                                    <input value="{{$value->id}}" hidden name="variant[{{$key}}][data][{{$k}}][value_id]">
+                                                    <input value="{{$value->id}}" hidden
+                                                           name="variant[{{$key}}][data][{{$k}}][value_id]">
                                                     <div class="col-lg-3 p-1">
                                                         <input type="text" name="variant[{{$key}}][data][{{$k}}][color]"
-                                                               class="form-control" placeholder="Tên màu sản phẩm" required value="{{$value->name}}">
+                                                               class="form-control color" placeholder="Tên màu sản phẩm"
+                                                               required value="{{$value->name}}">
                                                     </div>
                                                     <div class="col-lg-3 p-1">
-                                                        <input name="variant[{{$key}}][data][{{$k}}][price]" type="text" class="form-control price format-currency" value="{{number_format($value->price)}}" placeholder="Gía gốc">
+                                                        <input name="variant[{{$key}}][data][{{$k}}][price]" type="text"
+                                                               class="form-control price format-currency"
+                                                               value="{{number_format($value->price)}}"
+                                                               placeholder="Gía gốc">
                                                     </div>
                                                     <div class="col-lg-3 p-1">
-                                                        <input name="variant[{{$key}}][data][{{$k}}][promotion_price]" type="text" class="form-control promotiom_price format-currency" value="{{number_format($value->promotional_price)}}" placeholder="Gía bán">
+                                                        <input name="variant[{{$key}}][data][{{$k}}][promotion_price]"
+                                                               type="text"
+                                                               class="form-control promotiom_price format-currency"
+                                                               value="{{number_format($value->promotional_price)}}"
+                                                               placeholder="Gía bán">
                                                     </div>
                                                     @if($k > 0)
                                                         <div class="col-lg-2 p-1">
-                                                            <a href="{{url('admin/products/delete-color/'.$value->id)}}" class="btn btn-danger btn-delete-color">
+                                                            <a href="{{url('admin/products/delete-color/'.$value->id)}}"
+                                                               class="btn btn-danger btn-delete-color">
                                                                 <i class="bi bi-trash"></i> Xóa</a>
                                                         </div>
                                                     @endif
@@ -551,8 +616,10 @@
                             <label class="col-sm-2 col-form-label">Chọn loại: </label>
                             <div class="col-sm-10">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" name="display" type="checkbox" id="flexSwitchCheckDefault" @if($product_infor->display == 1) checked @endif>
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">Hiển thị sản phẩm</label>
+                                    <input class="form-check-input" name="display" type="checkbox"
+                                           id="flexSwitchCheckDefault" @if($product_infor->display == 1) checked @endif>
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Hiển thị sản
+                                        phẩm</label>
                                 </div>
                             </div>
                         </div>
@@ -569,7 +636,7 @@
                                             <td> Thao tác</td>
                                         </tr>
                                         </thead>
-                                        <tbody >
+                                        <tbody>
                                         @foreach($related as $value)
                                             <tr class="text-center" style="border-top: 2px solid #e8e8e8">
                                                 <td>
@@ -580,10 +647,12 @@
 
                                                 <td style="padding-top: 20px">{{number_format($value->price)}} đ</td>
                                                 <td style="padding-top: 20px">
-                                                    <button type="button" class="btn btn-danger" onclick="deleteRelated({{$value->product_id}})"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button type="button" class="btn btn-danger"
+                                                            onclick="deleteRelated({{$value->product_id}})"><i
+                                                            class="fa fa-trash" aria-hidden="true"></i></button>
                                                 </td>
                                             </tr>
-                                            @endforeach
+                                        @endforeach
                                         </tbody>
                                         <tbody class="item_product">
                                         </tbody>
@@ -597,47 +666,47 @@
                             <a href="{{route('admin.products.index')}}" type="reset" class="btn btn-dark">Hủy</a>
                         </div>
                     </form>
-                        <div class="p-3"
-                             style="border-radius: 5px;box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);background-color: white">
-                            <div class="d-flex justify-content-between align-items-center mb-3 ">
-                                <h4>Danh sách sản phẩm liên quan</h4>
-                                <div class="col-sm-6">
-                                    <div class="search">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12">
-                                                <div class="form-label-group position-relative has-icon-left mb-0"
-                                                     style="background: #FFFFFF">
-                                                    <input type="text" id="search" class="form-control" name="search"
-                                                           placeholder="Nhập tên sản phẩm hoặc mã sản phẩm"
-                                                           style="color: black">
-                                                    <div class="form-control-position">
-                                                        <i class="feather icon-search"></i>
-                                                    </div>
+                    <div class="p-3"
+                         style="border-radius: 5px;box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);background-color: white">
+                        <div class="d-flex justify-content-between align-items-center mb-3 ">
+                            <h4>Danh sách sản phẩm liên quan</h4>
+                            <div class="col-sm-6">
+                                <div class="search">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-label-group position-relative has-icon-left mb-0"
+                                                 style="background: #FFFFFF">
+                                                <input type="text" id="search" class="form-control" name="search"
+                                                       placeholder="Nhập tên sản phẩm hoặc mã sản phẩm"
+                                                       style="color: black">
+                                                <div class="form-control-position">
+                                                    <i class="feather icon-search"></i>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="table-responsive table-responsive-lg">
-                                        <table class="table data-list-view table-sm">
-                                            <thead>
-                                            <tr class="text-center">
-                                                <td scope="col">Hình ảnh</td>
-                                                <td scope="col">Tên sản phẩm</td>
-                                                <td scope="col">Đơn giá</td>
-                                                <td> Thao tác </td>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="table_product">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="table-responsive table-responsive-lg">
+                                    <table class="table data-list-view table-sm">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <td scope="col">Hình ảnh</td>
+                                            <td scope="col">Tên sản phẩm</td>
+                                            <td scope="col">Đơn giá</td>
+                                            <td> Thao tác</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table_product">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -669,6 +738,7 @@
     </script>
     <script>
         let arr = [];
+
         function idSP(id) {
             arr.push(id);
             $.ajax({
@@ -681,6 +751,7 @@
                 }
             });
         }
+
         function deleteSP(id) {
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i] === id) {
@@ -701,6 +772,7 @@
                 }
             });
         }
+
         function deleteRelated(id) {
             $.ajax({
                 url: '{{url('admin/products/item_similar/delete_related')}}',

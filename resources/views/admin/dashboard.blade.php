@@ -30,7 +30,8 @@
                                     <div class="form-group d-flex align-items-center">
                                         <form class="d-flex align-items-center w-50" method="get" id="dashboard"
                                               action="{{route('admin.dashboard')}}">
-                                            <input type="month" id="monthPicker" name="date" class="form-control w-50" value="{{request()->get('date')}}"
+                                            <input type="month" id="monthPicker" name="date" class="form-control w-50"
+                                                   value="{{request()->get('date')}}"
                                                    max="<?= date('Y-m') ?>" onchange="submitForm()">
                                         </form>
                                     </div>
@@ -121,6 +122,7 @@
 
                                             chart.render();
                                         }
+
                                         function submitForm() {
                                             document.getElementById("dashboard").submit();
                                         }
@@ -129,10 +131,18 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Loại hàng được mua nhiều nhất</h5>
+                                    <div class="form-group d-flex justify-content-between align-items-center w-100">
+                                        <h5 class="card-title">Loại hàng được mua nhiều nhất</h5>
+                                        <form class="d-flex align-items-center" method="get" id="topCategory"
+                                              action="{{route('admin.dashboard')}}">
+                                            <input type="month" id="monthPicker" name="date_top_category" class="form-control w-100"
+                                                   value="{{request()->get('date_top_category')}}"
+                                                   max="<?= date('Y-m') ?>" onchange="submitTopCategory()">
+                                        </form>
+                                    </div>
                                     <input type="hidden" value="{{ json_encode($sectors) }}" id="sectors">
                                     <div id="pieChart"></div>
                                     <script>
@@ -156,15 +166,26 @@
                                                 labels: ['Điện thoại', 'Máy tính bảng', 'Laptop', 'Đồng hồ thông minh', 'Nhà thông minh', 'Phụ kiện', 'Âm thanh']
                                             }).render();
                                         });
+                                        function submitTopCategory() {
+                                            document.getElementById("topCategory").submit();
+                                        }
                                     </script>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Sản phẩm được mua nhiều nhất của từng loại sản phẩm</h5>
+                                    <div class="form-group d-flex justify-content-between align-items-center w-100">
+                                        <h5 class="card-title">Sản phẩm được mua nhiều nhất của từng loại sản phẩm</h5>
+                                        <form class="d-flex align-items-center" method="get" id="topProduct"
+                                              action="{{route('admin.dashboard')}}">
+                                            <input type="month" id="monthPicker" name="date_top_product" class="form-control w-100"
+                                                   value="{{request()->get('date_top_product')}}"
+                                                   max="<?= date('Y-m') ?>" onchange="submitTopProduct()">
+                                        </form>
+                                    </div>
                                     <div id="donutChart"></div>
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
@@ -183,6 +204,9 @@
                                                 labels: labelsData,
                                             }).render();
                                         });
+                                        function submitTopProduct() {
+                                            document.getElementById("topProduct").submit();
+                                        }
                                     </script>
                                 </div>
                             </div>
@@ -300,6 +324,25 @@
                                             <a href="{{url('admin/order/index/4')}}"/><span
                                                 class="text-muted small pt-2 ps-1">Xem chi tiết</span></a>
                                             <p>{{number_format($order_cancel_money)}} VND</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Trả hàng hoàn tiền</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-cart"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{$return_refund}}</h6>
+                                            <a href="{{url('admin/order/index/5')}}"/><span
+                                                class="text-muted small pt-2 ps-1">Xem chi tiết</span></a>
+                                            <p>{{number_format($return_refund_money)}} VND</p>
                                         </div>
                                     </div>
                                 </div>

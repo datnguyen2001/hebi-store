@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center mt-3">
-                            <button type="submit" class="btn btn-success" style="margin-right: 15px">Tạo mới</button>
+                            <button type="submit" class="btn btn-success" style="margin-right: 15px">Xuất hàng</button>
                             <button type="reset" class="btn btn-dark">Hủy</button>
                         </div>
                     </form>

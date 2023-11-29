@@ -144,7 +144,7 @@ class CategoryController extends Controller
             if (count($listCategory)){
                 foreach ($listCategory as $value){
                     $option = '<div class="d-flex align-items-center category list_category_children p-1">
-                                                <div class="d-flex align-items-center" style="margin-right: 10px"><input type="checkbox" id="'.$value->id.'" style="width: 20px; height: 20px" value="'.$value->id.'" name="'.$request->get('name').'"></div>
+                                                <div class="d-flex align-items-center" style="margin-right: 10px"><input type="radio" id="'.$value->id.'" style="width: 20px; height: 20px" value="'.$value->id.'" name="'.$request->get('name').'"></div>
                                                 <label for="'.$value->id.'" class="m-0">'.$value->name.'</label>
                                             </div>';
                     $html .= $option;
@@ -170,7 +170,7 @@ class CategoryController extends Controller
             if (count($listCategory)){
                 foreach ($listCategory as $value){
                     $option = '<div class="d-flex align-items-center category list_category_children p-1">
-                                                <div class="d-flex align-items-center" style="margin-right: 10px"><input type="checkbox" id="'.$value->id.'" style="width: 20px; height: 20px" value="'.$value->id.'" name="'.$request->get('name').'"></div>
+                                                <div class="d-flex align-items-center" style="margin-right: 10px"><input type="radio" id="'.$value->id.'" style="width: 20px; height: 20px" value="'.$value->id.'" name="'.$request->get('name').'"></div>
                                                 <label for="'.$value->id.'" class="m-0">'.$value->name.'</label>
                                             </div>';
                     $html .= $option;

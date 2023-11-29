@@ -126,20 +126,15 @@ $(document).ready(function () {
         let parents = $(this).closest(".row");
         parents.remove();
         let index = data_parent.index();
-        console.log(index);
         let list_size = data_parent.find(".list-size");
         let count = list_size.children().length;
         for (let i = 0; i < count; i++) {
-            let size = 'variant[' + index + '][data][' + i + '][size]';
+            let color = 'variant[' + index + '][data][' + i + '][color]';
             let price = 'variant[' + index + '][data][' + i + '][price]';
             let promotion_price = 'variant[' + index + '][data][' + i + '][promotion_price]';
-            let quantity = 'variant[' + index + '][data][' + i + '][quantity]';
-            let sku = 'variant[' + index + '][data][' + i + '][sku]';
-            list_size.children().eq(i).find(".form-select.size").attr("name", size);
+            list_size.children().eq(i).find(".form-control.color").attr("name", color);
             list_size.children().eq(i).find(".form-control.price").attr("name", price);
             list_size.children().eq(i).find(".form-control.promotion_price").attr("name", promotion_price);
-            list_size.children().eq(i).find(".form-control.quantity").attr("name", quantity);
-            list_size.children().eq(i).find(".form-control.sku").attr("name", sku);
         }
     });
     // add color
@@ -166,22 +161,18 @@ $(document).ready(function () {
         parents.remove();
         let index = $(".card-body .data-variant").length;
         for (let i = 0; i < index; i++) {
-            let name = 'variant[' + i + '][color]';
-            let select = $(".data-variant").eq(i).find(".form-select.color");
+            let name = 'variant[' + i + '][name]';
+            let select = $(".data-variant").eq(i).find(".form-control.name");
             select.attr("name", name);
             let list_size = $(".data-variant").eq(i).find(".list-size");
             let count = list_size.children().length;
             for (let j = 0; j < count; j++) {
-                let size = 'variant[' + i + '][data][' + j + '][size]';
+                let color = 'variant[' + i + '][data][' + j + '][color]';
                 let price = 'variant[' + i + '][data][' + j + '][price]';
                 let promotion_price = 'variant[' + i + '][data][' + j + '][promotion_price]';
-                let quantity = 'variant[' + i + '][data][' + j + '][quantity]';
-                let sku = 'variant[' + i + '][data][' + j + '][sku]';
-                list_size.children().eq(j).find(".form-select.size").attr("name", size);
+                list_size.children().eq(j).find(".form-control.color").attr("name", color);
                 list_size.children().eq(j).find(".form-control.price").attr("name", price);
                 list_size.children().eq(j).find(".form-control.promotion_price").attr("name", promotion_price);
-                list_size.children().eq(j).find(".form-control.quantity").attr("name", quantity);
-                list_size.children().eq(j).find(".form-control.sku").attr("name", sku);
             }
         }
     });
@@ -225,7 +216,7 @@ $(document).ready(function () {
             $(".parameter_1").text('Chất liệu viền :');
             $(".parameter_2").text('Kích cỡ mặt đồng hồ :');
             $(".parameter_3").text('Thời lượng pin :');
-            $(".parameter_4").text('Thiết kế :');
+            $(".parameter_4").text('Tính năng thông minh :');
         }else if(value == 5){
             $(".parameter_1").text('Thông số 1 :');
             $(".parameter_2").text('Thông số 2 :');

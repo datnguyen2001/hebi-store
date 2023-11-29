@@ -118,7 +118,7 @@ class Controller extends BaseController
     {
         try {
             $product_infor = ProductInformationModel::where('type_product', $type)->pluck('id');
-            $product = ProductsModel::whereIn('product_infor_id', $product_infor)->where('is_featured_products', 1)->limit(10)->get();
+            $product = ProductsModel::whereIn('product_infor_id', $product_infor)->where('is_featured_products', 1)->orderBy('updated_at','desc')->limit(10)->get();
             foreach ($product as $value) {
                 $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$value->id)->first();
                 $value->infor = ProductInformationModel::find($value->product_infor_id);
@@ -233,12 +233,12 @@ class Controller extends BaseController
      **/
     public function criteria($checkCate,$product_infor)
     {
-        $parameter_one = ProductInformationModel::select('parameter_one')->where('type_product', $checkCate['type'])->distinct()->get();
-        $parameter_two = ProductInformationModel::select('parameter_two')->where('type_product', $checkCate['type'])->distinct()->get();
-        $parameter_three = ProductInformationModel::select('parameter_three')->where('type_product', $checkCate['type'])->distinct()->get();
-        $parameter_four = ProductInformationModel::select('parameter_four')->where('type_product', $checkCate['type'])->distinct()->get();
+        $parameter_one = ProductInformationModel::select('parameter_one')->where('type_product', $checkCate['type'])->whereIn('id',$product_infor)->distinct()->get();
+        $parameter_two = ProductInformationModel::select('parameter_two')->where('type_product', $checkCate['type'])->whereIn('id',$product_infor)->distinct()->get();
+        $parameter_three = ProductInformationModel::select('parameter_three')->where('type_product', $checkCate['type'])->whereIn('id',$product_infor)->distinct()->get();
+        $parameter_four = ProductInformationModel::select('parameter_four')->where('type_product', $checkCate['type'])->whereIn('id',$product_infor)->distinct()->get();
         $parameter_five = ProductsModel::select('own_parameter')->whereIn('product_infor_id', $product_infor)->distinct()->get();
-        $name_filter =$this->nameFilter($checkCate);
+        $name_filter = $this->nameFilter($checkCate);
         return compact('parameter_one', 'parameter_five', 'parameter_two', 'parameter_three', 'parameter_four','name_filter');
     }
 
@@ -269,7 +269,7 @@ class Controller extends BaseController
             $name_filter_one = 'Chất liệu viền';
             $name_filter_two = 'Kích cỡ mặt đồng hồ';
             $name_filter_three = 'Thời lượng pin';
-            $name_filter_four = 'Thiết kế';
+            $name_filter_four = 'Tính năng thông minh';
             $name_filter_five = 'Thông số 5';
         }elseif ($checkCate['type'] == 5){
             $name_filter_one = 'Thông số 1';
@@ -363,12 +363,4 @@ class Controller extends BaseController
         }
     }
 
-    public function checkUrl($url)
-    {
-        $headers = @get_headers($url);
-        if ($headers === false) {
-            return view('web.error');
-        }
-         return redirect($url);
-    }
 }

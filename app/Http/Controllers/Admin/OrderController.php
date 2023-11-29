@@ -48,8 +48,9 @@ class OrderController extends ShippingUnitController
                 $order_delivery = OrderModel::where('status', 2)->count();
                 $order_complete = OrderModel::where('status', 3)->count();
                 $order_cancel = OrderModel::where('status', 4)->count();
+                $return_refund = OrderModel::where('status', 5)->count();
                 return view('admin.order.index', compact('titlePage', 'page_menu', 'listData', 'page_sub', 'order_pending', 'order_confirm',
-                    'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_all'));
+                    'order_delivery', 'order_complete', 'order_cancel', 'status', 'order_all','return_refund'));
             } else {
                 return view('admin.error');
             }
@@ -130,6 +131,9 @@ class OrderController extends ShippingUnitController
                         }
                     }
                     $order->save();
+                    if ($status_id == 5) {
+                        $this->updateQuantityProductWhenCancel($order);
+                    }
                     return \redirect()->route('admin.order.index', [$status_id])->with(['success' => 'Xét trạng thái đơn hàng thành công']);
                 } else {
                     return view('admin.error');
@@ -179,10 +183,8 @@ class OrderController extends ShippingUnitController
             $val_status = 'Đã hoàn thành';
         } elseif ($item->status == 4) {
             $val_status = 'Đã hủy';
-        } elseif ($item->status == 5) {
-            $val_status = 'Từ chối nhận';
         } else {
-            $val_status = 'Hoàn trả hàng';
+            $val_status = 'Trả hàng hoàn tiền';
         }
 
         return $val_status;

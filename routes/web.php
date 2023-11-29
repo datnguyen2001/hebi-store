@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Web\NewsController;
 use \App\Http\Controllers\Web\HomeController;
 use \App\Http\Controllers\Web\ProductController;
-use \App\Http\Controllers\Web\CartController;
 use \App\Http\Controllers\Controller;
 use \App\Http\Controllers\Web\PayController;
 
@@ -37,4 +36,3 @@ Route::get('chi-tiet-tin-tuc/{slug}', [NewsController::class, 'detailNew']);
 Route::get('gioi-thieu/{slug}', [NewsController::class, 'introduce'])->name('introduce');
 Route::get('get_district/{province_id}', [Controller::class,'getDistrict']);
 Route::get('get_ward/{district_id}', [Controller::class,'getWard']);
-Route::get('/{any}', [Controller::class, 'checkUrl']);

@@ -54,27 +54,28 @@ function ScrollToTop() {
     });
 }
 
-let date = $('#time_end').attr('data-end');
-let countDownDate = new Date(date).getTime();
-let x = setInterval(function () {
-    let now = new Date().getTime();
-    let distance = countDownDate - now;
-    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+$('.time_end').each(function(index, element) {
+    let date = $(element).attr('data-end');
+    let x = setInterval(function () {
+        let countDownDate = new Date(date).getTime();
+        let now = new Date().getTime();
+        let distance = countDownDate - now;
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const dayElements = document.querySelectorAll(".day");
-    const hourElements = document.querySelectorAll(".hours");
-    const minuteElements = document.querySelectorAll(".minutes");
-    const secondElements = document.querySelectorAll(".seconds");
-    for (let i = 0; i < dayElements.length; i++) {
-        dayElements[i].innerHTML = days + "D";
-        hourElements[i].innerHTML = hours + " :";
-        minuteElements[i].innerHTML = minutes + " :";
-        secondElements[i].innerHTML = seconds;
-    }
-}, 1000);
+        const dayElement = $(element).find(".day");
+        const hourElement = $(element).find(".hours");
+        const minuteElement = $(element).find(".minutes");
+        const secondElement = $(element).find(".seconds");
+
+        dayElement.html(days + "D");
+        hourElement.html(hours + " :");
+        minuteElement.html(minutes + " :");
+        secondElement.html(seconds);
+    }, 1000);
+});
 
 $(function () {
     ProductSale();

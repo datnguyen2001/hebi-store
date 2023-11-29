@@ -59,7 +59,7 @@
                                                         d="M6.4987 5.14581V7.31248L7.85286 8.12498M6.4987 2.70831C3.95589 2.70831 1.89453 4.76967 1.89453 7.31248C1.89453 9.85529 3.95589 11.9166 6.4987 11.9166C9.04151 11.9166 11.1029 9.85529 11.1029 7.31248C11.1029 4.76967 9.04151 2.70831 6.4987 2.70831ZM6.4987 2.70831V1.08331M5.41536 1.08331H7.58203M11.0102 3.029L10.1977 2.2165L10.604 2.62275M1.98717 3.029L2.79967 2.2165L2.39342 2.62275"
                                                         stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
-                                                <span class="time_coundown" id="time_end"
+                                                <span class="time_coundown time_end" id="time_end"
                                                       data-end="{{date('l, F d Y h:i:s', strtotime($value->time_end))}}">
                                                     <span class="day"></span>
                                                     <span class="hours"></span>

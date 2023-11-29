@@ -139,7 +139,7 @@ class PayController extends ShippingUnitController
                     $this->saveExportProduct($order_item);
                 }
                 CartModel::where('user_token',$request->get('user_token'))->delete();
-                $this->sendMail($order);
+                $this->sendMail($order,$order_item);
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
                 return redirect()->route('home')->with(['success' => 'Tạo đơn hàng thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.'']);
             }elseif ($request->type_payment == 2){
@@ -281,7 +281,7 @@ class PayController extends ShippingUnitController
                     $this->saveExportProduct($item);
                 }
                 CartModel::where('user_token',$_SESSION['user_token'])->delete();
-                $this->sendMail($order);
+                $this->sendMail($order,$order_item);
                 event(new OrderNoticeEvent('Có đơn hàng mới. Mau đến kiểm tra'));
                 $msg = ['success' => 'Thanh toán thành công. Cảm ơn bạn đã lựa chọn HebiStore. Mã đơn hàng của bạn là: '.$order->order_code.''];
             }
@@ -355,10 +355,10 @@ class PayController extends ShippingUnitController
         }
     }
 
-    public function sendMail($order){
+    public function sendMail($order,$order_item){
         $name = $order->name;
         $name_mail = $order->email;
-        Mail::send('email.index', compact('name','order'),function ($email) use($name,$name_mail){
+        Mail::send('email.index', compact('name','order','order_item'),function ($email) use($name,$name_mail){
             $email->subject('Thông báo mua hàng');
             $email->to($name_mail, $name);
         });

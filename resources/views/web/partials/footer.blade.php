@@ -206,15 +206,14 @@
                                     <li>
                                         <div>
                                             <a href="{{url('danh-muc/dien-thoai/'.$value->name)}}">
-                                                <span>{{$value->name}}</span>
+                                                <span>{{$value->slug}}</span>
                                             </a>
                                         </div>
                                         <ul class="me-float ul-child">
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/dien-thoai/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/dien-thoai/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -242,7 +241,7 @@
                                 @if($value->type == 2)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/may-tinh-bang/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/may-tinh-bang/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -250,8 +249,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/may-tinh-bang/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/may-tinh-bang/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -279,7 +277,7 @@
                                 @if($value->type == 3)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/laptop/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/laptop/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -287,8 +285,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/laptop/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/laptop/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -316,7 +313,7 @@
                                 @if($value->type == 4)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -324,8 +321,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/dong-ho-thong-minh/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -353,7 +349,7 @@
                                 @if($value->type == 5)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/nha-thong-minh/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/nha-thong-minh/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -361,8 +357,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/nha-thong-minh/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/nha-thong-minh/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -390,7 +385,7 @@
                                 @if($value->type == 6)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/phu-kien/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/phu-kien/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -398,8 +393,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/phu-kien/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/phu-kien/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -427,7 +421,7 @@
                                 @if($value->type == 7)
                                     <li>
                                         <div>
-                                            <a href="{{url('danh-muc/am-thanh/'.$value->name)}}">
+                                            <a href="{{url('danh-muc/am-thanh/'.$value->slug)}}">
                                                 <span>{{$value->name}}</span>
                                             </a>
                                         </div>
@@ -435,8 +429,7 @@
                                             @foreach($category as $item)
                                                 @if($item->parent_id == $value->id)
                                                     <li>
-                                                        <a href="{{url('danh-muc/am-thanh/'.$value->name.'/'.$item->slug)}}"
-                                                           title="iPhone 14 Series">{{$item->name}}</a>
+                                                        <a href="{{url('danh-muc/am-thanh/'.$value->slug.'/'.$item->slug)}}">{{$item->name}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach

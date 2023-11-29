@@ -266,7 +266,7 @@
                                                             stroke="white" stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                     </svg>
-                                                    <span class="time_coundown" id="time_end"
+                                                    <span class="time_coundown time_end" id="time_end"
                                                           data-end="{{date('l, F d Y h:i:s', strtotime($value->time_end))}}">
                                                     <span class="day"></span>
                                                     <span class="hours"></span>

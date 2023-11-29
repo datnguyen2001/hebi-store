@@ -248,43 +248,43 @@
                                          style="border-right: 1px solid #dddddd; overflow: auto; max-height: 400px">
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="phone"
+                                                <input type="radio" style="width: 20px; height: 20px" id="phone"
                                                        value="1" name="category"></div>
                                             <label for="phone" class="m-0">Điện thoại</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="tablet"
+                                                <input type="radio" style="width: 20px; height: 20px" id="tablet"
                                                        value="2" name="category"></div>
                                             <label for="tablet" class="m-0">Máy tính bảng</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="phone"
+                                                <input type="radio" style="width: 20px; height: 20px" id="laptop"
                                                        value="3" name="category"></div>
-                                            <label for="phone" class="m-0">Laptop</label>
+                                            <label for="laptop" class="m-0">Laptop</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="watch"
+                                                <input type="radio" style="width: 20px; height: 20px" id="watch"
                                                        value="4" name="category"></div>
                                             <label for="watch" class="m-0">Đồng hồ thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="home"
+                                                <input type="radio" style="width: 20px; height: 20px" id="home"
                                                        value="5" name="category"></div>
                                             <label for="home" class="m-0">Nhà thông minh</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="accessory"
+                                                <input type="radio" style="width: 20px; height: 20px" id="accessory"
                                                        value="6" name="category"></div>
                                             <label for="accessory" class="m-0">Phụ kiện</label>
                                         </div>
                                         <div class="d-flex align-items-center category p-1">
                                             <div class="d-flex align-items-center" style="margin-right: 10px">
-                                                <input type="checkbox" style="width: 20px; height: 20px" id="sound"
+                                                <input type="radio" style="width: 20px; height: 20px" id="sound"
                                                        value="7" name="category"></div>
                                             <label for="sound" class="m-0">Âm thanh</label>
                                         </div>
@@ -378,7 +378,8 @@
                             <div id="collapseExample2" class="collapse shadow-sm">
                                 <div class="card">
                                     <div class="card-body mt-2">
-                                        <textarea name="special_offer" id="content2" class="ckeditor">{{ old('content2') }}</textarea>
+                                        <textarea name="special_offer" id="content2"
+                                                  class="ckeditor">{{ old('content2') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -437,35 +438,39 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="list-size">
-                                        <div class="row m-0 pb-1">
-                                            <div class="col-lg-2 p-1 d-flex align-items-center"
-                                                 style="padding-left: 15px!important;">
-                                                <p class="m-0">Thông tin :</p>
-                                            </div>
-                                            <div class="col-lg-2 p-1">
-                                                <input name="variant[0][own_parameter]" type="text"
-                                                       class="form-control" placeholder="">
-                                            </div>
-                                            <div class="form-check form-switch col-lg-2 p-1">
-                                                <input class="form-check-input" name="variant[0][featured_products]" type="checkbox"
-                                                       id="flexSwitchCheckChecked" style="margin-left: 0px!important;margin-top: 13px">
-                                                <label class="form-check-label" for="flexSwitchCheckChecked" style="margin-top: 9px;margin-left: 8px">Sản phẩm nổi bật</label>
-                                            </div>
+                                    <div class="row m-0 pb-1">
+                                        <div class="col-lg-2 p-1 d-flex align-items-center"
+                                             style="padding-left: 15px!important;">
+                                            <p class="m-0">Thông tin :</p>
                                         </div>
-                                        <div class="card mb-3">
-                                            <div class="card-header bg-info text-white">
-                                                Thông số kỹ thuật
-                                            </div>
-                                            <div class="card-body mt-2">
+                                        <div class="col-lg-2 p-1">
+                                            <input name="variant[0][own_parameter]" type="text"
+                                                   class="form-control" placeholder="">
+                                        </div>
+                                        <div class="form-check form-switch col-lg-2 p-1">
+                                            <input class="form-check-input" name="variant[0][featured_products]"
+                                                   type="checkbox"
+                                                   id="flexSwitchCheckChecked"
+                                                   style="margin-left: 0px!important;margin-top: 13px">
+                                            <label class="form-check-label" for="flexSwitchCheckChecked"
+                                                   style="margin-top: 9px;margin-left: 8px">Sản phẩm nổi bật</label>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-info text-white">
+                                            Thông số kỹ thuật
+                                        </div>
+                                        <div class="card-body mt-2">
                                                 <textarea name="variant[0][specifications]"
                                                           class="ckeditor">{{ old('content2') }}</textarea>
-                                            </div>
                                         </div>
+                                    </div>
+                                    <div class="list-size">
                                         <div class="row m-0">
                                             <div class="col-lg-4 p-1">
                                                 <input type="text" name="variant[0][data][0][color]"
-                                                       class="form-control" placeholder="Tên loại sản phẩm" required>
+                                                       class="form-control color" placeholder="Tên loại sản phẩm"
+                                                       required>
                                             </div>
                                             <div class="col-lg-3 p-1">
                                                 <input name="variant[0][data][0][price]" type="text"
@@ -547,7 +552,7 @@
                                             <td scope="col">Hình ảnh</td>
                                             <td scope="col">Tên sản phẩm</td>
                                             <td scope="col">Đơn giá</td>
-                                            <td> Thao tác </td>
+                                            <td> Thao tác</td>
                                         </tr>
                                         </thead>
                                         <tbody class="table_product">

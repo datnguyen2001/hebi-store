@@ -16,6 +16,7 @@ use App\Models\ProductsModel;
 use App\Models\ProductValue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use mysql_xdevapi\Exception;
 
 class HomeController extends Controller

@@ -25,6 +25,9 @@ class DashboardController extends Controller
             $titlePage = 'Tổng quan';
             $page_menu = 'dashboard';
             $page_sub = null;
+            /**
+             * Danh mục sản phẩm được mua nhiều nhất
+            **/
             $sectors = [];
             for ($i = 1; $i < 8; $i++) {
                 $count = DB::table('order_item')
@@ -32,21 +35,33 @@ class DashboardController extends Controller
                     ->join('products', 'product_attributes.product_id', '=', 'products.id')
                     ->join('product_information', 'products.product_infor_id', '=', 'product_information.id')
                     ->select('order_item.id')
-                    ->where('product_information.type_product', $i)
-                    ->count();
+                    ->where('product_information.type_product', $i);
+                if ($request->get('date_top_category')){
+                    $count = $count->where('order_item.created_at', 'LIKE', $request->get('date_top_category') . '%');
+                }
+                $count = $count->count();
                 $sectors[$i] = $count;
             }
 
+            /**
+             * Sản phẩm trong danh mục được mua nhiều nhất
+             **/
             $product_top = DB::table('order_item')
                 ->join('product_attributes', 'order_item.product_attributes_id', '=', 'product_attributes.id')
                 ->join('products', 'product_attributes.product_id', '=', 'products.id')
                 ->join('product_information', 'products.product_infor_id', '=', 'product_information.id')
-                ->select('product_information.type_product as LoaiSanPham', DB::raw('MAX(products.name) as TenSanPham'), DB::raw('COUNT(*) as SoLuong'))
-                ->groupBy('product_information.type_product')
+                ->select('product_information.type_product as LoaiSanPham', DB::raw('MAX(products.name) as TenSanPham'), DB::raw('COUNT(*) as SoLuong'));
+            if ($request->get('date_top_product')){
+                $product_top = $product_top->where('order_item.created_at', 'LIKE', $request->get('date_top_product') . '%');
+            }
+            $product_top = $product_top->groupBy('product_information.type_product')
                 ->orderBy('product_information.type_product')
                 ->orderByDesc('SoLuong')
                 ->get();
 
+            /**
+             * Doanh số theo tháng
+             **/
             if ($request->get('date')){
                 $monthYear = $request->get('date');
             }else{
@@ -63,7 +78,9 @@ class DashboardController extends Controller
                 $dailySalesData[$currentDate->format('Y-m-d')] = $dailySales ?: 0;
                 $currentDate->addDay();
             }
-
+            /**
+             * Danh sách người mua hàng
+             **/
             $listCustomers = DB::table('order')
                 ->whereIn('id', function ($query) {
                     $query->select(DB::raw('MIN(id)'))
@@ -84,18 +101,20 @@ class DashboardController extends Controller
             $order_delivery = OrderModel::where('status', 2)->count();
             $order_complete = OrderModel::where('status', 3)->count();
             $order_cancel = OrderModel::where('status', 4)->count();
+            $return_refund = OrderModel::where('status', 5)->count();
             $order_all = OrderModel::count();
             $order_pending_money = OrderModel::where('status', 0)->sum('total_money_order');
             $order_confirm_money = OrderModel::where('status', 1)->sum('total_money_order');
             $order_delivery_money = OrderModel::where('status', 2)->sum('total_money_order');
             $order_complete_money = OrderModel::where('status', 3)->sum('total_money_order');
             $order_cancel_money = OrderModel::where('status', 4)->sum('total_money_order');
+            $return_refund_money = OrderModel::where('status', 5)->sum('total_money_order');
             $order_all_money = OrderModel::sum('total_money_order');
 
             return view('admin.dashboard', compact('titlePage', 'page_sub', 'page_menu', 'sectors', 'product_top',
-                'dailySalesData', 'listCustomers', 'customers', 'order_all', 'order_pending', 'order_confirm', 'order_delivery', 'order_complete',
-                'order_cancel', 'order_pending_money', 'order_confirm_money', 'order_delivery_money',
-                'order_complete_money', 'order_cancel_money', 'order_all_money'));
+                'dailySalesData', 'listCustomers', 'customers', 'order_all', 'order_pending', 'order_confirm', 'order_delivery',
+                'order_complete', 'order_cancel', 'order_pending_money', 'order_confirm_money', 'order_delivery_money',
+                'order_complete_money', 'order_cancel_money', 'order_all_money','return_refund','return_refund_money'));
         } else {
             return view('admin.error');
         }

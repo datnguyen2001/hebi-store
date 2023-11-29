@@ -63,7 +63,7 @@ $(document).ready(function () {
         }
     });
 
-    let value = $('input[name="category"]').val();
+    let value = $('input[name="category"]:checked').val();
     if (value == 1){
         $(".parameter_1").text('Ram :');
         $(".parameter_2").text('Kích thước màn hình :');
@@ -83,7 +83,7 @@ $(document).ready(function () {
         $(".parameter_1").text('Chất liệu viền :');
         $(".parameter_2").text('Kích cỡ mặt đồng hồ :');
         $(".parameter_3").text('Thời lượng pin');
-        $(".parameter_4").text('Thiết kế :');
+        $(".parameter_4").text('Tính năng thông minh :');
     }else if(value == 5){
         $(".parameter_1").text('Thông số 1 :');
         $(".parameter_2").text('Thông số 2 :');

@@ -26,11 +26,11 @@
                         minh @elseif($product_infor->type_product == 6) Phụ kiện @else Âm thanh @endif</span>
                 </a>
                 <div class="breadcrumbs_sepa"></div>
-                <a href="{{url('danh-muc/'.$status.'/'.$name_category->name)}}">
+                <a href="{{url('danh-muc/'.$status.'/'.$name_category->slug)}}">
                     <span class="name">{{$name_category->name}}</span>
                 </a>
                 <div class="breadcrumbs_sepa"></div>
-                <a href="{{url('danh-muc/'.$status.'/'.$name_category->name.'/'.$category->slug)}}">
+                <a href="{{url('danh-muc/'.$status.'/'.$name_category->slug.'/'.$category->slug)}}">
                     <span class="name">{{$product_infor->name_category}}</span>
                 </a>
                 <div class="breadcrumbs_sepa"></div>
@@ -95,7 +95,7 @@
                                                 d="M7.9987 6.33333V9L9.66536 10M7.9987 3.33333C4.86908 3.33333 2.33203 5.87038 2.33203 9C2.33203 12.1296 4.86908 14.6667 7.9987 14.6667C11.1283 14.6667 13.6654 12.1296 13.6654 9C13.6654 5.87038 11.1283 3.33333 7.9987 3.33333ZM7.9987 3.33333V1.33333M6.66536 1.33333H9.33203M13.5514 3.72802L12.5514 2.72802L13.0514 3.22802M2.44604 3.72802L3.44604 2.72802L2.94604 3.22802"
                                                 stroke="#B00020" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-                                        <span class="time_coundown" id="time_end"
+                                        <span class="time_coundown time_end" id="time_end"
                                               data-end="{{date('l, F d Y h:i:s', strtotime($product->time_end))}}">
                                                     <span class="day"></span>
                                                     <span class="hours"></span>
@@ -203,7 +203,7 @@
                                                             stroke="white" stroke-linecap="round"
                                                             stroke-linejoin="round"/>
                                                     </svg>
-                                                    <span class="time_coundown" id="time_end"
+                                                    <span class="time_coundown time_end" id="time_end"
                                                           data-end="{{date('l, F d Y h:i:s', strtotime($value->time_end))}}">
                                                     <span class="day"></span>
                                                     <span class="hours"></span>
@@ -259,13 +259,15 @@
         @endif
         <section class="contentdetail row flex-wrap-reverse">
             <div class="col-sm-8 detail_botom">
+                @if($product_infor->product_information)
                 <div class="box-detail">
-                    <div class="title_box">
+                    <div class="title_box mb-3">
                         <span>Thông tin sản phẩm</span>
                     </div>
                     <div class="boxdesc show-more" id="boxdesc">{!! $product_infor->product_information !!}</div>
                     <a class="details_click clickmore">Xem thêm</a>
                 </div>
+                @endif
                 <div class="box-detail">
                     <div class="title_box" style="padding-top: 8px">
                         <span>Đánh giá {{$product->name}}</span>
@@ -422,7 +424,7 @@
             </div>
             <div class="col-sm-4 left_bottom" id="thongso">
                 <div class="_characteristic box-detail">
-                    <div class="title_box">
+                    <div class="title_box mb-3">
                         <span>Thông số kỹ thuật </span>
                     </div>
                     <div class="box_tskt" style="max-height: 648px;overflow: hidden">{!! $product->specifications !!}</div>

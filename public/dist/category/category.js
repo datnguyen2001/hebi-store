@@ -44,27 +44,27 @@ $(document).ready(function () {
     });
 
     $('input[name="check-one"]').click(function () {
-        $('.btn-filter-group1').css('display', 'flex')
+        $('.btn-filter-group1').css('display', 'flex');
         $('label.btn').removeClass('active_filter');
         $(this).siblings('label.btn').addClass('active_filter');
     });
     $('input[name="check-two"]').click(function () {
-        $('.btn-filter-group2').css('display', 'flex')
+        $('.btn-filter-group2').css('display', 'flex');
         $('label.btn').removeClass('active_filter');
         $(this).siblings('label.btn').addClass('active_filter');
     });
     $('input[name="check-three"]').click(function () {
-        $('.btn-filter-group3').css('display', 'flex')
+        $('.btn-filter-group3').css('display', 'flex');
         $('label.btn').removeClass('active_filter');
         $(this).siblings('label.btn').addClass('active_filter');
     });
     $('input[name="check-four"]').click(function () {
-        $('.btn-filter-group4').css('display', 'flex')
+        $('.btn-filter-group4').css('display', 'flex');
         $('label.btn').removeClass('active_filter');
         $(this).siblings('label.btn').addClass('active_filter');
     });
     $('input[name="check-five"]').click(function () {
-        $('.btn-filter-group5').css('display', 'flex')
+        $('.btn-filter-group5').css('display', 'flex');
         $('label.btn').removeClass('active_filter');
         $(this).siblings('label.btn').addClass('active_filter');
     });
@@ -219,7 +219,7 @@ $(document).ready(function () {
     });
 
     function filterProduct() {
-        data['sort'] = $('.active_filter').attr('data-value');
+        data['sort'] = $('.list_check .active_filter').attr('data-value');
         data['type_product'] = $('input[name="type_product"]').val();
         data['name_cate'] = $('input[name="name_cate"]').val();
         data['slug_cate'] = $('input[name="slug_cate"]').val();
@@ -375,6 +375,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.status) {
                     $(".list-items").html(data.prop);
+                    countDownDate();
                     lazyImageCate();
                     $('.product-tech').slick({
                         infinite: false,
@@ -404,11 +405,9 @@ $(document).ready(function () {
     $(document).on('click', '.content-paginate .btn-link-paginate', function (ev) {
         ev.preventDefault();
         let link = $(this).attr('href');
-        let route = window.location.origin;
-        let a = link.replace(route, route);
-        let paginate = a.replace(route + '/bo-loc?page=', '');
+        let paginate = link.match(/[?&]page=([^&]*)/);
         $('.loading-view').show();
-        data['page'] = parseInt(paginate);
+        data['page'] = parseInt(paginate[1]);
         $.ajax({
             url: url,
             data: data,
@@ -418,7 +417,28 @@ $(document).ready(function () {
                 if (data.status) {
                     $(".list-items").html(data.prop);
                     $('.loading-view').hide();
+                    countDownDate();
                     lazyImageCate();
+                    $('.product-tech').slick({
+                        infinite: false,
+                        autoplay: false,
+                        dots: false,
+                        speed: 1000,
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        prevArrow: '',
+                        nextArrow: '',
+                        centerMode: false,
+                        responsive: [
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2.6,
+                                    slidesToScroll: 1,
+                                },
+                            }
+                        ]
+                    })
                 }
             }
         });
@@ -473,4 +493,29 @@ function lazyImageCate(){
             window.addEventListener("resize", lazyload);
             window.addEventListener("orientationChange", lazyload);
         }
+}
+
+function countDownDate() {
+    $('.time_end').each(function(index, element) {
+        let date = $(element).attr('data-end');
+        let x = setInterval(function () {
+            let countDownDate = new Date(date).getTime();
+            let now = new Date().getTime();
+            let distance = countDownDate - now;
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const dayElement = $(element).find(".day");
+            const hourElement = $(element).find(".hours");
+            const minuteElement = $(element).find(".minutes");
+            const secondElement = $(element).find(".seconds");
+
+            dayElement.html(days + "D");
+            hourElement.html(hours + " :");
+            minuteElement.html(minutes + " :");
+            secondElement.html(seconds);
+        }, 1000);
+    });
 }
