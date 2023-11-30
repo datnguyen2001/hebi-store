@@ -148,6 +148,10 @@
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
                                             var sectors = JSON.parse(document.getElementById('sectors').value);
+                                            var allZeros = Object.values(sectors).every(value => value === 0);
+                                            if (allZeros) {
+                                                document.querySelector("#pieChart").innerHTML = "<p class='text-center' style='color: red;font-size: 22px'>Không có dữ liệu...</p>";
+                                            }
                                             var sectorArray = [];
                                             for (var key in sectors) {
                                                 if (sectors.hasOwnProperty(key)) {
@@ -190,6 +194,9 @@
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
                                             var chartData = @json($product_top);
+                                            if (chartData.length == 0){
+                                                document.querySelector("#donutChart").innerHTML = "<p class='text-center' style='color: red;font-size: 22px;margin-top: 100px'>Không có dữ liệu...</p>";
+                                            }
                                             var seriesData = chartData.map(item => item.SoLuong);
                                             var labelsData = chartData.map(item => item.TenSanPham);
                                             new ApexCharts(document.querySelector("#donutChart"), {
