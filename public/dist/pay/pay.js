@@ -293,3 +293,13 @@ function calculateDistance(address1, address2) {
         );
     });
 }
+
+$(".payment-btn").click(function () {
+    let name = $('input[name="name"]').val();
+    let phone = $('input[name="phone"]').val();
+    let email = $('input[name="email"]').val();
+    let address_detail = $('input[name="address_detail"]').val();
+    if (name !== '' && phone !== '' && email !== '' && address_detail !== ''){
+        $('.right-wrapper').css('display','inline-block')
+    }
+});

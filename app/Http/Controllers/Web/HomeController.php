@@ -42,9 +42,9 @@ class HomeController extends Controller
             $item->infor = ProductInformationModel::find($item->product->product_infor_id);
             $item->type_product = ProductsModel::where('product_infor_id', $item->infor->id)->get();
             $item->price = ProductAttributesModel::where('product_id', $item->product_id)->first()->price;
-            $star = ProductReviewsModel::where('product_id', $item->product_id)->get();
+            $star = ProductReviewsModel::where('product_id', $item->product_id)->where('status',1)->get();
             if (!$star->isEmpty()) {
-                $total_score = ProductReviewsModel::where('product_id', $item->product_id)->sum('star');
+                $total_score = ProductReviewsModel::where('product_id', $item->product_id)->where('status',1)->sum('star');
                 $total_votes = count($star);
                 $item->star = round($total_score / $total_votes, 1);
             }

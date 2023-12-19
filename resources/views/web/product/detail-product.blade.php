@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Store')
+@section('title',$product->name)
 
 @section('meta')
     <meta name="description" content=""/>
@@ -160,8 +160,8 @@
                         <span>Thời gian làm việc (08h15 - 22h00)</span>
                     </div>
                 </aside>
-                @if($product_infor->promotion_policy)
-                    <aside class="buycall col-sm-4">
+                <aside class="buycall col-sm-4">
+                    @if($product_infor->promotion_policy)
                         <div class="standard_product" id="accessories">
                             <h4 class="c-h4">
                                 <img data-src="" alt="" class="img-responsive lazy">
@@ -169,8 +169,8 @@
                             </h4>
                             <div class="c-standard_product">{!! $product_infor->promotion_policy !!}</div>
                         </div>
-                    </aside>
-                @endif
+                    @endif
+                </aside>
             </section>
         </div>
     </div>
@@ -187,12 +187,14 @@
                                         <img class="img-responsive img-prd lazy"
                                              data-src="{{$value->infor->image}}"
                                              alt="ảnh sản phẩm">
-                                        <div class="box-absolute">
-                                            <div class="discount-box">
-                                                Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}
-                                                %
+                                        @if($value->price != 0)
+                                            <div class="box-absolute">
+                                                <div class="discount-box">
+                                                    Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}
+                                                    %
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                         @if($value->type_sale == 1)
                                             <div class="count_down_fl">
                                                 <p class="coun_down text-center">
@@ -241,7 +243,9 @@
                                 </div>
                                 <div class="product-price">
                                     <span class="price">{{number_format($value->promotional_price)}}₫</span>
-                                    <del class="price-old">{{number_format($value->price)}}₫</del>
+                                    @if($value->price != 0)
+                                        <del class="price-old">{{number_format($value->price)}}₫</del>
+                                    @endif
                                 </div>
                                 <div class="product-status">
                                     <span>Mới 100%</span>
@@ -260,13 +264,13 @@
         <section class="contentdetail row flex-wrap-reverse">
             <div class="col-sm-8 detail_botom">
                 @if($product_infor->product_information)
-                <div class="box-detail">
-                    <div class="title_box mb-3">
-                        <span>Thông tin sản phẩm</span>
+                    <div class="box-detail">
+                        <div class="title_box mb-3">
+                            <span>Thông tin sản phẩm</span>
+                        </div>
+                        <div class="boxdesc show-more" id="boxdesc">{!! $product_infor->product_information !!}</div>
+                        <a class="details_click clickmore">Xem thêm</a>
                     </div>
-                    <div class="boxdesc show-more" id="boxdesc">{!! $product_infor->product_information !!}</div>
-                    <a class="details_click clickmore">Xem thêm</a>
-                </div>
                 @endif
                 <div class="box-detail">
                     <div class="title_box" style="padding-top: 8px">
@@ -415,24 +419,27 @@
                             @endforeach
                         </div>
                         @if(count($comment) >5)
-                        <div class="w-100 d-flex justify-content-center">
-                            <div class="load-more" id="loadMore">Xem thêm</div>
-                        </div>
-                            @endif
+                            <div class="w-100 d-flex justify-content-center">
+                                <div class="load-more" id="loadMore">Xem thêm</div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 left_bottom" id="thongso">
-                <div class="_characteristic box-detail">
-                    <div class="title_box mb-3">
-                        <span>Thông số kỹ thuật </span>
+                @if($product->specifications)
+                    <div class="_characteristic box-detail">
+                        <div class="title_box mb-3">
+                            <span>Thông số kỹ thuật </span>
+                        </div>
+                        <div class="box_tskt"
+                             style="max-height: 648px;overflow: hidden">{!! $product->specifications !!}</div>
+                        <button id="load_more_charactestic" class="w-100" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                            <span>Xem cấu hình chi tiết</span>
+                        </button>
                     </div>
-                    <div class="box_tskt" style="max-height: 648px;overflow: hidden">{!! $product->specifications !!}</div>
-                    <button id="load_more_charactestic" class="w-100" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                        <span>Xem cấu hình chi tiết</span>
-                    </button>
-                </div>
+                @endif
 
                 @if(count($new) > 0)
                     <div id="new_related" class="new_related_mb box-detail">
@@ -461,7 +468,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body body_characteristic">
-                    <p class="title_characteristic" style="font-weight: 600">Thông số kỹ thuật chi tiết {{$product->name}}</p>
+                    <p class="title_characteristic" style="font-weight: 600">Thông số kỹ thuật chi
+                        tiết {{$product->name}}</p>
                     <div class="box_tskt">{!! $product->specifications !!}</div>
                 </div>
             </div>

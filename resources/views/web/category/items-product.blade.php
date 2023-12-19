@@ -8,9 +8,11 @@
                         <img class="img-responsive img-prd lazy"
                              data-src="{{$value->infor->image}}"
                              alt="ảnh sản phẩm">
+                        @if($value->price != 0)
                         <div class="box-absolute">
                             <div class="discount-box">Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}%</div>
                         </div>
+                        @endif
                         @if($value->type_sale == 1)
                             <div class="count_down_fl">
                                 <p class="coun_down text-center">
@@ -56,7 +58,9 @@
                 </div>
                 <div class="product-price">
                     <span class="price">{{number_format($value->promotional_price)}}₫</span>
+                    @if($value->price != 0)
                     <del class="price-old">{{number_format($value->price)}}₫</del>
+                        @endif
                 </div>
                 <div class="product-status">
                     <span>Mới 100%</span>

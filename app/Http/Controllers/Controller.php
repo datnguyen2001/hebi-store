@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryModel;
-use App\Models\DistrictGhnModel;
+use App\Models\DistrictGHNModel;
 use App\Models\FlashSaleModel;
 use App\Models\ImageVariantModel;
-use App\Models\ProductAttribute;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductRelatedModel;
 use App\Models\ProductReviewsModel;
 use App\Models\ProductsModel;
-use App\Models\ProductValue;
-use App\Models\WardGhnModel;
+use App\Models\WardGHNModel;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -330,7 +328,7 @@ class Controller extends BaseController
      */
     public function getDistrict($province_id){
         try {
-            $districts = DistrictGhnModel::where('ProvinceId', $province_id)->get();
+            $districts = DistrictGHNModel::where('ProvinceId', $province_id)->get();
 
             $html = 'Tất cả';
             foreach ($districts as $value){
@@ -349,7 +347,7 @@ class Controller extends BaseController
      */
     public function getWard($district_id){
         try {
-            $districts = WardGhnModel::where('DistrictID', $district_id)->get();
+            $districts = WardGHNModel::where('DistrictID', $district_id)->get();
 
             $html = 'Tất cả';
             foreach ($districts as $value){

@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Store')
+@section('title','Hebi | Điện thoại, tablet, laptop, đồng hồ thông minh, phụ kiện chính hãng')
 {{--meta--}}
 @section('meta')
     <meta name="description" content=""/>

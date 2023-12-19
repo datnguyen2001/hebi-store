@@ -1,15 +1,15 @@
 @if(count($product_phone) > 0)
+    @php
+        $category_product = \App\Models\CategoryModel::where('display', 1)->where('parent_id', 0)->where('type', 1)->limit(5)->get();
+    @endphp
     <div class="phone">
         <div class="title-block">
             <h2>Điện thoại nổi bật nhất</h2>
             <div class="list-cat">
                 @foreach($category_product as $item)
-                    @if($item->type == 1)
-                        <a href="#" class="item-cat"><span>{{$item->name}}</span></a>
-                    @endif
+                    <a href="{{url('danh-muc/dien-thoai/'.$item->slug)}}" class="item-cat"><span>{{$item->name}}</span></a>
                 @endforeach
-                <a href="{{url('danh-muc/dien-thoai')}}" class="item-cat"><span>Xem tất cả <span
-                            style="font-weight: 800">{{count($product_phone)}}</span> sản phẩm</span></a>
+                <a href="{{url('danh-muc/dien-thoai')}}" class="item-cat"><span>Xem tất cả sản phẩm</span></a>
             </div>
         </div>
         <div class="list-products row">
@@ -21,11 +21,13 @@
                                 <img class="img-responsive img-prd lazy"
                                      data-src="{{$value->infor->image}}"
                                      alt="ảnh sản phẩm">
-                                <div class="box-absolute">
-                                    <div class="discount-box">
-                                        Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}%
+                                @if($value->price != 0)
+                                    <div class="box-absolute">
+                                        <div class="discount-box">
+                                            Giảm {{round( 100 - ($value->promotional_price / $value->price * 100))}}%
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                                 @if($value->type_sale == 1)
                                     <div class="count_down_fl">
                                         <p class="coun_down text-center">
@@ -51,7 +53,8 @@
                             @foreach($value->type_product as $item)
                                 @if(isset($item->own_parameter))
                                     <a href="{{url('san-pham/'.$item->slug)}}"
-                                       class="{{$value->own_parameter == $item->own_parameter?'active':''}}" style="max-height: 27.6px">{{$item->own_parameter}}</a>
+                                       class="{{$value->own_parameter == $item->own_parameter?'active':''}}"
+                                       style="max-height: 27.6px">{{$item->own_parameter}}</a>
                                 @endif
                             @endforeach
                         </div>
@@ -71,7 +74,9 @@
                         </div>
                         <div class="product-price">
                             <span class="price">{{number_format($value->promotional_price)}}₫</span>
-                            <del class="price-old">{{number_format($value->price)}}₫</del>
+                            @if($value->price != 0)
+                                <del class="price-old">{{number_format($value->price)}}₫</del>
+                            @endif
                         </div>
                         <div class="product-status">
                             <span>Mới 100%</span>

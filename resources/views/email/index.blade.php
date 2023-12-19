@@ -25,9 +25,9 @@
                 {{--                    <img src="{{$item->product_image->image}}" alt="" class="image-product-order">--}}
                 {{--                </div>--}}
                 <div>
-                    <div>{{$item->product_name->name}}</div>
+                    <div>{{$item->product_name}}</div>
                     <div>
-                        Màu {{$item->product_attribute->name}}
+                        Màu {{$item->product_attribute_name}}
                     </div>
                     <div>Số lượng: {{$item->quantity}}</div>
                 </div>

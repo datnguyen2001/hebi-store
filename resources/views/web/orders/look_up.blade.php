@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Kiểm tra đơn hàng của bạn')
+@section('title','Tra cứu đơn hàng của bạn')
 
 @section('meta')
     <meta name="description" content=""/>

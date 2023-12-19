@@ -1,8 +1,8 @@
 @if(count($flash_sale) > 0)
     <div class="box-sale">
-        <a href="" class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <img data-src="{{$banner_hot_sale->image}}" class="img-big-sale lazy" alt="">
-        </a>
+        </div>
         <div class="box-sales">
             <div class="product_sale sale-hot">
                 @foreach($flash_sale as $value)
@@ -12,11 +12,13 @@
                                 <div class="product-img">
                                     <img class="img-responsive img-prd lazy"
                                          data-src="{{$value->infor->image}}" alt="">
+                                    @if($value->price != 0)
                                     <div class="box-absolute">
                                         <div class="discount-box">
                                             Giảm {{round( 100 - ($value->price_sale / $value->price * 100))}}%
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="count_down_fl">
                                         <p class="coun_down text-center">
                                             <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
@@ -61,7 +63,9 @@
                             </div>
                             <div class="product-price">
                                 <span class="price">{{number_format($value->price_sale)}}₫</span>
+                                @if($value->price != 0)
                                 <del class="price-old">{{number_format($value->price)}}₫</del>
+                                    @endif
                             </div>
                             <div class="product-status">
                                 <span>Mới 100%</span>

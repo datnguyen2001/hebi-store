@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Events\OrderNoticeEvent;
 use App\Http\Controllers\ShippingUnitController;
 use App\Models\CartModel;
-use App\Models\DistrictGhnModel;
+use App\Models\DistrictGHNModel;
 use App\Models\FlashSaleModel;
 use App\Models\ImportExxportProductModel;
 use App\Models\OrderItemModel;
@@ -14,7 +14,7 @@ use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductsModel;
 use App\Models\ProvinceGHNModel;
-use App\Models\WardGhnModel;
+use App\Models\WardGHNModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -34,14 +34,18 @@ class PayController extends ShippingUnitController
             if (count($data_cart)>0){
                 foreach ($data_cart as $item){
                     $item->product_attribute = ProductAttributesModel::find($item->product_attributes_id);
-                    $item->product = ProductsModel::find($item->product_attribute->product_id);
-                    $item->product_infor = ProductInformationModel::find($item->product->product_infor_id);
-                    $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$item->product->id)->first();
-                    if ($flash_sale){
-                        $item->product_attribute->promotional_price = $flash_sale->price_sale;
+                    if ($item->product_attribute->quantity <= 0){
+                        $item->delete();
+                    }else{
+                        $item->product = ProductsModel::find($item->product_attribute->product_id);
+                        $item->product_infor = ProductInformationModel::find($item->product->product_infor_id);
+                        $flash_sale = FlashSaleModel::where('time_start', '<=', Carbon::now())->where('time_end', '>=', Carbon::now())->where('product_id',$item->product->id)->first();
+                        if ($flash_sale){
+                            $item->product_attribute->promotional_price = $flash_sale->price_sale;
+                        }
                     }
                 }
-                $data_province = ProvinceGhnModel::orderBy('id', 'desc')->get();
+                $data_province = ProvinceGHNModel::orderBy('id', 'desc')->get();
                 $sum_price = CartModel::where('user_token', $request->user_token)->sum('total_money');
                 $dataReturn = [
                     'status' => true,
@@ -83,20 +87,20 @@ class PayController extends ShippingUnitController
             ];
             $validator = Validator::make($request->all(), $rule, $messenger);
             if ($validator->fails()){
-                return back()->with(['error' => $validator->errors()->first()]);
+                return back()->with(['error' => $validator->errors()->first()])->withInput();
             }
             if ($request->get('delivery_address') == 'Giao tận nơi'){
                 if (!$request->get('address_detail')){
-                    return back()->with(['error' => 'Vui lòng nhập địa chỉ để tiếp tục']);
+                    return back()->with(['error' => 'Vui lòng nhập địa chỉ để tiếp tục'])->withInput();
                 }
                 if ($request->get('transport') == 'Store'){
                     $transport_name = 'Store';
                 }else{
                     $transport_name = 'GHN';
                 }
-                $province = ProvinceGhnModel::where('ProvinceID', $request->get('province_id'))->first();
-                $district = DistrictGhnModel::where('DistrictID', $request->get('district_id'))->first();
-                $ward = WardGhnModel::where('WardCode', $request->get('ward_id'))->first();
+                $province = ProvinceGHNModel::where('ProvinceID', $request->get('province_id'))->first();
+                $district = DistrictGHNModel::where('DistrictID', $request->get('district_id'))->first();
+                $ward = WardGHNModel::where('WardCode', $request->get('ward_id'))->first();
             }else{
                 $transport_name = 'Store';
             }
@@ -135,8 +139,8 @@ class PayController extends ShippingUnitController
                 $order['type_payment'] = 1;
                 $order->save();
                 foreach ($carts as $k => $item){
-                    $order_item = $this->saveOrderItem($order, $item);
-                    $this->saveExportProduct($order_item);
+                    $order_item[$k] = $this->saveOrderItem($order, $item);
+                    $this->saveExportProduct($order_item[$k]);
                 }
                 CartModel::where('user_token',$request->get('user_token'))->delete();
                 $this->sendMail($order,$order_item);
@@ -157,9 +161,9 @@ class PayController extends ShippingUnitController
     public function feeShip(Request $request)
     {
         try {
-            $province = ProvinceGhnModel::where('ProvinceID', $request->province_id)->first();
-            $district = DistrictGhnModel::where('DistrictID', $request->district_id)->first();
-            $ward = WardGhnModel::where('WardCode', $request->ward_id)->first();
+            $province = ProvinceGHNModel::where('ProvinceID', $request->province_id)->first();
+            $district = DistrictGHNModel::where('DistrictID', $request->district_id)->first();
+            $ward = WardGHNModel::where('WardCode', $request->ward_id)->first();
             $_address_shipping = [
                 'province_id_ghn' => $request->province_id,
                 'district_id_ghn' => $request->district_id,
@@ -332,13 +336,13 @@ class PayController extends ShippingUnitController
             $product = ProductAttributesModel::find($item['product_attributes_id']);
             $import = ImportExxportProductModel::where('product_attributes_id', $item['product_attributes_id'])->orderBy('id', 'desc')->first();
             $total_money = $import->ending_tt ?? 0;
-            $money_export = ($import->import_tt/$import->export_sl)*(int)$item['quantity'];
+            $money_export = $import->price*(int)$item['quantity'];
             $list_data = ImportExxportProductModel::create([
                 'product_attributes_id' => $item['product_attributes_id'],
                 'quantity' => (int)$item['quantity'],
-                'price' => (int)$item['promotional_price'],
-                'Survive_sl' => $import->ending_sl ?? 0,
-                'Survive_tt' => $total_money,
+                'price' => $import->price,
+                'survive_sl' => $import->ending_sl ?? 0,
+                'survive_tt' => $total_money,
                 'import_sl' => 0,
                 'import_tt' => 0,
                 'export_sl' => (int)$item['quantity'],
@@ -358,6 +362,11 @@ class PayController extends ShippingUnitController
     public function sendMail($order,$order_item){
         $name = $order->name;
         $name_mail = $order->email;
+        foreach ($order_item as $item){
+            $product_attribute = ProductAttributesModel::find($item->product_attributes_id);
+            $item->product_name = ProductsModel::find($product_attribute->product_id)->name;
+            $item->product_attribute_name= $product_attribute->name;
+        }
         Mail::send('email.index', compact('name','order','order_item'),function ($email) use($name,$name_mail){
             $email->subject('Thông báo mua hàng');
             $email->to($name_mail, $name);

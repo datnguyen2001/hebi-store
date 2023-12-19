@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Store')
+@section('title','Hebi | Đặt hàng')
 
 @section('meta')
     <meta name="description" content=""/>
@@ -27,24 +27,24 @@
                         <h3 class="h3_title mt-0">Thông tin mua hàng</h3>
                         <div class="mb-2">
                             <label for="gender1">
-                                <input type="radio" name="vocative" id="gender1" value="Anh" checked>
+                                <input type="radio" name="vocative" id="gender1" value="Anh" checked {{ old('vocative', request()->get('vocative')) == 'Anh' ? 'checked' : '' }}>
                                 <span>Anh</span>
                             </label>
                             <label for="gender0">
-                                <input type="radio" name="vocative" id="gender0" value="Chị">
+                                <input type="radio" name="vocative" id="gender0" value="Chị" {{ old('vocative', request()->get('vocative')) == 'Chị' ? 'checked' : '' }}>
                                 <span>Chị</span>
                             </label>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-xs-12">
-                                <input class="form-control" type="text" name="name" id="name" placeholder="Họ tên" required>
+                                <input class="form-control" type="text" name="name" id="name" value="{{ old('name', request()->get('name')) }}" placeholder="Họ tên" autocomplete="off" required>
                             </div>
                             <div class="col-md-6 col-xs-12">
-                                <input class="form-control" type="text" name="phone" id="phone"
+                                <input class="form-control" type="text" name="phone" id="phone" autocomplete="off" value="{{ old('phone', request()->get('phone')) }}"
                                        placeholder="Số điện thoại" required>
                             </div>
                             <div class="col-md-12 col-xs-12">
-                                <input class="form-control" type="text" name="email" id="email" required
+                                <input class="form-control" type="text" name="email" autocomplete="off" id="email" required value="{{ old('email', request()->get('email')) }}"
                                        placeholder="Email">
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="col-md-6 col-xs-12 pd1">
                                         <input class="form-control" type="text" name="address_detail" id="address" onkeyup="changeAddress()"
-                                               placeholder="Số nhà, tên đường">
+                                               value="{{ old('address_detail', request()->get('address_detail')) }}" autocomplete="off" placeholder="Số nhà, tên đường">
                                     </div>
                                 </div>
                             </div>
@@ -96,28 +96,28 @@
                         </article>
 
                         <div class="request_orther" style="padding-top: 30px">
-                            <input class="form-control" type="text" name="note" id="note"
+                            <input class="form-control" type="text" name="note" id="note" autocomplete="off" value="{{ old('note', request()->get('note')) }}"
                                    placeholder="Yêu cầu khác (không bắt buộc)">
                         </div>
 
                         <label for="company" class="company" data-bs-toggle="collapse"
                                data-bs-target="#collapseExampleCTY" aria-expanded="false"
                                aria-controls="collapseExample">
-                            <input type="checkbox" name="issue_invoice" id="company" value="1">
+                            <input type="checkbox" name="issue_invoice" id="company" value="1" >
                             <span>Xuất hóa đơn công ty</span>
                         </label>
                         <div class="collapse" id="collapseExampleCTY">
                             <div class="row bill_company">
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_name" id="com_name"
+                                    <input class="form-control" type="text" name="com_name" id="com_name" autocomplete="off" value="{{ old('com_name', request()->get('com_name')) }}"
                                            placeholder="Tên công ty">
                                 </div>
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_add" id="com_add"
+                                    <input class="form-control" type="text" name="com_add" id="com_add" autocomplete="off" value="{{ old('com_add', request()->get('com_add')) }}"
                                            placeholder="Địa chỉ">
                                 </div>
                                 <div class="col-md-12 col-xs-12">
-                                    <input class="form-control" type="text" name="com_tax" id="com_tax"
+                                    <input class="form-control" type="text" name="com_tax" id="com_tax" autocomplete="off" value="{{ old('com_tax', request()->get('com_tax')) }}"
                                            placeholder="Mã số thuế">
                                 </div>
                             </div>

@@ -11,12 +11,12 @@
                         @foreach($category_product as $value)
                             @if($value->type == 1)
                                 <li class='level_1 first-item'><a
-                                        href='{{url('danh-muc/dien-thoai/'.$value->name)}}'>{{$value->name}}</a>
+                                        href='{{url('danh-muc/dien-thoai/'.$value->slug)}}'>{{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 first-item'><a
-                                                        href='{{url('danh-muc/dien-thoai/'.$value->name.'/'.$item->slug)}}'>
+                                                        href='{{url('danh-muc/dien-thoai/'.$value->slug.'/'.$item->slug)}}'>
                                                         {{$item->name}}</a></li>
                                             @endif
                                         @endforeach
@@ -34,13 +34,13 @@
                     <ul class='wrapper_children_level0'>
                         @foreach($category_product as $value)
                             @if($value->type == 2)
-                                <li class='level_1'><a href='{{url('danh-muc/may-tinh-bang/'.$value->name)}}'>
+                                <li class='level_1'><a href='{{url('danh-muc/may-tinh-bang/'.$value->slug)}}'>
                                         {{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 last-item '><a
-                                                        href='{{url('danh-muc/may-tinh-bang/'.$value->name.'/'.$item->slug)}}'>{{$item->name}}</a>
+                                                        href='{{url('danh-muc/may-tinh-bang/'.$value->slug.'/'.$item->slug)}}'>{{$item->name}}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -58,13 +58,13 @@
                     <ul class='wrapper_children_level0'>
                         @foreach($category_product as $value)
                             @if($value->type == 3)
-                                <li class='level_1 '><a href='{{url('danh-muc/laptop/'.$value->name)}}'>
+                                <li class='level_1 '><a href='{{url('danh-muc/laptop/'.$value->slug)}}'>
                                         {{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 last-item '><a
-                                                        href='{{url('danh-muc/laptop/'.$value->name.'/'.$item->slug)}}'>{{$item->name}}</a>
+                                                        href='{{url('danh-muc/laptop/'.$value->slug.'/'.$item->slug)}}'>{{$item->name}}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -81,12 +81,12 @@
                         @foreach($category_product as $value)
                             @if($value->type == 4)
                                 <li class='level_1 '><a
-                                        href='{{url('danh-muc/dong-ho-thong-minh/'.$value->name)}}'>{{$value->name}}</a>
+                                        href='{{url('danh-muc/dong-ho-thong-minh/'.$value->slug)}}'>{{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 '><a
-                                                        href='{{url('danh-muc/dong-ho-thong-minh/'.$value->name.'/'.$item->slug)}}'>
+                                                        href='{{url('danh-muc/dong-ho-thong-minh/'.$value->slug.'/'.$item->slug)}}'>
                                                         {{$item->name}}</a>
                                             @endif
                                         @endforeach
@@ -105,12 +105,12 @@
                         @foreach($category_product as $value)
                             @if($value->type == 5)
                                 <li class='level_1'><a
-                                        href='{{url('danh-muc/nha-thong-minh/'.$value->name)}}'>{{$value->name}}</a>
+                                        href='{{url('danh-muc/nha-thong-minh/'.$value->slug)}}'>{{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 '><a
-                                                        href='{{url('danh-muc/nha-thong-minh/'.$value->name.'/'.$item->slug)}}'>{{$item->name}}</a>
+                                                        href='{{url('danh-muc/nha-thong-minh/'.$value->slug.'/'.$item->slug)}}'>{{$item->name}}</a>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -128,12 +128,12 @@
                         @foreach($category_product as $value)
                             @if($value->type == 6)
                                 <li class='level_1 '><a
-                                        href='{{url('danh-muc/phu-kien/'.$value->name)}}'>{{$value->name}}</a>
+                                        href='{{url('danh-muc/phu-kien/'.$value->slug)}}'>{{$value->name}}</a>
                                     <ul class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 '><a
-                                                        href='{{url('danh-muc/phu-kien/'.$value->name.'/'.$item->slug)}}'>{{$item->name}}</a>
+                                                        href='{{url('danh-muc/phu-kien/'.$value->slug.'/'.$item->slug)}}'>{{$item->name}}</a>
                                                 </li>
                                             @endif
                                         @endforeach
@@ -152,12 +152,12 @@
                         @foreach($category_product as $value)
                             @if($value->type == 7)
                                 <li class='level_1 '><a
-                                        href='{{url('danh-muc/am-thanh/'.$value->name)}}'>{{$value->name}}</a>
+                                        href='{{url('danh-muc/am-thanh/'.$value->slug)}}'>{{$value->name}}</a>
                                     <ul id='c_132' class='wrapper_children wrapper_children_level1'>
                                         @foreach($category as $item)
                                             @if($item->parent_id == $value->id)
                                                 <li class='level_2 '><a
-                                                        href='{{url('danh-muc/am-thanh/'.$value->name.'/'.$item->slug)}}'>{{$item->name}}</a>
+                                                        href='{{url('danh-muc/am-thanh/'.$value->slug.'/'.$item->slug)}}'>{{$item->name}}</a>
                                                 </li>
                                             @endif
                                         @endforeach

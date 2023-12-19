@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DistrictGhnModel;
+use App\Models\DistrictGHNModel;
 use App\Models\OrderItemModel;
 use App\Models\ProductAttributesModel;
 use App\Models\ProductsModel;
-use App\Models\ProvinceGhnModel;
-use App\Models\WardGhnModel;
+use App\Models\ProvinceGHNModel;
+use App\Models\WardGHNModel;
 use Illuminate\Http\Request;
 
 class ShippingUnitController extends Controller
@@ -18,13 +18,13 @@ class ShippingUnitController extends Controller
     public function createOrdersGHN($order)
     {
         try {
-            $province = ProvinceGhnModel::where('ProvinceID', $order->province_id)->first();
-            $district = DistrictGhnModel::where('DistrictID', $order->district_id)->first();
-            $ward = WardGhnModel::where('WardCode', $order->ward_id)->first();
+            $province = ProvinceGHNModel::where('ProvinceID', $order->province_id)->first();
+            $district = DistrictGHNModel::where('DistrictID', $order->district_id)->first();
+            $ward = WardGHNModel::where('WardCode', $order->ward_id)->first();
 
-            $shop_province = ProvinceGhnModel::where('ProvinceID', '201')->first();
-            $shop_district = DistrictGhnModel::where('DistrictID', '1493')->first();
-            $shop_ward = WardGhnModel::where('WardCode', '1A0709')->first();
+            $shop_province = ProvinceGHNModel::where('ProvinceID', '201')->first();
+            $shop_district = DistrictGHNModel::where('DistrictID', '1493')->first();
+            $shop_ward = WardGHNModel::where('WardCode', '1A0709')->first();
             $products = [];
             $order_item = OrderItemModel::where('order_id', $order->id)->get();
             $_value = $order->total_money_order;
@@ -146,9 +146,9 @@ class ShippingUnitController extends Controller
     public function feeShippingGHN($_address_shipping, $total_money_product)
     {
         try {
-            $district = DistrictGhnModel::where('DistrictID', '1493')->first();
-            $district_customer = DistrictGhnModel::where('DistrictID', $_address_shipping['district_id_ghn'])->first();
-            $ward_customer = WardGhnModel::where('WardCode', $_address_shipping['ward_id_ghn'])->first();
+            $district = DistrictGHNModel::where('DistrictID', '1493')->first();
+            $district_customer = DistrictGHNModel::where('DistrictID', $_address_shipping['district_id_ghn'])->first();
+            $ward_customer = WardGHNModel::where('WardCode', $_address_shipping['ward_id_ghn'])->first();
             $__weight = 1 * 100;
             $__value = $total_money_product;
             $__service = $this->serviceGHN($district->DistrictID, $district_customer->DistrictID);

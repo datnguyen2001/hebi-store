@@ -118,11 +118,11 @@ class ProductController extends Controller
         $star_three = ProductReviewsModel::where('product_id', $product->id)->where('star', 3)->where('status',1)->count();
         $star_two = ProductReviewsModel::where('product_id', $product->id)->where('star', 2)->where('status',1)->count();
         $star_one = ProductReviewsModel::where('product_id', $product->id)->where('star', 1)->where('status',1)->count();
-        $percent_5 = round(($star_five??0 / count($star)) * 100,0);
-        $percent_4 = round(($star_four??0 / count($star)) * 100,0);
-        $percent_3 = round(($star_three??0 / count($star)) * 100,0);
-        $percent_2 = round(($star_two??0 / count($star)) * 100,0);
-        $percent_1 = round(($star_one??0 / count($star)) * 100,0);
+        $percent_5 = round((($star_five??0) / count($star)) * 100,0);
+        $percent_4 = round((($star_four??0) / count($star)) * 100,0);
+        $percent_3 = round((($star_three??0) / count($star)) * 100,0);
+        $percent_2 = round((($star_two??0) / count($star)) * 100,0);
+        $percent_1 = round((($star_one??0) / count($star)) * 100,0);
         $comment = ProductReviewsModel::where('product_id', $product->id)->where('status',1)->orderBy('created_at','desc')->paginate(5);
         $image_product = ImageVariantModel::where('product_infor_id', $product->product_infor_id)->get();
         $product_infor = ProductInformationModel::where('id', $product->product_infor_id)->first();
@@ -224,6 +224,9 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->get('keyword');
+        if ($keyword == ''){
+            return back()->with(['error'=>'Vui lòng nhập tên sản phẩm muốn tìm kiếm']);
+        }
         if ($request->sort_price == 1) {
             $sort = ['product_attributes.promotional_price', 'desc'];
         } else if ($request->sort_price == 2) {

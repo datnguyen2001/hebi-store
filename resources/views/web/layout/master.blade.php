@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Hebi Store</title>
+    <title>@yield('title')</title>
     <link href="{{asset('assets/images/logo.png')}}" rel="icon">
     <link href="{{asset('assets/images/logo.png')}}" rel="apple-touch-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -50,6 +50,14 @@
 <button class="btn" id="button"><i class="fas fa-arrow-up text-white"></i></button>
 @include('web.partials.footer')
 <div class="moby-overlay"></div>
+<div class="right-wrapper">
+    <div class="spinnerIconWrapper">
+        <div class="spinnerIcon"></div>
+    </div>
+    <div class="finished-text">
+        Đang tiến hành đặt hàng. Vui lòng đợi trong giây lát.
+    </div>
+</div>
 <script src="assets/home/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/home/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -10,4 +10,10 @@ class ImportExxportProductModel extends Model
     use HasFactory;
     protected $table = 'import_export_product';
     protected $guarded = [];
+
+    public function productAttributes()
+    {
+        return $this->belongsTo(ProductAttributesModel::class, 'product_attributes_id', 'id');
+    }
+
 }

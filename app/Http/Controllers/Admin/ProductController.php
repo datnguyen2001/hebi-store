@@ -23,9 +23,9 @@ class ProductController extends Controller
         if (User::checkUserRole(5)) {
             if (isset($request->key_search)) {
                 $id_product = ProductsModel::where('name', 'like', '%' . $request->get('key_search') . '%')->pluck('product_infor_id');
-                $data_product = ProductInformationModel::whereIn('id', $id_product)->where('display', 1)->paginate(10);
+                $data_product = ProductInformationModel::whereIn('id', $id_product)->paginate(10);
             } else {
-                $data_product = ProductInformationModel::orderBy('created_at', 'desc')->where('display', 1)->paginate(10);
+                $data_product = ProductInformationModel::orderBy('created_at', 'desc')->paginate(10);
             }
             if ($data_product) {
                 foreach ($data_product as $value) {
@@ -68,7 +68,6 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            dd($request->all());
             $category = CategoryModel::find($request->get('sub_category'));
             if (empty($category)) {
                 return back()->with(['error' => 'Vui lòng chọn danh mục để tiếp tục']);
@@ -368,7 +367,7 @@ class ProductController extends Controller
                 $page_sub = '';
                 $listData = ProductReviewsModel::query();
                 $listData = $listData->where('type', $type);
-                $listData = $listData->orderBy('status', 'asc')->paginate(10);
+                $listData = $listData->orderBy('status', 'asc')->orderBy('created_at', 'desc')->paginate(10);
                 foreach ($listData as $item) {
                     $item->name_product = ProductsModel::find($item->product_id)->name;
                 }

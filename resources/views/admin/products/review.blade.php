@@ -31,7 +31,7 @@
                             <a href="{{url('admin/products/review/6')}}" type="button"
                                class="btn btn-outline-danger @if($type == 6) active @endif">Phụ kiện</a>
                             <a href="{{url('admin/products/review/7')}}" type="button"
-                               class="btn btn-outline-secondary @if($type == 6) active @endif">Âm thanh</a>
+                               class="btn btn-outline-secondary @if($type == 7) active @endif">Âm thanh</a>
                         </div>
                     </div>
 

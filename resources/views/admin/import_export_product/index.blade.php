@@ -73,7 +73,7 @@
                                                value="{{request()->get('date_form')}}" style="max-width: 240px">
                                     </div>
                                 </div>
-                                <div class="">
+                                <div>
                                     <div class="d-flex align-items-center">
                                         <p class="m-0" style="width: 160px;padding: 0 20px;font-weight: 600">Đến
                                             ngày</p>
@@ -81,6 +81,7 @@
                                                value="{{request()->get('date_to')}}" style="max-width: 240px">
                                     </div>
                                 </div>
+                                <input type="text" name="key_search" class="form-control w-25" value="{{request()->get('key_search')}}" placeholder="Tên sản phẩm" style="margin-left: 15px">
                                 <button class="btn btn-info" style="margin-left: 15px">Lọc</button>
                                 <button type="submit" class="btn btn-success" name="excel" value="2" style="margin: 0 15px">Xuất Excel</button>
                                 <a href="{{route('admin.import-export-product.index')}}" class=" btn btn-danger btn_exit">Hủy</a>

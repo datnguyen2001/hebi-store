@@ -17,7 +17,7 @@
                         <div id="search-mobile" class="search">
                             <form action="{{route('search')}}" name="search_form" id="search_form" method="get">
                                 <div id="search_form_mobile">
-                                    <input type="text" value="{{request()->get('keyword')}}" placeholder="Tìm kiếm sản phẩm" name="keyword"
+                                    <input type="text" value="{{request()->get('keyword')}}" placeholder="Tìm kiếm sản phẩm" autocomplete="off" name="keyword"
                                            class="navigation__search__input" id="navigation__search__input"/>
                                     <button type="submit" class="searchbt" id='searchbt' ><i
                                             class="fas fa-search"></i></button>
@@ -67,7 +67,7 @@
                                     <div id="collapseExample" class="collapse_search">
                                         <form action="{{route('search')}}" name="search_form" id="search_form" method="get">
                                             <input type="text" value="{{request()->get('keyword')}}"
-                                                   placeholder="Tìm kiếm sản phẩm"
+                                                   placeholder="Tìm kiếm sản phẩm" autocomplete="off"
                                                    name="keyword" class="keyword" id="autocomplete"/>
                                             <button type="submit" class="submit_form_search">
                                                 <i class="fas fa-search" style="font-weight: 900"></i>

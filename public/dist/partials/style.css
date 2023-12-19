@@ -726,7 +726,7 @@ img-responsive {
 }
 
 .category {
-    height: calc(100vh - 68px);
+    height: calc(100vh - 85px);
     padding: 20px 10px 0;
 }
 
@@ -970,4 +970,9 @@ img-responsive {
 #scroll::-webkit-scrollbar-thumb
 {
     background-color: #ececec;
+}
+@media (max-width: 375px) {
+    .bottom{
+        padding: 0 5px;
+    }
 }

@@ -276,6 +276,15 @@
         font-size: 14px;
         margin-bottom: 4px;
     }
+    .list-cat {
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+    .title-block {
+        flex-wrap: wrap;
+        grid-gap: 10px;
+    }
 }
 
 @media (max-width: 500px) {
@@ -325,5 +334,8 @@
     }
     .list-cat a{
         padding: 5px 10px;
+    }
+    .list-products{
+        justify-content: space-between;
     }
 }

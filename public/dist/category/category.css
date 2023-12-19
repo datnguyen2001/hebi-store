@@ -593,6 +593,7 @@
     .productList {
         grid-gap: unset;
         padding: 0 10px;
+        justify-content: space-between;
     }
 
     .content-cate-mobile {

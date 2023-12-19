@@ -1,5 +1,5 @@
 @extends('web.layout.master')
-@section('title','Hebi Store')
+@section('title',$data->title)
 {{--meta--}}
 @section('meta')
     <meta name="description" content=""/>

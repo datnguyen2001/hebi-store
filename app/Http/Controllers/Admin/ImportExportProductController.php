@@ -19,19 +19,18 @@ class ImportExportProductController extends Controller
     public function importExport(Request $request)
     {
         if (User::checkUserRole(4)) {
+            $listData = ImportExxportProductModel::query();
             if (isset($request->date_form) && isset($request->date_to)) {
-                $listData = ImportExxportProductModel::whereDate('created_at', '>=', $request->get('date_form'))
-                    ->whereDate('created_at', '<=', $request->get('date_to'))
-                    ->selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
-                    ->groupBy('product_attributes_id')
-                    ->orderBy('max_created_at', 'asc')
-                    ->paginate(50);
-            } else {
-                $listData = ImportExxportProductModel::selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
-                    ->groupBy('product_attributes_id')
-                    ->orderBy('max_created_at', 'asc')
-                    ->paginate(50);
+                $listData = $listData->whereDate('created_at', '>=', $request->get('date_form'))
+                    ->whereDate('created_at', '<=', $request->get('date_to'));
+            } elseif ($request->key_search) {
+                $listData = $listData->whereHas('productAttributes.product', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->key_search . '%');
+                });
             }
+            $listData = $listData->selectRaw('product_attributes_id, MAX(created_at) as max_created_at')
+                ->groupBy('product_attributes_id')
+                ->latest('max_created_at')->paginate(50);
 
             foreach ($listData as $item) {
                 $attribute = ProductAttributesModel::find($item->product_attributes_id);
@@ -64,12 +63,14 @@ class ImportExportProductController extends Controller
     public function indexImport(Request $request)
     {
         if (User::checkUserRole(4)) {
+            $listData = ImportExxportProductModel::query();
             if (isset($request->date_form) && isset($request->date_to)) {
-                $listData = ImportExxportProductModel::where('type', 1)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
-                    ->orderBy('created_at', 'desc')->paginate(20);
-            } else {
-                $listData = ImportExxportProductModel::where('type', 1)->orderBy('created_at', 'desc')->paginate(20);
+                $listData = $listData->where('type', 1)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
+                    ->orderBy('created_at', 'desc');
             }
+            $listImport = $listData->where('type', 1)->orderBy('created_at', 'desc')->get();
+            $listData = $listData->where('type', 1)->orderBy('created_at', 'desc')->paginate(20);
+
             foreach ($listData as $item) {
                 $attribute = ProductAttributesModel::find($item->product_attributes_id);
                 $product = ProductsModel::find($attribute->product_id);
@@ -81,7 +82,7 @@ class ImportExportProductController extends Controller
             $page_menu = 'import_export';
             $page_sub = 'import';
             if ($request->excel == 2) {
-                return Excel::download(new ExportReceipt($listData), 'ThongKePhieuNhapHang.xlsx');
+                return Excel::download(new ExportReceipt($listImport), 'ThongKePhieuNhapHang.xlsx');
             } else {
                 return view('admin.import_export_product.import.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
             }
@@ -138,12 +139,14 @@ class ImportExportProductController extends Controller
     public function indexExport(Request $request)
     {
         if (User::checkUserRole(4)) {
+            $listData = ImportExxportProductModel::query();
             if (isset($request->date_form) && isset($request->date_to)) {
-                $listData = ImportExxportProductModel::where('type', 2)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
+                $listData = $listData->where('type', 2)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
                     ->orderBy('created_at', 'desc')->paginate(20);
-            } else {
-                $listData = ImportExxportProductModel::where('type', 2)->orderBy('created_at', 'desc')->paginate(20);
             }
+            $listDataExport = $listData->where('type', 2)->orderBy('created_at', 'desc')->get();
+            $listData = $listData->where('type', 2)->orderBy('created_at', 'desc')->paginate(20);
+
             foreach ($listData as $item) {
                 $attribute = ProductAttributesModel::find($item->product_attributes_id);
                 $product = ProductsModel::find($attribute->product_id);
@@ -155,7 +158,7 @@ class ImportExportProductController extends Controller
             $page_menu = 'import_export';
             $page_sub = 'export';
             if ($request->excel == 2) {
-                return Excel::download(new ExportDelivery($listData), 'ThongKePhieuXuatHang.xlsx');
+                return Excel::download(new ExportDelivery($listDataExport), 'ThongKePhieuXuatHang.xlsx');
             } else {
                 return view('admin.import_export_product.export.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));
             }
