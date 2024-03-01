@@ -137,9 +137,9 @@
                                                         </button>
                                                     </a>
                                                 @endif
-                                                @if($value->status != 4 && $value->type_payment == 2 && $value->status != 3)
+                                                @if($value->status != 4 && $value->status != 0 && $value->status != 5 && $value->status != 3 && $value->type_payment == 2)
                                                         <a href="{{url('admin/order/status/'.$value->id.'/5')}}">
-                                                            <button type="submit" class="btn btn-danger">Trả hàng hoàn tiền
+                                                            <button type="submit" class="btn btn-danger mt-2">Trả hàng hoàn tiền
                                                             </button>
                                                         </a>
                                                     @endif

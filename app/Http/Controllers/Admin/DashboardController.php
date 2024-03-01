@@ -27,18 +27,20 @@ class DashboardController extends Controller
             $page_sub = null;
             /**
              * Danh mục sản phẩm được mua nhiều nhất
-            **/
+             **/
             $sectors = [];
             for ($i = 1; $i < 8; $i++) {
                 $count = DB::table('order_item')
                     ->join('product_attributes', 'order_item.product_attributes_id', '=', 'product_attributes.id')
                     ->join('products', 'product_attributes.product_id', '=', 'products.id')
                     ->join('product_information', 'products.product_infor_id', '=', 'product_information.id')
+                    ->join('order', 'order_item.order_id', '=', 'order.id')
                     ->select('order_item.id')
                     ->where('product_information.type_product', $i);
                 if ($request->get('date_top_category')){
                     $count = $count->where('order_item.created_at', 'LIKE', $request->get('date_top_category') . '%');
                 }
+                $count = $count->where('order.status', 3);
                 $count = $count->count();
                 $sectors[$i] = $count;
             }
@@ -50,10 +52,12 @@ class DashboardController extends Controller
                 ->join('product_attributes', 'order_item.product_attributes_id', '=', 'product_attributes.id')
                 ->join('products', 'product_attributes.product_id', '=', 'products.id')
                 ->join('product_information', 'products.product_infor_id', '=', 'product_information.id')
+                ->join('order', 'order_item.order_id', '=', 'order.id')
                 ->select('product_information.type_product as LoaiSanPham', DB::raw('MAX(products.name) as TenSanPham'), DB::raw('COUNT(*) as SoLuong'));
             if ($request->get('date_top_product')){
                 $product_top = $product_top->where('order_item.created_at', 'LIKE', $request->get('date_top_product') . '%');
             }
+            $product_top = $product_top->where('order.status', 3);
             $product_top = $product_top->groupBy('product_information.type_product')
                 ->orderBy('product_information.type_product')
                 ->orderByDesc('SoLuong')
@@ -70,11 +74,14 @@ class DashboardController extends Controller
             $firstDayOfMonth = Carbon::createFromFormat('Y-m', $monthYear)->startOfMonth();
             $lastDayOfMonth = $firstDayOfMonth->copy()->endOfMonth();
             $dailySalesData = [];
+            $totalMonthlySales = 0;
             $currentDate = $firstDayOfMonth;
             while ($currentDate <= $lastDayOfMonth) {
                 $dailySales = DB::table('order')
+                    ->where('status', 3)
                     ->whereDate('created_at', $currentDate)
                     ->sum('total_money_order');
+                $totalMonthlySales += $dailySales;
                 $dailySalesData[$currentDate->format('Y-m-d')] = $dailySales ?: 0;
                 $currentDate->addDay();
             }
@@ -82,6 +89,7 @@ class DashboardController extends Controller
              * Danh sách người mua hàng
              **/
             $listCustomers = DB::table('order')
+                ->where('status', 3)
                 ->whereIn('id', function ($query) {
                     $query->select(DB::raw('MIN(id)'))
                         ->from('order')
@@ -90,6 +98,7 @@ class DashboardController extends Controller
                 ->count();
 
             $customers = DB::table('order')
+                ->where('status', 3)
                 ->select('phone', DB::raw('COUNT(*) as order_count'))
                 ->groupBy('phone')
                 ->havingRaw('COUNT(*) > 1')
@@ -114,7 +123,7 @@ class DashboardController extends Controller
             return view('admin.dashboard', compact('titlePage', 'page_sub', 'page_menu', 'sectors', 'product_top',
                 'dailySalesData', 'listCustomers', 'customers', 'order_all', 'order_pending', 'order_confirm', 'order_delivery',
                 'order_complete', 'order_cancel', 'order_pending_money', 'order_confirm_money', 'order_delivery_money',
-                'order_complete_money', 'order_cancel_money', 'order_all_money','return_refund','return_refund_money'));
+                'order_complete_money', 'order_cancel_money', 'order_all_money','return_refund','return_refund_money','totalMonthlySales'));
         } else {
             return view('admin.error');
         }
@@ -130,6 +139,7 @@ class DashboardController extends Controller
             $search = $request->key_search;
             $listData = DB::table('order as o1')
                 ->select('o1.*', 'order_count')
+                ->where('o1.status',3)
                 ->join(DB::raw('(SELECT phone, COUNT(*) as order_count FROM `order` GROUP BY phone) as o2'), function ($join) {
                     $join->on('o1.phone', '=', 'o2.phone');
                 })
@@ -162,6 +172,7 @@ class DashboardController extends Controller
             $search = $request->key_search;
             $listData = DB::table('order')
                 ->select('phone', DB::raw('COUNT(*) as order_count'))
+                ->where('status',3)
                 ->groupBy('phone')
                 ->havingRaw('COUNT(*) > 1')
                 ->orderByDesc('order_count');

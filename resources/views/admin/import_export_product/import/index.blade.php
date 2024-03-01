@@ -44,6 +44,7 @@
                                             <input type="date" class="form-control" name="date_to" value="{{request()->get('date_to')}}" style="max-width: 240px">
                                         </div>
                                     </div>
+                                    <input type="text" name="key_search" class="form-control " value="{{request()->get('key_search')}}" placeholder="Tên sản phẩm" style="margin-left: 15px;width: 20%;">
                                     <button type="submit" class="btn btn-info" name="excel" value="1" style="margin-left: 15px">Lọc</button>
                                     <button type="submit" class="btn btn-success" name="excel" value="2" style="margin: 0 15px">Xuất Excel</button>
                                     <a href="{{route('admin.import-export-product.import')}}" class=" btn btn-danger btn_exit">Hủy</a>

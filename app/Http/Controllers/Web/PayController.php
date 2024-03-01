@@ -101,8 +101,10 @@ class PayController extends ShippingUnitController
                 $province = ProvinceGHNModel::where('ProvinceID', $request->get('province_id'))->first();
                 $district = DistrictGHNModel::where('DistrictID', $request->get('district_id'))->first();
                 $ward = WardGHNModel::where('WardCode', $request->get('ward_id'))->first();
+                $full_address = $request->get('address_detail').','. $ward->WardName . ',' . $district->DistrictName . ',' . $province->ProvinceName;
             }else{
                 $transport_name = 'Store';
+                $full_address = 'Nhà số 1 Ngõ 37, Tả Thanh Oai, Thanh Trì, Hà Nội';
             }
             $carts = CartModel::where('user_token',$request->get('user_token'))->get();
             $total_money = $carts->sum('total_money');
@@ -122,7 +124,7 @@ class PayController extends ShippingUnitController
             $order['district_id'] = $request->get('district_id');
             $order['ward_id'] = $request->get('ward_id');
             $order['address_detail'] = $request->get('address_detail');
-            $order['full_address'] = $request->get('address_detail').','. $ward->WardName . ',' . $district->DistrictName . ',' . $province->ProvinceName;
+            $order['full_address'] = $full_address;
             $order['note'] = $request->get('note');
             $order['issue_invoice'] = $request->get('issue_invoice');
             $order['name_cty'] = $request->get('name_cty');

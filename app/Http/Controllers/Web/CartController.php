@@ -62,6 +62,13 @@ class CartController extends Controller
                         'msg' => 'Số lượng sản phẩm đã đạt đến mức tối đa.',
                     ];
                 }
+                if ($quantity > $product_attribute->quantity){
+                    $dataReturn = [
+                        'status' => false,
+                        'msg' => 'Sản phẩm mua vượt quá số lượng trong kho'
+                    ];
+                    return response()->json($dataReturn, Response::HTTP_OK);
+                }
                 if ($flash_sale){
                     $total_price = $quantity * $flash_sale->price_sale;
                 }else{
@@ -73,7 +80,11 @@ class CartController extends Controller
             } else {
                 $quantity = 1;
                 if ($quantity > $product_attribute->quantity) {
-                    $quantity = $product_attribute->quantity;
+                    $dataReturn = [
+                        'status' => false,
+                        'msg' => 'Sản phẩm mua vượt quá số lượng trong kho'
+                    ];
+                    return response()->json($dataReturn, Response::HTTP_OK);
                 }
                 if ($flash_sale){
                     $total_price = $quantity * $flash_sale->price_sale;
@@ -131,6 +142,13 @@ class CartController extends Controller
                         $quantity = 1;
                     }
                     break;
+            }
+            if ($quantity>$product_attribute->quantity){
+                $dataReturn = [
+                    'status' => false,
+                    'msg' => 'Sản phẩm mua vượt quá số lượng trong kho'
+                ];
+                return response()->json($dataReturn, Response::HTTP_OK);
             }
             if ($flash_sale){
                 $total_price = $quantity * $flash_sale->price_sale;

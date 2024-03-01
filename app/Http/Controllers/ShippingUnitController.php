@@ -69,7 +69,7 @@ class ShippingUnitController extends Controller
                     "length": 5,
                     "width": 5,
                     "height": 5,
-                    "insurance_value": ' . $__products_price . ',
+                    "insurance_value": 5000000,
                     "service_id": ' . $services . ',
                     "service_type_id":2,
                     "items":' . json_encode($products) . '

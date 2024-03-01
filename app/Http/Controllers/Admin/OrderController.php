@@ -201,11 +201,11 @@ class OrderController extends ShippingUnitController
             $product = ProductAttributesModel::find($value->product_attributes_id);
             $import = ImportExxportProductModel::where('product_attributes_id', $value->product_attributes_id)->orderBy('id', 'desc')->first();
             $total_money = $import->ending_tt ?? 0;
-            $money_import = ($import->import_tt/$import->export_sl)*(int)$value->quantity;
+            $money_import = $import->price*$value->quantity;
             $list_data = ImportExxportProductModel::create([
                 'product_attributes_id' => $value->product_attributes_id,
                 'quantity' => (int)$value->quantity,
-                'price' => (int)$value->promotional_price,
+                'price' => $import->price,
                 'Survive_sl' => $import->ending_sl ?? 0,
                 'Survive_tt' => $total_money,
                 'import_sl' => (int)$value->quantity,

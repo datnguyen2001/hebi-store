@@ -11,6 +11,7 @@ use App\Models\ProductAttributesModel;
 use App\Models\ProductInformationModel;
 use App\Models\ProductsModel;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -23,7 +24,12 @@ class ImportExportProductController extends Controller
             if (isset($request->date_form) && isset($request->date_to)) {
                 $listData = $listData->whereDate('created_at', '>=', $request->get('date_form'))
                     ->whereDate('created_at', '<=', $request->get('date_to'));
-            } elseif ($request->key_search) {
+                $data_date = ImportExxportProductModel::whereDate('created_at', '>=', $request->get('date_form'))
+                    ->whereDate('created_at', '<=', $request->get('date_to'))->pluck('id');
+            }else{
+                $data_date = ImportExxportProductModel::whereDate('created_at', '<=', Carbon::now())->pluck('id');
+            }
+            if ($request->key_search) {
                 $listData = $listData->whereHas('productAttributes.product', function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request->key_search . '%');
                 });
@@ -37,14 +43,14 @@ class ImportExportProductController extends Controller
                 $product = ProductsModel::find($attribute->product_id);
                 $item->attribute_name = $attribute->name;
                 $item->product_name = $product->name;
-                $item->survive_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_sl;
-                $item->survive_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->first()->survive_tt;
-                $item->import_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_sl');
-                $item->import_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('import_tt');
-                $item->export_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_sl');
-                $item->export_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->sum('export_tt');
-                $item->ending_sl = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_sl;
-                $item->ending_tt = ImportExxportProductModel::where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_tt;
+                $item->survive_sl = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'asc')->first()->survive_sl;
+                $item->survive_tt = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'asc')->first()->survive_tt;
+                $item->import_sl = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->sum('import_sl');
+                $item->import_tt = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->sum('import_tt');
+                $item->export_sl = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->sum('export_sl');
+                $item->export_tt = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->sum('export_tt');
+                $item->ending_sl = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_sl;
+                $item->ending_tt = ImportExxportProductModel::whereIn('id',$data_date)->where('product_attributes_id', $item->product_attributes_id)->orderBy('id', 'desc')->first()->ending_tt;
             }
             $titlePage = 'Admin | Xuất Nhập Tồn';
             $page_menu = 'import_export';
@@ -67,6 +73,11 @@ class ImportExportProductController extends Controller
             if (isset($request->date_form) && isset($request->date_to)) {
                 $listData = $listData->where('type', 1)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
                     ->orderBy('created_at', 'desc');
+            }
+            if (isset($request->key_search)) {
+                $listData = $listData->whereHas('productAttribute.product', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->key_search . '%');
+                });
             }
             $listImport = $listData->where('type', 1)->orderBy('created_at', 'desc')->get();
             $listData = $listData->where('type', 1)->orderBy('created_at', 'desc')->paginate(20);
@@ -144,6 +155,11 @@ class ImportExportProductController extends Controller
                 $listData = $listData->where('type', 2)->whereDate('created_at', '>=', $request->get('date_form'))->whereDate('created_at', '<=', $request->get('date_to'))
                     ->orderBy('created_at', 'desc')->paginate(20);
             }
+            if (isset($request->key_search)) {
+                $listData = $listData->whereHas('productAttributes.product', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->key_search . '%');
+                });
+            }
             $listDataExport = $listData->where('type', 2)->orderBy('created_at', 'desc')->get();
             $listData = $listData->where('type', 2)->orderBy('created_at', 'desc')->paginate(20);
 
@@ -158,6 +174,13 @@ class ImportExportProductController extends Controller
             $page_menu = 'import_export';
             $page_sub = 'export';
             if ($request->excel == 2) {
+                foreach ($listDataExport as $item) {
+                    $attribute = ProductAttributesModel::find($item->product_attributes_id);
+                    $product = ProductsModel::find($attribute->product_id);
+                    $item->attribute_name = $attribute->name;
+                    $item->product_name = $product->name;
+                    $item->product_img = ProductInformationModel::find($product->product_infor_id)->image;
+                }
                 return Excel::download(new ExportDelivery($listDataExport), 'ThongKePhieuXuatHang.xlsx');
             } else {
                 return view('admin.import_export_product.export.index', compact('titlePage', 'page_menu', 'page_sub', 'listData'));

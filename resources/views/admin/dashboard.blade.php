@@ -27,13 +27,14 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Doanh số bán hàng</h5>
-                                    <div class="form-group d-flex align-items-center">
+                                    <div class="form-group d-flex align-items-center justify-content-between">
                                         <form class="d-flex align-items-center w-50" method="get" id="dashboard"
                                               action="{{route('admin.dashboard')}}">
                                             <input type="month" id="monthPicker" name="date" class="form-control w-50"
                                                    value="{{request()->get('date')}}"
                                                    max="<?= date('Y-m') ?>" onchange="submitForm()">
                                         </form>
+                                        <div>Tổng doanh thu của tháng là: {{number_format($totalMonthlySales)}} đ</div>
                                     </div>
                                     <div id="areaChart"></div>
                                     <script>
@@ -167,7 +168,8 @@
                                                         show: true
                                                     }
                                                 },
-                                                labels: ['Điện thoại', 'Máy tính bảng', 'Laptop', 'Đồng hồ thông minh', 'Nhà thông minh', 'Phụ kiện', 'Âm thanh']
+                                                labels: ['Điện thoại', 'Máy tính bảng', 'Laptop', 'Đồng hồ thông minh', 'Nhà thông minh', 'Phụ kiện', 'Âm thanh'],
+                                                colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#0000FF', '#00e8f6']
                                             }).render();
                                         });
                                         function submitTopCategory() {
@@ -209,6 +211,7 @@
                                                     }
                                                 },
                                                 labels: labelsData,
+                                                colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#0000FF', '#00e8f6']
                                             }).render();
                                         });
                                         function submitTopProduct() {
