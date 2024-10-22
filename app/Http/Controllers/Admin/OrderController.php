@@ -115,19 +115,19 @@ class OrderController extends ShippingUnitController
                 if ($order) {
                     $order->status = $status_id;
                     if ($status_id == 4) {
-                        if ($order->transport_name == 'GHN') {
-                            $this->cancelOrdersGHN($order->order_code_transport);
-                        }
+//                        if ($order->transport_name == 'GHN') {
+//                            $this->cancelOrdersGHN($order->order_code_transport);
+//                        }
                         $this->updateQuantityProductWhenCancel($order);
                     }
                     if ($status_id == 1) {
                         if ($order->transport_name == 'GHN') {
-                            $order_ghn = $this->createOrdersGHN($order);
-                            if ($order_ghn->code == 200) {
-                                $order->order_code_transport = $order_ghn->data->order_code;
-                            } else {
-                                return back()->with('error', $order_ghn->message);
-                            }
+//                            $order_ghn = $this->createOrdersGHN($order);
+//                            if ($order_ghn->code == 200) {
+//                                $order->order_code_transport = $order_ghn->data->order_code;
+//                            } else {
+//                                return back()->with('error', $order_ghn->message);
+//                            }
                         }
                     }
                     $order->save();
